@@ -6,6 +6,9 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.resource('room', { path: '/:room_id' }, function() {
+    this.route('sandbox');
+  });
 });
 
 export default Router;

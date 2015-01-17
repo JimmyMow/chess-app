@@ -5,10 +5,18 @@ import config from './config/environment';
 
 Ember.MODEL_FACTORY_INJECTIONS = true;
 
+var Socket = EmberSockets.extend({
+  host: '192.168.56.10',
+  port: 3000,
+  controllers: ['room/sandbox'],
+  autoConnect: true
+});
+
 var App = Ember.Application.extend({
   modulePrefix: config.modulePrefix,
   podModulePrefix: config.podModulePrefix,
-  Resolver: Resolver
+  Resolver: Resolver,
+  Socket: Socket
 });
 
 loadInitializers(App, config.modulePrefix);

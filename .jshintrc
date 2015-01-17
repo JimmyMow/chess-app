@@ -2,7 +2,10 @@
   "predef": [
     "document",
     "window",
-    "-Promise"
+    "-Promise",
+    "ChessBoard",
+    "EmberSockets",
+    "OT"
   ],
   "browser" : true,
   "boss" : true,
