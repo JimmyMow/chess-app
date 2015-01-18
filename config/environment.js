@@ -4,9 +4,9 @@ module.exports = function(environment) {
   var ENV = {
     contentSecurityPolicy: {
       'default-src': "'none'",
-      'script-src': "'self' 'unsafe-inline' 'unsafe-eval' http://192.168.56.10:35729/livereload.js?snipver=1",
+      'script-src': "'self' 'unsafe-inline' 'unsafe-eval' http://192.168.56.10:35729/livereload.js?snipver=1 http://104.131.28.241:35729/livereload.js?snipver=1",
       'font-src': "'self'",
-      'connect-src': "'self' ws://192.168.56.10:35729/livereload http://0.0.0.0:8888/socket.io/",
+      'connect-src': "'self' ws://192.168.56.10:35729/livereload ws://104.131.28.241:35729/livereload http://0.0.0.0:8888/socket.io/",
       'img-src': "'self' https://chess-explained.s3.amazonaws.com",
       'style-src': "'self' 'unsafe-inline'",
       'frame-src': "self"
@@ -35,6 +35,7 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     ENV.APP.LOG_VIEW_LOOKUPS = true;
+    ENV.SOCKET_IP = '192.168.56.10';
   }
 
   if (environment === 'test') {
@@ -50,7 +51,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-
+    ENV.SOCKET_IP = '104.131.28.241';
   }
 
   return ENV;

@@ -6,7 +6,7 @@ import config from './config/environment';
 Ember.MODEL_FACTORY_INJECTIONS = true;
 
 var Socket = EmberSockets.extend({
-  host: '192.168.56.10',
+  host: config.SOCKET_IP,
   port: 3000,
   controllers: ['room/sandbox'],
   autoConnect: true
