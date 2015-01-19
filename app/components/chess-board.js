@@ -25,6 +25,7 @@ export default Ember.Component.extend({
         _this.sendAction('action', pos);
       }
     });
+    Ember.$(window).resize(newBoard.resize);
     this.set('board', newBoard);
   }
 });

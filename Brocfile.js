@@ -17,6 +17,7 @@ var app = new EmberApp();
 // please specify an object with the list of modules as keys
 // along with the exports of each module as its value.
 app.import('vendor/javascript/chessboard.js');
+app.import('vendor/javascript/opentok.js');
 app.import('bower_components/socket.io-client/socket.io.js');
 app.import('bower_components/ember-sockets/package/EmberSockets.js');
 
