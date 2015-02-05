@@ -5,123 +5,59 @@ export default Ember.Component.extend({
   classNames: ['canvas-container'],
   didInsertElement: function() {
     var boardPos = Ember.$( "#board" ).position();
-    Ember.$("#diagram").css('top', boardPos.top - 12);
-    Ember.$("#diagram").css('left', boardPos.left);
-    var context = document.getElementById('diagram').getContext("2d");
+    Ember.$('#diagram').css('top', boardPos.top - 12);
+    Ember.$('#diagram').css('left', boardPos.left);
     var canvas = document.getElementById('diagram');
-    context = canvas.getContext("2d");
-    context.strokeStyle = "#ff0000";
-    context.lineJoin = "bevel";
-    context.lineWidth = 3;
-
-    var clickX = [];
-    var clickY = [];
-    var clickDrag = [];
-    var paint;
-
-    /**
-     * Add information where the user clicked at.
-     * @param {number} x
-     * @param {number} y
-     * @return {boolean} dragging
-     */
-    function addClick(x, y, dragging) {
-        clickX.push(x);
-        clickY.push(y);
-        clickDrag.push(dragging);
-    }
-    /**
-     * Draw the newly added point.
-     * @return {void}
-     */
-    function drawNew() {
-        var i = clickX.length - 1;
-        if (!clickDrag[i]) {
-            if (clickX.length === 0) {
-                context.beginPath();
-                context.moveTo(clickX[i], clickY[i]);
-                context.stroke();
-            } else {
-                context.closePath();
-
-                context.beginPath();
-                context.moveTo(clickX[i], clickY[i]);
-                context.stroke();
+    var ctx = canvas.getContext("2d");
+    ctx.fillStyle = "solid";
+    ctx.strokeStyle = "#32CD32";
+    ctx.lineWidth = 5;
+    ctx.lineCap = "round";
+    var paint = false;
+    // App.socket = io.connect('http://localhost:4000');
+    // App.socket.on('draw', function(data) {
+    //   return App.draw(data.x, data.y, data.type);
+    // });
+    function draw(x, y, type) {
+        if (type === "mousedown") {
+            console.log('here at mousedown');
+            ctx.beginPath();
+            return ctx.moveTo(x, y);
+        } else if (type === "mousemove") {
+            console.log('here at mousemove');
+            if (paint) {
+                ctx.lineTo(x, y);
             }
+            return ctx.stroke();
         } else {
-            context.lineTo(clickX[i], clickY[i]);
-            context.stroke();
+            console.log('this must be mouseup');
+            return ctx.closePath();
         }
     }
-
-    function mouseDownEventHandler(e) {
-        paint = true;
-        var x = e.pageX - canvas.offsetLeft;
-        var y = e.pageY - canvas.offsetTop;
+  /*
+    Draw Events
+  */
+    Ember.$('#diagram').on('mousedown mousemove mouseup', function(e) {
+        var offset, type, x, y;
+        type = e.handleObj.type;
+        if (type === 'mousedown') {
+            paint = true;
+        } else if (type === 'mouseup') {
+            paint = false;
+        }
+        offset = Ember.$('#diagram').offset();
+        e.offsetX = e.pageX - offset.left;
+        e.offsetY = e.pageY - offset.top;
+        x = e.offsetX;
+        y = e.offsetY;
         if (paint) {
-            addClick(x, y, false);
-            drawNew();
+            draw(x, y, type);
         }
-    }
-
-    function touchstartEventHandler(e) {
-        paint = true;
-        if (paint) {
-            addClick(e.touches[0].pageX - canvas.offsetLeft, e.touches[0].pageY - canvas.offsetTop, false);
-            drawNew();
-        }
-    }
-
-    function mouseUpEventHandler() {
-        context.closePath();
-        paint = false;
-    }
-
-    function mouseMoveEventHandler(e) {
-        var x = e.pageX - canvas.offsetLeft;
-        var y = e.pageY - canvas.offsetTop;
-        if (paint) {
-            addClick(x, y, true);
-            drawNew();
-        }
-    }
-
-    function touchMoveEventHandler(e) {
-        if (paint) {
-            addClick(e.touches[0].pageX - canvas.offsetLeft, e.touches[0].pageY - canvas.offsetTop, true);
-            drawNew();
-        }
-    }
-
-    function setUpHandler(isMouseandNotTouch, detectEvent) {
-        removeRaceHandlers();
-        if (isMouseandNotTouch) {
-            canvas.addEventListener('mouseup', mouseUpEventHandler);
-            canvas.addEventListener('mousemove', mouseMoveEventHandler);
-            canvas.addEventListener('mousedown', mouseDownEventHandler);
-            mouseDownEventHandler(detectEvent);
-        } else {
-            canvas.addEventListener('touchstart', touchstartEventHandler);
-            canvas.addEventListener('touchmove', touchMoveEventHandler);
-            canvas.addEventListener('touchend', mouseUpEventHandler);
-            touchstartEventHandler(detectEvent);
-        }
-    }
-
-    function mouseWins(e) {
-        setUpHandler(true, e);
-    }
-
-    function touchWins(e) {
-        setUpHandler(false, e);
-    }
-
-    function removeRaceHandlers() {
-        canvas.removeEventListener('mousedown', mouseWins);
-        canvas.removeEventListener('touchstart', touchWins);
-    }
-
-    canvas.addEventListener('mousedown', mouseWins);
-    canvas.addEventListener('touchstart', touchWins);
+        // App.socket.emit('drawClick', {
+        //   x: x,
+        //   y: y,
+        //   type: type
+        // });
+    });
   }
 });

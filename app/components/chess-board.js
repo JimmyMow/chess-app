@@ -60,6 +60,9 @@ export default Ember.Component.extend({
       return 'snapback';
     }
 
+    this.updateStatus();
+
+
     this.sendPosition(game.fen(), move.from, move.to);
     Ember.$('.engine-data').text('');
   },
@@ -92,6 +95,36 @@ export default Ember.Component.extend({
   onMouseoutSquare: function(square, piece) {
     this.removeGreySquares();
   },
+  updateStatus: function() {
+    var game = this.component.get('game');
+    var status = '';
+
+    var moveColor = 'White';
+    if (game.turn() === 'b') {
+      moveColor = 'Black';
+    }
+
+    // checkmate?
+    if (game.in_checkmate() === true) {
+      status = 'Game over, ' + moveColor + ' is in checkmate.';
+    }
+    // draw?
+    else if (game.in_draw() === true) {
+      status = 'Game over, drawn position';
+    }
+
+    // game still on
+    else {
+      status = moveColor + ' to move';
+
+      // check?
+      if (game.in_check() === true) {
+        status += ', ' + moveColor + ' is in check';
+      }
+    }
+
+    Ember.$('.pgn').html(game.pgn());
+  },
   didInsertElement: function() {
     var _this = this;
     var newGame = new Chess();
@@ -108,6 +141,7 @@ export default Ember.Component.extend({
       removeGreySquares: this.get('removeGreySquares'),
       greySquare: this.get('greySquare'),
       possibleMoves: this.get('possibleMoves'),
+      updateStatus: this.get('updateStatus'),
       sendPosition: function(fen, from, to) {
         _this.sendAction('action', {fen: fen, from: from, to: to});
       }

@@ -2,18 +2,21 @@
   <div class="board-inner-container">
     {{canvas-diagram}}
     {{chess-board action='sendPosition' board=controller.boardObject game=controller.gameObject}}
-  </div>
-  <div class="other-outter-container outter-container">
-    <button {{action 'start'}}>Restart Game</button>
-    {{#if diagramMode}}
-      <button {{action 'canvas'}}>Turn off diagram mode</button>
-      <button {{action 'clearCanvas'}}>Clear diagram</button>
-    {{else}}
-      <button {{action 'canvas'}}>Turn on diagram mode</button>
-    {{/if}}
     <div>
       <strong>FEN</strong>
       <input readonly="true" class="fen">
+    </div>
+  </div>
+  <div class="other-outter-container outter-container">
+    <a href="#" class="board-button" {{action 'start'}}>Restart Game</a>
+    {{#if diagramMode}}
+      <a href="#" class="board-button" {{action 'canvas'}}>Turn off diagram mode</a>
+      <a href="#" class="board-button" {{action 'clearCanvas'}}>Clear diagram</a>
+    {{else}}
+      <a href="#" class="board-button" {{action 'canvas'}}>Turn on diagram mode</a>
+    {{/if}}
+    <div class="pgn">
+
     </div>
     <p>
       <label>Score:</label>

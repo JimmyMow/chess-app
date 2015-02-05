@@ -6,24 +6,27 @@ export default Ember.Controller.extend({
   diagramMode: false,
   actions: {
     sendPosition: function(data) {
-      console.log(data);
       this.socket.emit('sendPosition', data);
       Ember.$('.fen').val(data.fen);
     },
 
     start: function() {
       this.get('boardObject').start();
+      this.get('gameObject').reset();
       this.socket.emit('startingGameOver');
       Ember.$('.engine-data').text('');
+      Ember.$('.pgn').empty();
     },
 
     canvas: function() {
       if (this.get('diagramMode')) {
         Ember.$('canvas').removeClass('diagram-mode');
         this.set('diagramMode', false);
+        this.socket.emit('turn off diagram mode');
       } else {
         Ember.$('canvas').addClass('diagram-mode');
         this.set('diagramMode', true);
+        this.socket.emit('turn on diagram mode');
       }
     },
 
@@ -41,7 +44,9 @@ export default Ember.Controller.extend({
 
     startGameOver: function() {
       this.get('boardObject').start();
+      this.get('gameObject').reset();
       Ember.$('.engine-data').text('');
+      Ember.$('.pgn').empty();
     },
 
     engineData: function(data) {
@@ -67,6 +72,16 @@ export default Ember.Controller.extend({
       if (data.depth) {
         Ember.$("#depth").text(data.depth);
       }
+    },
+
+    turnDiagramModeOn: function() {
+      Ember.$('canvas').addClass('diagram-mode');
+      this.set('diagramMode', true);
+    },
+
+    turnDiagramModeOff: function() {
+      Ember.$('canvas').removeClass('diagram-mode');
+      this.set('diagramMode', false);
     }
   }
 });
