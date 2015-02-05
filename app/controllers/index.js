@@ -1,12 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  boardObject: null,
   actions: {
-    sendPosition: function(pos) {
-      this.socket.emit('sendPosition', {pos: pos});
-    },
-
     createRoom: function() {
       var _this = this;
       var room = this.store.createRecord('room', {});
@@ -22,10 +17,12 @@ export default Ember.Controller.extend({
   },
 
   sockets: {
-    changePosition: function(obj) {
-      console.log(obj);
-      var board = this.get('boardObject');
-      board.position(obj.pos);
+    roomConnected: function(data) {
+      console.log("Connected to room: ", data.room);
+    },
+
+    roomDisconnected: function() {
+      console.log("Disconnected from room: ");
     },
 
     connect: function() {

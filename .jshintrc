@@ -4,6 +4,8 @@
     "window",
     "-Promise",
     "ChessBoard",
+    "Chess",
+    "Chess",
     "EmberSockets",
     "OT"
   ],

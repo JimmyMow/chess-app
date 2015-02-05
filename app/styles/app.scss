@@ -1,5 +1,15 @@
 @import 'chessboard';
 @import 'sandbox';
 
+body {
+  background-color: #eee;
+  background-image: linear-gradient(to bottom, #d7d7d7 0%, #eeeeee 116px);
+  color: #747474;
+  font-family: 12px'Open Sans', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, Sans-Serif;
+}
 
+.content-container {
+  width: 85%;
+  margin: 0 auto;
+}
 

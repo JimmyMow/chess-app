@@ -3,29 +3,116 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   tag: 'div',
   classNames: ['chess-board'],
-  // controller: this.get('parentController'),
   board: null,
-  onChange: function(oldPos, newPos) {
-    var oldPosition = ChessBoard.objToFen(oldPos);
-    var newPosition = ChessBoard.objToFen(newPos);
-    console.log("Position changed:");
-    console.log("Old position: " + oldPosition);
-    console.log("New position: " + newPosition);
-    console.log("--------------------");
-    this.sendPosition(newPosition);
+  game: null,
+  removeGreySquares: function() {
+    Ember.$('#board .square-55d63').css('background', '');
+  },
+  greySquare: function(square) {
+    var squareEl = Ember.$('#board .square-' + square);
+
+    var background = 'rgba(20,85,30,0.5)';
+    if (squareEl.hasClass('black-3c85d') === true) {
+      background = 'rgba(20,85,30,0.75)';
+    }
+
+    squareEl.css('background', background);
+  },
+  possibleMoves: function(square) {
+    var squareEl = Ember.$('#board .square-' + square);
+
+    var background = 'radial-gradient(rgba(20,85,30,0.5) 22%,#208530 0,rgba(0,0,0,0.5) 0,rgba(197, 207, 216, 1) 0)';
+    if (squareEl.hasClass('black-3c85d') === true) {
+      background = 'radial-gradient(rgba(20,85,30,0.5) 22%,#208530 0,rgba(0,0,0,0.5) 0,rgba(79, 128, 174, 1) 0';
+    }
+    var backgroundColor = 'rgba(0, 0, 0, 0)';
+
+    squareEl.css('background', background);
+    squareEl.css('background-color', backgroundColor);
+  },
+  onDragStart: function(source, piece, position, orientation) {
+    var game = this.component.get('game');
+    if (game.game_over() === true ||
+        (game.turn() === 'w' && piece.search(/^b/) !== -1) ||
+        (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
+      return false;
+    }
+  },
+  onDrop: function(source, target) {
+    var game = this.component.get('game');
+    var from = Ember.$(".square-"+source);
+    var to = Ember.$(".square-"+target);
+
+    from.css('background-color', 'rgba(155,199,0,0.41)');
+    to.css('background-color', 'rgba(155,199,0,0.41)');
+
+    this.removeGreySquares();
+
+    // see if the move is legal
+    var move = game.move({
+      from: source,
+      to: target,
+      promotion: 'q' // NOTE: always promote to a queen for example simplicity
+    });
+
+    // illegal move
+    if (move === null) {
+      return 'snapback';
+    }
+
+    this.sendPosition(game.fen(), move.from, move.to);
+    Ember.$('.engine-data').text('');
+  },
+  onSnapEnd: function() {
+    var board = this.component.get('board');
+    var game = this.component.get('game');
+    board.position(game.fen());
+  },
+  onMouseoverSquare: function(square, piece) {
+    var game = this.component.get('game');
+    // get list of possible moves for this square
+    var moves = game.moves({
+      square: square,
+      verbose: true
+    });
+
+    // exit if there are no moves available for this square
+    if (moves.length === 0) {
+      return;
+    }
+
+    // highlight the square they moused over
+    this.greySquare(square);
+
+    // highlight the possible squares for this piece
+    for (var i = 0; i < moves.length; i++) {
+      this.possibleMoves(moves[i].to);
+    }
+  },
+  onMouseoutSquare: function(square, piece) {
+    this.removeGreySquares();
   },
   didInsertElement: function() {
     var _this = this;
+    var newGame = new Chess();
     var newBoard = new ChessBoard('board', {
-      sparePieces: true,
+      component: _this,
+      dropOffBoard: 'trash',
       draggable: true,
       position: 'start',
-      onChange: this.get('onChange'),
-      sendPosition: function(pos) {
-        _this.sendAction('action', pos);
+      onDragStart: this.get('onDragStart'),
+      onDrop: this.get('onDrop'),
+      onMouseoutSquare: this.get('onMouseoutSquare'),
+      onMouseoverSquare: this.get('onMouseoverSquare'),
+      onSnapEnd: this.get('onSnapEnd'),
+      removeGreySquares: this.get('removeGreySquares'),
+      greySquare: this.get('greySquare'),
+      possibleMoves: this.get('possibleMoves'),
+      sendPosition: function(fen, from, to) {
+        _this.sendAction('action', {fen: fen, from: from, to: to});
       }
     });
-    Ember.$(window).resize(newBoard.resize);
     this.set('board', newBoard);
+    this.set('game', newGame);
   }
 });

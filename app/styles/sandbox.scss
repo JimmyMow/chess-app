@@ -1,23 +1,67 @@
+.outter-container {
+  vertical-align: top;
+}
+
+// Video chat
+
+.videochat-outter-container {
+  width: 20%;
+  display: inline-block;
+}
+
 .video-chat {
     text-align: center;
     display: inline-block;
+    margin-top: 67px;
 }
 
 .video-box {
     margin: 0 10px;
 }
 
+// Board
+
+canvas {
+  position: absolute;
+  &.diagram-mode {
+    z-index: 1000;
+  }
+}
+
 .board-outter-container {
-  width: 70%;
+  width: 79%;
   margin: 0 auto;
-  background-color: blue;
-  text-align: center;
   display: inline-block;
   vertical-align: top;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 25px 0;
+}
+
+.board-inner-container {
+  width: 60%;
+  display: inline-block;
+  text-align: center;
 }
 
 .chess-board {
   display: inline-block;
   width: 512px;
   margin: 0 auto;
+}
+
+  // Other
+
+.other-outter-container {
+  width: 39%;
+  display: inline-block;
+  height: 500px;
+  margin-top: 67px;
+  input {
+    display: inline-block;
+    width: 300px;
+    background: #eee;
+    padding: 3px 5px;
+    border: 1px solid #ccc;
+  }
 }
