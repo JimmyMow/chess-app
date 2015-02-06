@@ -1,7 +1,7 @@
 <div class="board-outter-container outter-container">
   <div class="board-inner-container">
-    {{canvas-diagram}}
-    {{chess-board action='sendPosition' board=controller.boardObject game=controller.gameObject}}
+    {{canvas-diagram actionReceiver=canvasDiagram action='sendDiagram'}}
+    {{chess-board action='sendPosition' board=controller.boardObject game=controller.gameObject actionReceiver=sendPgnUpdate}}
     <div>
       <strong>FEN</strong>
       <input readonly="true" class="fen">
@@ -15,9 +15,7 @@
     {{else}}
       <a href="#" class="board-button" {{action 'canvas'}}>Turn on diagram mode</a>
     {{/if}}
-    <div class="pgn">
-
-    </div>
+    <div class="pgn"></div>
     <p>
       <label>Score:</label>
       <span id="score" class="engine-data"></span>

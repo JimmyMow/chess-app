@@ -1,10 +1,18 @@
 import Ember from 'ember';
+import InboundActions from 'ember-component-inbound-actions/inbound-actions';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(InboundActions, {
   tag: 'div',
   classNames: ['chess-board'],
   board: null,
   game: null,
+  actions: {
+    updateYourPgn: function() {
+      var board = this.get('board');
+      var game = this.get('game');
+      board.updatePgn(game.history());
+    }
+  },
   removeGreySquares: function() {
     Ember.$('#board .square-55d63').css('background', '');
   },
@@ -60,10 +68,9 @@ export default Ember.Component.extend({
       return 'snapback';
     }
 
-    this.updateStatus();
+    this.component.get('board').updatePgn(game.history());
 
-
-    this.sendPosition(game.fen(), move.from, move.to);
+    this.sendPosition(game.fen(), move.from, move.to, game.history());
     Ember.$('.engine-data').text('');
   },
   onSnapEnd: function() {
@@ -125,6 +132,37 @@ export default Ember.Component.extend({
 
     Ember.$('.pgn').html(game.pgn());
   },
+  buildTurnHtml: function(index, whiteMove, blackMove) {
+    var result;
+    var indexSpan = "<span class='index'>" + index + "</span>";
+    var whiteMoveLink = "<a class='move'>" + whiteMove + "</a>";
+    var blackMoveLink = "<a class='move'>" + blackMove + "</a>";
+
+    if (blackMove) {
+      result = "<div class='turn'>" + indexSpan + whiteMoveLink + blackMoveLink + "</div>";
+    } else {
+      result = "<div class='turn'>" + indexSpan + whiteMoveLink + "</div>";
+    }
+    return result;
+  },
+  updatePgn: function(history) {
+    Ember.$('.pgn').empty();
+    var turn_count = 1;
+    for( var i = 0; i < history.length; i = i + 2 ) {
+      // Get turn data
+      var turnNum = turn_count;
+      var whitesMove = history[i];
+      var blacksMove = history[i + 1];
+
+      // Build turn HTML
+      var newTurn = this.buildTurnHtml(turnNum, whitesMove, blacksMove);
+      // Append HTML to PGN
+      Ember.$('.pgn').append(newTurn);
+      Ember.$('.pgn')[0].scrollTop = Ember.$('.pgn')[0].scrollHeight;
+      // Bump upp turn counter
+      turn_count = turn_count + 1;
+    }
+  },
   didInsertElement: function() {
     var _this = this;
     var newGame = new Chess();
@@ -142,10 +180,14 @@ export default Ember.Component.extend({
       greySquare: this.get('greySquare'),
       possibleMoves: this.get('possibleMoves'),
       updateStatus: this.get('updateStatus'),
-      sendPosition: function(fen, from, to) {
-        _this.sendAction('action', {fen: fen, from: from, to: to});
+      sendPosition: function(fen, from, to, history) {
+        _this.sendAction('action', {fen: fen, from: from, to: to, history: history});
       }
     });
+
+    newBoard.buildTurnHtml = this.get('buildTurnHtml');
+    newBoard.updatePgn = this.get('updatePgn');
+
     this.set('board', newBoard);
     this.set('game', newGame);
   }

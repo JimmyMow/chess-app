@@ -10,6 +10,10 @@ export default Ember.Controller.extend({
       Ember.$('.fen').val(data.fen);
     },
 
+    sendDiagram: function(data) {
+      this.socket.emit('send diagram', data);
+    },
+
     start: function() {
       this.get('boardObject').start();
       this.get('gameObject').reset();
@@ -33,12 +37,15 @@ export default Ember.Controller.extend({
     clearCanvas: function() {
       var context = document.getElementById('diagram').getContext('2d');
       context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+      this.socket.emit('clear diagram');
     }
   },
 
   sockets: {
     changePosition: function(obj) {
       this.get('boardObject').position(obj.fen);
+      this.get('gameObject').load_pgn(obj.history.join(" "));
+      this.get('sendPgnUpdate').send('updateYourPgn');
       Ember.$('.fen').val(obj.fen);
     },
 
@@ -82,6 +89,29 @@ export default Ember.Controller.extend({
     turnDiagramModeOff: function() {
       Ember.$('canvas').removeClass('diagram-mode');
       this.set('diagramMode', false);
+    },
+
+    drawForOthers: function(data) {
+      var x = data.x;
+      var y = data.y;
+      var type = data.type;
+      var paint = data.paint;
+      var context = document.getElementById('diagram').getContext('2d');
+
+      if (type === "mousedown") {
+        context.beginPath();
+        return context.moveTo(x, y);
+      } else if (type === "mousemove") {
+        if (paint) {
+            context.lineTo(x, y);
+        }
+        return context.stroke();
+      }
+    },
+
+    clearDiagram: function() {
+      var context = document.getElementById('diagram').getContext('2d');
+      context.clearRect(0, 0, context.canvas.width, context.canvas.height);
     }
   }
 });

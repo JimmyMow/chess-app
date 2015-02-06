@@ -1,9 +1,12 @@
 import Ember from 'ember';
+import InboundActions from 'ember-component-inbound-actions/inbound-actions';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(InboundActions, {
   tag: 'div',
   classNames: ['canvas-container'],
+  ctx: null,
   didInsertElement: function() {
+    var _this = this;
     var boardPos = Ember.$( "#board" ).position();
     Ember.$('#diagram').css('top', boardPos.top - 12);
     Ember.$('#diagram').css('left', boardPos.left);
@@ -13,11 +16,8 @@ export default Ember.Component.extend({
     ctx.strokeStyle = "#32CD32";
     ctx.lineWidth = 5;
     ctx.lineCap = "round";
+    this.set('ctx', ctx);
     var paint = false;
-    // App.socket = io.connect('http://localhost:4000');
-    // App.socket.on('draw', function(data) {
-    //   return App.draw(data.x, data.y, data.type);
-    // });
     function draw(x, y, type) {
         if (type === "mousedown") {
             console.log('here at mousedown');
@@ -29,9 +29,6 @@ export default Ember.Component.extend({
                 ctx.lineTo(x, y);
             }
             return ctx.stroke();
-        } else {
-            console.log('this must be mouseup');
-            return ctx.closePath();
         }
     }
   /*
@@ -52,12 +49,9 @@ export default Ember.Component.extend({
         y = e.offsetY;
         if (paint) {
             draw(x, y, type);
+            _this.sendAction('action', { x: x, y: y, type: type, paint: paint });
         }
-        // App.socket.emit('drawClick', {
-        //   x: x,
-        //   y: y,
-        //   type: type
-        // });
+
     });
   }
 });

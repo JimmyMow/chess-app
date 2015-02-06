@@ -31,5 +31,8 @@
     "express": "^4.8.5",
     "glob": "^4.0.5",
     "broccoli-sass": "~0.3.3"
+  },
+  "dependencies": {
+    "ember-component-inbound-actions": "0.0.2"
   }
 }

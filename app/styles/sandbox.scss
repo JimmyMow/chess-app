@@ -61,10 +61,11 @@ canvas {
   width: 35%;
   padding: 0 10px;
   display: inline-block;
+  height: 504px;
   .board-button {
     display: block;
     text-align: center;
-    margin: 1em 0;
+    margin-bottom: 1em;
     border-radius: 2px;
     border-style: solid;
     border-width: 1px;
@@ -76,5 +77,38 @@ canvas {
     color: #848484;
     text-decoration: none;
     text-shadow: 0px 1px 0px #FFF;
+  }
+  .pgn {
+    height: calc(60%);
+    overflow: auto;
+    overflow-x: hidden;
+    border: 1px solid #ccc;
+    .index {
+      width: 26px;
+      text-align: center;
+      font-size: 13px;
+      height: 22px;
+      display: inline-block;
+      line-height: 22px;
+      padding: 2px 0;
+      background: #e0e0e0;
+    }
+    .move {
+      position: relative;
+      width: calc(50% - 14px - 13px);
+      font-size: 17px;
+      height: 22px;
+      line-height: 22px;
+      display: inline-block;
+      padding: 2px 7px;
+      cursor: pointer;
+      transition-property: background-color;
+      transition-duration: 0.13s;
+      transition-timing-function: initial;
+      transition-delay: initial;
+      font-family: 'ChessSansPiratf',sans-serif;
+      text-decoration: none;
+      color: #747474;
+    }
   }
 }
