@@ -58,14 +58,14 @@ canvas {
   // Other
 
 .other-outter-container {
-  width: 35%;
+  width: 37%;
   padding: 0 10px;
   display: inline-block;
   height: 504px;
   .board-button {
     display: block;
     text-align: center;
-    margin-bottom: 1em;
+    margin-top: 1em;
     border-radius: 2px;
     border-style: solid;
     border-width: 1px;
@@ -79,7 +79,7 @@ canvas {
     text-shadow: 0px 1px 0px #FFF;
   }
   .pgn {
-    height: calc(60%);
+    height: calc(50%);
     overflow: auto;
     overflow-x: hidden;
     border: 1px solid #ccc;
@@ -109,6 +109,44 @@ canvas {
       font-family: 'ChessSansPiratf',sans-serif;
       text-decoration: none;
       color: #747474;
+    }
+  }
+  .analysis {
+    padding: 10px;
+    margin-bottom: 1em;
+    background: #fff;
+    height: calc(25%);
+    overflow: auto;
+    overflow-x: hidden;
+    box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.2);
+    h3 {
+      text-align: center;
+      font-weight: bold;
+      margin: 0;
+    }
+    .depth-container {
+      text-align: center;
+    }
+    .divider {
+      width: 100%;
+      margin: 0 auto;
+    }
+    .top-analysis {
+      width: 90%;
+      margin: 0 auto;
+
+      p {
+        margin: 5px 0;
+      }
+    }
+    .analysis-container {
+      label {
+        font-weight: bold;
+      }
+    }
+    .bestmove-container, .score-container {
+      display: inline-block;
+      width: 45%;
     }
   }
 }

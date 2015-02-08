@@ -2,35 +2,37 @@
   <div class="board-inner-container">
     {{canvas-diagram actionReceiver=canvasDiagram action='sendDiagram'}}
     {{chess-board action='sendPosition' board=controller.boardObject game=controller.gameObject actionReceiver=sendPgnUpdate}}
-    <div>
-      <strong>FEN</strong>
-      <input readonly="true" class="fen">
-    </div>
   </div>
   <div class="other-outter-container outter-container">
-    <a href="#" class="board-button" {{action 'start'}}>Restart Game</a>
+    <div class="analysis">
+      <h3>Stockfish Analysis</h3>
+      <p class='depth-container'>
+        <label>At depth:  </label>
+        <span id="depth" class="engine-data"></span>
+      </p>
+      <hr class='divider'>
+      <div class='top-analysis'>
+        <p class='analysis-container score-container'>
+          <label>Score:</label>
+          <span id="score" class="engine-data"></span>
+        </p>
+        <p class='analysis-container bestmove-container'>
+          <label>Best move: </label>
+          <span id="bestmove" class="engine-data"></span>
+        </p>
+        <p class='analysis-container variation-container'>
+          <label>Variation: </label>
+          <span id="variation" class="engine-data engine-variation"></span>
+        </p>
+      </div>
+    </div>
+    <div class="pgn"></div>
+    <a href="#" class="board-button" {{action 'start'}}>Restart game</a>
     {{#if diagramMode}}
       <a href="#" class="board-button" {{action 'canvas'}}>Turn off diagram mode</a>
       <a href="#" class="board-button" {{action 'clearCanvas'}}>Clear diagram</a>
     {{else}}
       <a href="#" class="board-button" {{action 'canvas'}}>Turn on diagram mode</a>
     {{/if}}
-    <div class="pgn"></div>
-    <p>
-      <label>Score:</label>
-      <span id="score" class="engine-data"></span>
-    </p>
-    <p>
-      <label>Best move: </label>
-      <span id="bestmove" class="engine-data"></span>
-    </p>
-    <p>
-      <label>Variation: </label>
-      <span id="variation" class="engine-data"></span>
-    </p>
-    <p>
-      <label>Depth: </label>
-      <span id="depth" class="engine-data"></span>
-    </p>
   </div>
 </div>

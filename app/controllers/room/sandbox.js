@@ -7,7 +7,6 @@ export default Ember.Controller.extend({
   actions: {
     sendPosition: function(data) {
       this.socket.emit('sendPosition', data);
-      Ember.$('.fen').val(data.fen);
     },
 
     sendDiagram: function(data) {
@@ -20,6 +19,7 @@ export default Ember.Controller.extend({
       this.socket.emit('startingGameOver');
       Ember.$('.engine-data').text('');
       Ember.$('.pgn').empty();
+      Ember.$('.square-55d63').removeClass('was-part-of-last-move');
     },
 
     canvas: function() {
@@ -46,7 +46,6 @@ export default Ember.Controller.extend({
       this.get('boardObject').position(obj.fen);
       this.get('gameObject').load_pgn(obj.history.join(" "));
       this.get('sendPgnUpdate').send('updateYourPgn');
-      Ember.$('.fen').val(obj.fen);
     },
 
     startGameOver: function() {
@@ -54,11 +53,13 @@ export default Ember.Controller.extend({
       this.get('gameObject').reset();
       Ember.$('.engine-data').text('');
       Ember.$('.pgn').empty();
+      Ember.$('.square-55d63').removeClass('was-part-of-last-move');
     },
 
     engineData: function(data) {
       var game = this.get("gameObject");
       var score = data.score;
+
       if (score) {
         if (game.turn() === 'b' && score[0] !== '#') {
           score = score * -1;
@@ -112,6 +113,21 @@ export default Ember.Controller.extend({
     clearDiagram: function() {
       var context = document.getElementById('diagram').getContext('2d');
       context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+    },
+
+    canIhaveYourGameData: function(data) {
+      alert('Someone joined and wants your game data bro');
+      this.socket.emit('update client', { socketId: data.socketId, gameHistory: this.get('gameObject').history() });
+    },
+
+    getUpdated: function(data) {
+      console.log(data);
+      var game = this.get('gameObject');
+      var board = this.get('boardObject');
+      game.load_pgn(data.history.join(' '));
+      board.position(game.fen());
+      this.get('sendPgnUpdate').send('updateYourPgn');
+      this.socket.emit('start analyzing', { fen: game.fen() });
     }
   }
 });

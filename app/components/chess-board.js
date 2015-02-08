@@ -19,20 +19,30 @@ export default Ember.Component.extend(InboundActions, {
   greySquare: function(square) {
     var squareEl = Ember.$('#board .square-' + square);
 
-    var background = 'rgba(20,85,30,0.5)';
+    var background = '';
     if (squareEl.hasClass('black-3c85d') === true) {
-      background = 'rgba(20,85,30,0.75)';
+      background = '';
     }
 
-    squareEl.css('background', background);
+    // squareEl.css('background', background);
   },
   possibleMoves: function(square) {
+    var squareData = this.component.get('game').get(square);
     var squareEl = Ember.$('#board .square-' + square);
+    var background;
 
-    var background = 'radial-gradient(rgba(20,85,30,0.5) 22%,#208530 0,rgba(0,0,0,0.5) 0,rgba(197, 207, 216, 1) 0)';
-    if (squareEl.hasClass('black-3c85d') === true) {
-      background = 'radial-gradient(rgba(20,85,30,0.5) 22%,#208530 0,rgba(0,0,0,0.5) 0,rgba(79, 128, 174, 1) 0';
+    if (squareData) {
+      background = 'radial-gradient(rgba(240, 217, 181, 1) 0%,rgba(240, 217, 181, 1) 80%,rgba(255, 115, 0, 0.5) 80%)';
+      if (squareEl.hasClass('black-3c85d') === true) {
+        background = 'radial-gradient(rgba(181, 136, 99, 1) 0%,rgba(181, 136, 99, 1) 80%,rgba(255, 115, 0, 0.5) 80%)';
+      }
+    } else {
+      background = 'radial-gradient(rgba(255, 115, 0, 0.5) 22%,#208530 0,rgba(0,0,0,0.5) 0,rgba(240, 217, 181, 1) 0)';
+      if (squareEl.hasClass('black-3c85d') === true) {
+        background = 'radial-gradient(rgba(255, 115, 0, 0.5) 22%,#208530 0,rgba(0,0,0,0.5) 0,rgba(181, 136, 99, 1) 0';
+      }
     }
+
     var backgroundColor = 'rgba(0, 0, 0, 0)';
 
     squareEl.css('background', background);
@@ -48,11 +58,9 @@ export default Ember.Component.extend(InboundActions, {
   },
   onDrop: function(source, target) {
     var game = this.component.get('game');
-    var from = Ember.$(".square-"+source);
-    var to = Ember.$(".square-"+target);
-
-    from.css('background-color', 'rgba(155,199,0,0.41)');
-    to.css('background-color', 'rgba(155,199,0,0.41)');
+    var from = Ember.$('.square-'+source);
+    var to = Ember.$('.square-'+target);
+    var allSquares = Ember.$('.square-55d63');
 
     this.removeGreySquares();
 
@@ -62,6 +70,13 @@ export default Ember.Component.extend(InboundActions, {
       to: target,
       promotion: 'q' // NOTE: always promote to a queen for example simplicity
     });
+
+    // Add most recent squares highlight after piece was dropped
+    if (source !== target && move) {
+      allSquares.removeClass('was-part-of-last-move');
+      from.addClass('was-part-of-last-move');
+      to.addClass('was-part-of-last-move');
+    }
 
     // illegal move
     if (move === null) {
@@ -93,7 +108,7 @@ export default Ember.Component.extend(InboundActions, {
 
     // highlight the square they moused over
     this.greySquare(square);
-
+    Ember.$('square-55d63').css('background-color', '');
     // highlight the possible squares for this piece
     for (var i = 0; i < moves.length; i++) {
       this.possibleMoves(moves[i].to);

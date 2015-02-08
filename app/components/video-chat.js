@@ -10,12 +10,12 @@ export default Ember.Component.extend({
 
     session.on("streamCreated", function(event) {
       Ember.$('.video-chat').prepend("<div id='guestPublisher" + guestCounter + "' class='video-box'></div>");
-      session.subscribe(event.stream, "guestPublisher" + guestCounter, {width: 212, height: 159});
+      session.subscribe(event.stream, "guestPublisher" + guestCounter, {width: 200, height: 159});
       guestCounter++;
     });
 
     session.connect(this.get('token'), function() {
-      var publisher = OT.initPublisher("youPublisher", {width: 212, height: 159});
+      var publisher = OT.initPublisher("youPublisher", {width: 200, height: 159});
       Ember.$("#youPublisher").prependTo(".video-chat");
       session.publish(publisher);
     });
