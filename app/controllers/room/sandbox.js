@@ -4,8 +4,10 @@ export default Ember.Controller.extend({
   boardObject: null,
   gameObject: null,
   diagramMode: false,
+  stockfishAnalysis: false,
   actions: {
     sendPosition: function(data) {
+      data.stockfish = this.get('stockfishAnalysis');
       this.socket.emit('sendPosition', data);
     },
 
@@ -38,6 +40,17 @@ export default Ember.Controller.extend({
       var context = document.getElementById('diagram').getContext('2d');
       context.clearRect(0, 0, context.canvas.width, context.canvas.height);
       this.socket.emit('clear diagram');
+    },
+
+    updateCheckedStatus: function(data) {
+      var game = this.get('gameObject');
+      if (data.isChecked) {
+        this.set('stockfishAnalysis', true);
+        this.socket.emit('start analyzing', { fen: game.fen() });
+      } else {
+        this.set('stockfishAnalysis', false);
+        this.socket.emit('stop analyzing');
+      }
     }
   },
 
@@ -46,6 +59,11 @@ export default Ember.Controller.extend({
       this.get('boardObject').position(obj.fen);
       this.get('gameObject').load_pgn(obj.history.join(" "));
       this.get('sendPgnUpdate').send('updateYourPgn');
+      Ember.$('.square-55d63').removeClass('was-part-of-last-move');
+      var from = Ember.$('.square-'+obj.from);
+      var to = Ember.$('.square-'+obj.to);
+      from.addClass('was-part-of-last-move');
+      to.addClass('was-part-of-last-move');
     },
 
     startGameOver: function() {
@@ -116,18 +134,40 @@ export default Ember.Controller.extend({
     },
 
     canIhaveYourGameData: function(data) {
-      alert('Someone joined and wants your game data bro');
-      this.socket.emit('update client', { socketId: data.socketId, gameHistory: this.get('gameObject').history() });
+      var squares = Ember.$('.was-part-of-last-move');
+      var sendSquares = [];
+      Ember.$.each(squares, function(key, value) {
+        var square = Ember.$(value).attr('data-square');
+        console.log(square);
+        sendSquares.push(square);
+      });
+      this.socket.emit('update client', { socketId: data.socketId, gameHistory: this.get('gameObject').history(), analysisOn: this.get('stockfishAnalysis'), squares: sendSquares });
     },
 
     getUpdated: function(data) {
-      console.log(data);
       var game = this.get('gameObject');
       var board = this.get('boardObject');
       game.load_pgn(data.history.join(' '));
       board.position(game.fen());
       this.get('sendPgnUpdate').send('updateYourPgn');
-      this.socket.emit('start analyzing', { fen: game.fen() });
+      Ember.$('.square-' + data.squares[0] + ', .square-' + data.squares[1]).addClass('was-part-of-last-move');
+      if (data.analysisOn) {
+        this.socket.emit('start analyzing', { fen: game.fen() });
+      }
+
+    },
+
+    stockfishOn: function() {
+      this.set('stockfishAnalysis', true);
+      Ember.$('#analysisSwitch').prop('checked', true);
+      this.get('iosSwitch').send('updateSwitchStatus');
+    },
+
+    stockfishOff: function() {
+      this.set('stockfishAnalysis', false);
+      Ember.$('.engine-data').text('');
+      Ember.$('#analysisSwitch').prop('checked', false);
+      this.get('iosSwitch').send('updateSwitchStatus');
     }
   }
 });
