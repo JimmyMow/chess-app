@@ -8,15 +8,22 @@ export default Ember.Component.extend(InboundActions, {
   actions: {
     updateSwitchStatus: function() {
       this.set('status', Ember.$('#analysisSwitch').is(':checked'));
+    },
+
+    turnOnSwitch: function() {
+      Ember.$('#analysisSwitch').prop('checked', true);
+    },
+
+    turnOffSwitch: function() {
+      Ember.$('#analysisSwitch').prop('checked', false);
     }
   },
   didInsertElement: function() {
-    // DOM event handlers
     var _this = this;
     Ember.$('#analysisSwitch').on('change', function() {
       var data = {};
       data.isChecked = Ember.$(this).is(':checked');
-      _this.sendAction('action', data);
+      _this.sendAction('updateIfImChecked', data);
       _this.set('status', data.isChecked);
     });
   }

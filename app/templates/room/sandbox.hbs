@@ -1,12 +1,12 @@
 <div class="board-outter-container outter-container">
   <div class="board-inner-container">
     {{canvas-diagram actionReceiver=canvasDiagram action='sendDiagram'}}
-    {{chess-board action='sendPosition' board=controller.boardObject game=controller.gameObject actionReceiver=sendPgnUpdate}}
+    {{chess-board action='sendPosition' board=controller.boardObject game=controller.gameObject actionReceiver=chessBoardComponent}}
   </div>
   <div class="other-outter-container outter-container">
     <div class="analysis">
       <h3>Stockfish Analysis</h3>
-      {{ios-switch action='updateCheckedStatus' actionReceiver=iosSwitch}}
+      {{ios-switch updateIfImChecked='updateIosSwitchCheckedStatus' actionReceiver=iosSwitch}}
       <p class='depth-container'>
         <label class='analysis-data-label'>At depth:  </label>
         <span id="depth" class="engine-data"></span>
@@ -28,7 +28,10 @@
       </div>
     </div>
     <div class="pgn"></div>
-    <a href="#" class="board-button" {{action 'start'}}>Restart game</a>
+    <div class="game-controls">
+      <a href="#" class="control-button" {{action 'start'}}>Restart game</a>
+      <a href="#" class="control-button" {{action 'undo'}}>Undo move</a>
+    </div>
     {{#if diagramMode}}
       <a href="#" class="board-button" {{action 'canvas'}}>Turn off diagram mode</a>
       <a href="#" class="board-button" {{action 'clearCanvas'}}>Clear diagram</a>

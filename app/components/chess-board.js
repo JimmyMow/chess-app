@@ -11,6 +11,25 @@ export default Ember.Component.extend(InboundActions, {
       var board = this.get('board');
       var game = this.get('game');
       board.updatePgn(game.history());
+    },
+
+    resetBoardAndGame: function() {
+      this.get('board').start();
+      this.get('game').reset();
+    },
+
+    resetBoardStyles: function() {
+      Ember.$('.pgn').empty();
+      Ember.$('.square-55d63').removeClass('was-part-of-last-move');
+    },
+
+    undoMove: function() {
+      var game = this.get('game');
+      var board = this.get('board');
+
+      game.undo();
+      board.position(game.fen());
+      Ember.$('.square-55d63').removeClass('was-part-of-last-move');
     }
   },
   removeGreySquares: function() {

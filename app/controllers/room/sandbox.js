@@ -16,12 +16,17 @@ export default Ember.Controller.extend({
     },
 
     start: function() {
-      this.get('boardObject').start();
-      this.get('gameObject').reset();
-      this.socket.emit('startingGameOver');
+      this.get('chessBoardComponent').send('resetBoardAndGame');
+      this.get('chessBoardComponent').send('resetBoardStyles');
+
       Ember.$('.engine-data').text('');
-      Ember.$('.pgn').empty();
-      Ember.$('.square-55d63').removeClass('was-part-of-last-move');
+      this.socket.emit('startingGameOver');
+    },
+
+    undo: function() {
+      this.get('chessBoardComponent').send('undoMove');
+      this.get('chessBoardComponent').send('updateYourPgn');
+      this.socket.emit('undo move');
     },
 
     canvas: function() {
@@ -42,7 +47,7 @@ export default Ember.Controller.extend({
       this.socket.emit('clear diagram');
     },
 
-    updateCheckedStatus: function(data) {
+    updateIosSwitchCheckedStatus: function(data) {
       var game = this.get('gameObject');
       if (data.isChecked) {
         this.set('stockfishAnalysis', true);
@@ -58,7 +63,7 @@ export default Ember.Controller.extend({
     changePosition: function(obj) {
       this.get('boardObject').position(obj.fen);
       this.get('gameObject').load_pgn(obj.history.join(" "));
-      this.get('sendPgnUpdate').send('updateYourPgn');
+      this.get('chessBoardComponent').send('updateYourPgn');
       Ember.$('.square-55d63').removeClass('was-part-of-last-move');
       var from = Ember.$('.square-'+obj.from);
       var to = Ember.$('.square-'+obj.to);
@@ -66,12 +71,15 @@ export default Ember.Controller.extend({
       to.addClass('was-part-of-last-move');
     },
 
+    undoMove: function() {
+      this.get('chessBoardComponent').send('undoMove');
+    },
+
     startGameOver: function() {
-      this.get('boardObject').start();
-      this.get('gameObject').reset();
+      this.get('chessBoardComponent').send('resetBoardAndGame');
+      this.get('chessBoardComponent').send('resetBoardStyles');
+
       Ember.$('.engine-data').text('');
-      Ember.$('.pgn').empty();
-      Ember.$('.square-55d63').removeClass('was-part-of-last-move');
     },
 
     engineData: function(data) {
@@ -138,7 +146,6 @@ export default Ember.Controller.extend({
       var sendSquares = [];
       Ember.$.each(squares, function(key, value) {
         var square = Ember.$(value).attr('data-square');
-        console.log(square);
         sendSquares.push(square);
       });
       this.socket.emit('update client', { socketId: data.socketId, gameHistory: this.get('gameObject').history(), analysisOn: this.get('stockfishAnalysis'), squares: sendSquares });
@@ -147,9 +154,10 @@ export default Ember.Controller.extend({
     getUpdated: function(data) {
       var game = this.get('gameObject');
       var board = this.get('boardObject');
+      // Load PGN and position board
       game.load_pgn(data.history.join(' '));
       board.position(game.fen());
-      this.get('sendPgnUpdate').send('updateYourPgn');
+      this.get('chessBoardComponent').send('updateYourPgn');
       Ember.$('.square-' + data.squares[0] + ', .square-' + data.squares[1]).addClass('was-part-of-last-move');
       if (data.analysisOn) {
         this.socket.emit('start analyzing', { fen: game.fen() });
@@ -159,14 +167,16 @@ export default Ember.Controller.extend({
 
     stockfishOn: function() {
       this.set('stockfishAnalysis', true);
-      Ember.$('#analysisSwitch').prop('checked', true);
+
+      this.get('iosSwitch').send('turnOnSwitch');
       this.get('iosSwitch').send('updateSwitchStatus');
     },
 
     stockfishOff: function() {
       this.set('stockfishAnalysis', false);
       Ember.$('.engine-data').text('');
-      Ember.$('#analysisSwitch').prop('checked', false);
+
+      this.get('iosSwitch').send('turnOffSwitch');
       this.get('iosSwitch').send('updateSwitchStatus');
     }
   }

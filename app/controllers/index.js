@@ -21,8 +21,8 @@ export default Ember.Controller.extend({
       console.log("Connected to room: ", data.room);
     },
 
-    roomDisconnected: function() {
-      console.log("Disconnected from room: ");
+    roomDisconnected: function(data) {
+      console.log("Disconnected from room: ", data.room);
     },
 
     connect: function() {
