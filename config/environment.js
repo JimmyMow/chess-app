@@ -35,7 +35,6 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     ENV.APP.LOG_VIEW_LOOKUPS = true;
-    ENV.SOCKET_IP = '192.168.56.10';
   }
 
   if (environment === 'test') {
@@ -49,10 +48,5 @@ module.exports = function(environment) {
 
     ENV.APP.rootElement = '#ember-testing';
   }
-
-  if (environment === 'production') {
-    ENV.SOCKET_IP = '104.131.28.241';
-  }
-
   return ENV;
 };
