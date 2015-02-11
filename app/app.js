@@ -2,7 +2,7 @@ import Ember from 'ember';
 import Resolver from 'ember/resolver';
 import loadInitializers from 'ember/load-initializers';
 import config from './config/environment';
-
+alert(window.location.host);
 Ember.MODEL_FACTORY_INJECTIONS = true;
 
 var Socket = EmberSockets.extend({
