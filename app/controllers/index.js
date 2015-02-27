@@ -8,7 +8,7 @@ export default Ember.Controller.extend({
       room.save().then(function(room) {
         if(room) {
           console.log(room.get('id'));
-          _this.transitionToRoute('room.sandbox', room.get('id'));
+          _this.transitionToRoute('room.analyze', room.get('id'));
         } else {
           alert('error!');
         }
@@ -21,9 +21,8 @@ export default Ember.Controller.extend({
       console.log("Connected to room: ", data.room);
     },
 
-    roomDisconnected: function(data) {
+    roomDisconnected: function() {
       console.log("Disconnected from room");
-      console.log(data);
     },
 
     connect: function() {

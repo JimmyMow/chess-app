@@ -3,6 +3,12 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   boardObject: null,
   gameObject: null,
+  dataObject: {
+    tree: [],
+    pathDefault: [{ ply: 0, variation: null }],
+    path: [{ ply: 0, variation: null }],
+    pathStr: ''
+  },
   diagramMode: false,
   stockfishAnalysis: false,
   actions: {
@@ -15,18 +21,30 @@ export default Ember.Controller.extend({
       this.socket.emit('send diagram', data);
     },
 
-    start: function() {
+    startOver: function() {
       this.get('chessBoardComponent').send('resetBoardAndGame');
+      this.get('chessBoardComponent').send('resetData');
       this.get('chessBoardComponent').send('resetBoardStyles');
-
       Ember.$('.engine-data').text('');
       this.socket.emit('startingGameOver');
     },
 
+    start: function() {
+      this.socket.emit('startPos');
+    },
+
     undo: function() {
       this.get('chessBoardComponent').send('undoMove');
-      this.get('chessBoardComponent').send('updateYourPgn');
-      this.socket.emit('undo move');
+      // this.get('chessBoardComponent').send('updateYourPgn');
+      // this.socket.emit('undo move');
+    },
+
+    flip: function(){
+      var board = this.get('boardObject');
+      var or = board.getOrientation();
+      board.set({
+        orientation: or === 'white' ? 'black' : 'white'
+      });
     },
 
     canvas: function() {
@@ -61,14 +79,16 @@ export default Ember.Controller.extend({
 
   sockets: {
     changePosition: function(obj) {
-      this.get('boardObject').position(obj.fen);
-      this.get('gameObject').load_pgn(obj.history.join(" "));
+      this.get('boardObject').set({
+        fen: obj.boardFen,
+        lastMove: [obj.from, obj.to]
+      });
+      this.get('gameObject').load(obj.gameFen);
+      this.set('dataObject', obj.data);
+
+      this.get('chessBoardComponent').send('setData');
+      this.get('chessBoardComponent').send('updateBoardDestsAndColorTurn');
       this.get('chessBoardComponent').send('updateYourPgn');
-      Ember.$('.square-55d63').removeClass('was-part-of-last-move');
-      var from = Ember.$('.square-'+obj.from);
-      var to = Ember.$('.square-'+obj.to);
-      from.addClass('was-part-of-last-move');
-      to.addClass('was-part-of-last-move');
     },
 
     undoMove: function() {
@@ -77,9 +97,15 @@ export default Ember.Controller.extend({
 
     startGameOver: function() {
       this.get('chessBoardComponent').send('resetBoardAndGame');
+      this.get('chessBoardComponent').send('resetData');
       this.get('chessBoardComponent').send('resetBoardStyles');
 
       Ember.$('.engine-data').text('');
+    },
+
+    startPos: function() {
+      this.get('chessBoardComponent').send('startPos');
+      this.get('chessBoardComponent').send('removeActive');
     },
 
     engineData: function(data) {
@@ -142,27 +168,29 @@ export default Ember.Controller.extend({
     },
 
     canIhaveYourGameData: function(data) {
-      var squares = Ember.$('.was-part-of-last-move');
-      var sendSquares = [];
-      Ember.$.each(squares, function(key, value) {
-        var square = Ember.$(value).attr('data-square');
-        sendSquares.push(square);
-      });
-      this.socket.emit('update client', { socketId: data.socketId, gameHistory: this.get('gameObject').history(), analysisOn: this.get('stockfishAnalysis'), squares: sendSquares });
+      var dataObj = {};
+      dataObj.data = this.get('dataObject');
+      dataObj.socketId = data.socketId;
+      dataObj.gameFen = this.get('gameObject').fen();
+      dataObj.boardFen = this.get('boardObject').getFen();
+      dataObj.analysisOn = this.get('stockfishAnalysis');
+      this.socket.emit('update client', dataObj);
     },
 
-    getUpdated: function(data) {
-      var game = this.get('gameObject');
-      var board = this.get('boardObject');
-      // Load PGN and position board
-      game.load_pgn(data.history.join(' '));
-      board.position(game.fen());
-      this.get('chessBoardComponent').send('updateYourPgn');
-      Ember.$('.square-' + data.squares[0] + ', .square-' + data.squares[1]).addClass('was-part-of-last-move');
-      if (data.analysisOn) {
-        this.socket.emit('start analyzing', { fen: game.fen() });
-      }
+    getUpdated: function(obj) {
+      this.get('boardObject').set({
+        fen: obj.boardFen,
+        lastMove: [obj.from, obj.to]
+      });
+      this.get('gameObject').load(obj.gameFen);
+      this.set('dataObject', obj.data);
 
+      this.get('chessBoardComponent').send('setData');
+      this.get('chessBoardComponent').send('updateBoardDestsAndColorTurn');
+      this.get('chessBoardComponent').send('updateYourPgn');
+      if (obj.analysisOn) {
+        this.socket.emit('start analyzing', { fen: this.get('gameObject').fen() });
+      }
     },
 
     stockfishOn: function() {

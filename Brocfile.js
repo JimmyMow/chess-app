@@ -16,7 +16,9 @@ var app = new EmberApp();
 // modules that you would like to import into your application
 // please specify an object with the list of modules as keys
 // along with the exports of each module as its value.
-app.import('vendor/javascript/chessboard.js');
+app.import('vendor/javascript/chessground.min.js');
+app.import('vendor/javascript/mithril.min.js');
+app.import('vendor/javascript/mithril.min.js.map');
 app.import('vendor/javascript/opentok.js');
 app.import('vendor/javascript/chess.js');
 app.import('bower_components/socket.io-client/socket.io.js');

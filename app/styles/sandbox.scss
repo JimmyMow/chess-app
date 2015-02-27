@@ -44,12 +44,48 @@ canvas {
   width: 60%;
   display: inline-block;
   text-align: center;
+  cursor: pointer;
   input {
     display: inline-block;
     width: 80%;
     background: #eee;
     padding: 3px 5px;
     border: 1px solid #ccc;
+  }
+  .diagram-mode-container {
+    .diagram-on {
+      width: 40%;
+      margin: 15px auto;
+    }
+    width: 90%;
+    margin: 0 auto;
+    .diagram-left {
+      display: inline-block;
+      width: 40%;
+      vertical-align: top;
+    }
+    .diagram-right {
+      width: 40%;
+      display: inline-block;
+      .colors-container {
+        .green {
+          background-color: #32CD32;
+        }
+        .red {
+          background-color: #F44336;
+        }
+        .black {
+          background-color: #212121;
+        }
+        a {
+          padding: 5px 15px;
+          margin: 5px;
+          &.active {
+            border: 3px solid black;
+          }
+        }
+      }
+    }
   }
 }
 
@@ -59,29 +95,35 @@ canvas {
   margin: 0 auto;
 }
 
-  // Other
+// Other
+@font-face {
+  font-family: 'ChessSansPiratf';
+  src: url("/assets/fonts/ChessSansPiratf.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/ChessSansPiratf.woff") format("woff"), url("/assets/fonts/ChessSansPiratf.ttf") format("truetype"), url("/assets/fonts/ChessSansPiratf.svg#lichess") format("svg");
+}
+
+.board-button {
+  display: block;
+  text-align: center;
+  margin-top: 1em;
+  border-radius: 2px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #e2e2e2;
+  padding: 6px 11px;
+  white-space: nowrap;
+  font-weight: bold;
+  background: linear-gradient(to bottom,rgba(245,245,245,1) 0%,rgba(240,240,240,1) 100%);
+  color: #848484;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #FFF;
+}
 
 .other-outter-container {
-  width: 37%;
+  width: 33%;
   padding: 0 10px;
   display: inline-block;
   height: 504px;
-  .board-button {
-    display: block;
-    text-align: center;
-    margin-top: 1em;
-    border-radius: 2px;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #e2e2e2;
-    padding: 6px 11px;
-    white-space: nowrap;
-    font-weight: bold;
-    background: linear-gradient(to bottom,rgba(245,245,245,1) 0%,rgba(240,240,240,1) 100%);
-    color: #848484;
-    text-decoration: none;
-    text-shadow: 0px 1px 0px #FFF;
-  }
+  margin-left: 2%;
   .pgn {
     height: calc(50%);
     overflow: auto;
@@ -104,7 +146,7 @@ canvas {
       height: 22px;
       line-height: 22px;
       display: inline-block;
-      padding: 2px 7px;
+      padding: 3px 7px;
       cursor: pointer;
       transition-property: background-color;
       transition-duration: 0.13s;
@@ -113,6 +155,41 @@ canvas {
       font-family: 'ChessSansPiratf',sans-serif;
       text-decoration: none;
       color: #747474;
+      &:hover {
+        background-color: #e0e0e0;
+      }
+      &.active {
+        color: #d85000;
+        font-weight: bold;
+      }
+      &.empty {
+        cursor: auto;
+      }
+    }
+    .variation {
+      border-bottom: 1px solid #ccc;
+      font-weight: lighter;
+      background-color: #e0e0e0;
+      font-weight: lighter;
+      padding: 3px 5px 0 5px;
+      &.border {
+        border-top: 1px solid #ccc;
+      }
+      &.index:first-child {
+        margin-left: 0;
+      }
+      .move {
+        padding: 2px 2px;
+        font-size: 12px;
+        width: auto;
+      }
+      .index {
+        font-size: 12px;
+        width: auto;
+      }
+      .variation {
+        border: none;
+      }
     }
   }
   .analysis {
@@ -154,21 +231,41 @@ canvas {
       width: 45%;
     }
   }
+  .controls {
+    text-align: center;
+    a {
+      padding: 10px;
+      font-size: 22px;
+      cursor: pointer;
+    }
+  }
   .game-controls {
     text-align: center;
-    margin-top: 1em;
+    margin-top: 2em;
     .control-button {
       text-decoration: none;
+      margin: 0 -1px;
       font-size: 12px;
       border-radius: 2px;
       border: 1px solid #e2e2e2;
-      padding: 6px 11px;
+      padding: 6px 18px;
       color: #848484;
       background: linear-gradient(to bottom,rgba(245,245,245,1) 0%,rgba(240,240,240,1) 100%);
       cursor: pointer;
       font-weight: bold;
       text-shadow: rgb(255, 255, 255) 0px 1px 0px;
-      &:hover {}
+      &:hover {
+        border-color: #e2e2e2;
+        background: rgb(248, 248, 248);
+        background: -moz-linear-gradient(top, rgba(248, 248, 248, 1) 0%, rgba(243, 243, 243, 1) 100%);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(248, 248, 248, 1)), color-stop(100%, rgba(243, 243, 243, 1)));
+        background: -webkit-linear-gradient(top, rgba(248, 248, 248, 1) 0%, rgba(243, 243, 243, 1) 100%);
+        background: -ms-linear-gradient(top, rgba(248, 248, 248, 1) 0%, rgba(243, 243, 243, 1) 100%);
+        background: linear-gradient(to bottom, rgba(248, 248, 248, 1) 0%, rgba(243, 243, 243, 1) 100%);
+      }
+      &:active {
+        box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.12) inset;
+      }
     }
   }
 }

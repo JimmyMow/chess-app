@@ -3,8 +3,8 @@
     "document",
     "window",
     "-Promise",
-    "ChessBoard",
-    "Chess",
+    "Chessground",
+    "m",
     "Chess",
     "EmberSockets",
     "OT"
