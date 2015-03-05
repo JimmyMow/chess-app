@@ -152,6 +152,9 @@ export default Ember.Controller.extend({
       if(this.get('orientation') !== data.orientation && this.get('orientation') === 'white') {
         x = Ember.$('#diagram').height() - data.x;
         y = Ember.$('#diagram').width() - data.y;
+      } else if(this.get('orientation') === data.orientation && this.get('orientation') === 'black') {
+        x = Ember.$('#diagram').height() - data.x;
+        y = Ember.$('#diagram').width() - data.y;
       } else {
         x = data.x;
         y = data.y;
