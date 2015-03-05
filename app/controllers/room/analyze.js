@@ -9,8 +9,10 @@ export default Ember.Controller.extend({
     path: [{ ply: 0, variation: null }],
     pathStr: ''
   },
+  ctxObject: null,
   diagramMode: false,
   stockfishAnalysis: false,
+  orientation: 'white',
   actions: {
     sendPosition: function(data) {
       data.stockfish = this.get('stockfishAnalysis');
@@ -41,10 +43,11 @@ export default Ember.Controller.extend({
 
     flip: function(){
       var board = this.get('boardObject');
-      var or = board.getOrientation();
-      board.set({
-        orientation: or === 'white' ? 'black' : 'white'
-      });
+      board.toggleOrientation();
+      this.set('orientation', board.getOrientation());
+      this.get('canvasDiagram').send('flipOrientation');
+
+      Ember.$('#diagram').toggleClass('flipTest');
     },
 
     canvas: function() {
@@ -145,8 +148,14 @@ export default Ember.Controller.extend({
     },
 
     drawForOthers: function(data) {
-      var x = data.x;
-      var y = data.y;
+      var x, y;
+      if(this.get('orientation') !== data.orientation && this.get('orientation') === 'white') {
+        x = Ember.$('#diagram').height() - data.x;
+        y = Ember.$('#diagram').width() - data.y;
+      } else {
+        x = data.x;
+        y = data.y;
+      }
       var type = data.type;
       var paint = data.paint;
       var context = document.getElementById('diagram').getContext('2d');

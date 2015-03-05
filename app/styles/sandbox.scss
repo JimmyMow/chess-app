@@ -37,6 +37,13 @@ canvas {
   &.diagram-mode {
     z-index: 1000;
   }
+  &.flipTest {
+    -moz-transform: scale(-1, -1);
+    -webkit-transform: scale(-1, -1);
+    -o-transform: scale(-1, -1);
+    transform: scale(-1, -1);
+    filter: FlipH;
+  }
 }
 
 .board-outter-container {
