@@ -14,10 +14,70 @@
     text-align: center;
     display: inline-block;
     margin-bottom: 1em;
+    // position: relative;
 }
 
 .video-box {
   margin: 1em 0;
+}
+
+.empty-vid-container {
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+  height: 159px;
+  width: 100%;
+  margin-top: 20px;
+  .empty-vid {
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    right: 2px;
+    left: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .upper-left {
+      top: -2px;
+      left: -2px;
+      border-top: 2px solid;
+      border-left: 2px solid;
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-color: #fff;
+    }
+    .lower-left {
+      bottom: -2px;
+      left: -2px;
+      border-bottom: 2px solid;
+      border-left: 2px solid;
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-color: #fff;
+    }
+    .upper-right {
+      top: -2px;
+      right: -2px;
+      border-top: 2px solid;
+      border-right: 2px solid;
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-color: #fff;
+    }
+    .lower-right {
+      bottom: -2px;
+      right: -2px;
+      border-bottom: 2px solid;
+      border-right: 2px solid;
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-color: #fff;
+    }
+  }
 }
 
 .other-people {
@@ -214,6 +274,7 @@ canvas {
     overflow-x: hidden;
     box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.2);
     position: relative;
+    color: #747474;
     h3 {
       text-align: center;
       font-weight: bold;

@@ -4,13 +4,28 @@
 @import 'chessboard';
 @import 'sandbox';
 @import 'sparetest';
+@import 'home';
 
 body {
-  background-color: #eee;
-  background-image: linear-gradient(to bottom, #d7d7d7 0%, #eeeeee 116px);
-  color: #747474;
-  font-family: 'Open Sans', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  background-color: #fff;
+  // background-image: linear-gradient(to bottom, #d7d7d7 0%, #eeeeee 116px);
+  color: #1a3652;
+  // font-family: 'Open Sans', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 12px;
+  margin: 0;
+}
+
+a {
+  color: rgb(51, 122, 183);
+}
+
+.hide {
+  display: none;
+}
+
+.eee-container {
+  background-color: #eee;
 }
 
 .content-container {

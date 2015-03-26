@@ -1,1 +1,40 @@
-<a href="#" {{action 'createRoom'}}>Create room</a>
+<nav class='homepage-nav'>
+  <h2>ChessExplained</h2>
+</nav>
+
+<div class="section">
+  <header class='homepage-header-container inner-section'>
+    <h1 class='homepage-header'>Improving your chess has never been easier</h1>
+    <div class="features">
+      <h2>All of this in one screen, over the internet, in your browser:</h2>
+      <ul class='features-container' id="features">
+        {{homepage-feature className="coach" header="Connect with any coach" message="Here from coach" active=true }}
+        {{homepage-feature className="analysis" header="Best computer analysis" message="Here from analysis"}}
+        {{homepage-feature className="drawing-tools" header="Advanced drawing tools" message="Here from drawing" }}
+        {{homepage-feature className="more" header="A whole lot more" message="Here from more"}}
+      </ul>
+      <div class="info-container">
+        <p class="infobox" id="infobox">
+          Here from coach
+        </p>
+      </div>
+    </div>
+    <div class="create-room-container">
+      {{#if showLoading}}
+        <a href="/room" {{action 'createRoom'}} class='create-room'><i class="fa fa-spinner fa-pulse"></i> Creating your chess room</a>
+      {{else}}
+        <a href="/room" {{action 'createRoom'}} class='create-room'>Create your own chess room</a>
+        <div class="see-how-it-works">
+          <span>or <a href="#">see how it works</a></span>
+        </div>
+      {{/if}}
+    </div>
+  </header>
+</div>
+<div class="section">
+  <h2 class='section-header letters-header'>
+    <strong>We...</strong>
+    <span>turn speech or text into actionable data</span>
+  </h2>
+</div>
+
