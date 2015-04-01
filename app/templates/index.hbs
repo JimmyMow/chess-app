@@ -8,14 +8,14 @@
     <div class="features">
       <h2>All of this in one screen, over the internet, in your browser:</h2>
       <ul class='features-container' id="features">
-        {{homepage-feature className="coach" header="Connect with any coach" message="Here from coach" active=true }}
-        {{homepage-feature className="analysis" header="Best computer analysis" message="Here from analysis"}}
-        {{homepage-feature className="drawing-tools" header="Advanced drawing tools" message="Here from drawing" }}
-        {{homepage-feature className="more" header="A whole lot more" message="Here from more"}}
+        {{homepage-feature className="coach" header="Connect with any coach" message="You now have access to every chess coach in the world. By simply sharing a link, you are connected with whoever you want via video chat in your browser." active=true }}
+        {{homepage-feature className="analysis" header="Best computer analysis" message="Enjoy the best chess player in the world in the top right of your screen. You have StockFish (the computer chess champion), giving you analysis on the score of the position, the best move, and it's suggested continuation for whatever position is currently on the board."}}
+        {{homepage-feature className="drawing-tools" header="Advanced drawing tools" message="A lot goes on in the mind of a chess player, so much so that sometimes it gets difficult to convey all that's going on to someone else. You can use our drawing tools to draw on the board however you please to visualize your thoughts and make learning easier." }}
+        {{homepage-feature className="more" header="A whole lot more" message="ChessExplained is built for chess players by chess players. We are in the same position you are. Enjoy features like easily creating variations, uploading games via PGN, and much more."}}
       </ul>
-      <div class="info-container">
+      <div class="info-container" id="infoContainer">
         <p class="infobox" id="infobox">
-          Here from coach
+          You now have access to every chess coach in the world. By simply sharing a link to your board, you are connected with whoever you want via video chat in your browser.
         </p>
       </div>
     </div>
@@ -31,10 +31,44 @@
     </div>
   </header>
 </div>
-<div class="section">
-  <h2 class='section-header letters-header'>
-    <strong>We...</strong>
-    <span>turn speech or text into actionable data</span>
-  </h2>
+<div class="section we">
+  <header>
+    <h2 class='section-header'>
+      <strong>We...</strong>
+      <span>believe learning chess should be natural and easy</span>
+    </h2>
+    <h4>No more tactics trainers. Learn from real experts and masters who can answer questions, with no limitations in <strong>three easy</strong> steps.</h4>
+  </header>
+  <aside>
+    <ol>
+      <li>
+        <figure>1</figure>
+        <figcaption>Create your own "chess room"</figcaption>
+      </li>
+      <li>
+        <figure>2</figure>
+        <figcaption>Connect with a coach</figcaption>
+      </li>
+      <li>
+        <figure>3</figure>
+        <figcaption>Learn chess</figcaption>
+      </li>
+    </ol>
+  </aside>
+  <div class="screenshot">
+  </div>
+  <p class="caption">
+    We've combined all the necessary chess tools with the power and connectivity of the internet
+  </p>
+  <div class="create-room-container">
+    {{#if showLoading}}
+      <a href="/room" {{action 'createRoom'}} class='create-room'><i class="fa fa-spinner fa-pulse"></i> Creating your chess room</a>
+    {{else}}
+      <a href="/room" {{action 'createRoom'}} class='create-room'>Create your own chess room</a>
+      <div class="see-how-it-works">
+        <span>or <a href="#">watch a snippet of the above screenshot</a></span>
+      </div>
+    {{/if}}
+  </div>
 </div>
 

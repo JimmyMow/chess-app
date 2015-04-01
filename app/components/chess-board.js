@@ -85,6 +85,11 @@ export default Ember.Component.extend(InboundActions, {
       this.get('prev')(this);
       data.tree.splice(index, 1);
       this.get('displayTree')(this);
+    },
+
+    uploadPgn: function() {
+      this.get('displayTree')(this);
+      Ember.$('#pgnUpload').val('');
     }
   },
   ////////////////////

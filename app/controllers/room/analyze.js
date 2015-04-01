@@ -77,6 +77,23 @@ export default Ember.Controller.extend({
         this.set('stockfishAnalysis', false);
         this.socket.emit('stop analyzing');
       }
+    },
+
+    submitPgn: function() {
+      var pgn = Ember.$('#pgnUpload').val();
+
+      var tree = this.get('gameObject').load_pgn(pgn);
+      if(!tree) {
+        alert('There was a problem with the PGN you tried to upload. Please make sure it is standard and follows all the PGN formatting rules.');
+        return;
+      } else {
+        Ember.$.modal.close();
+      }
+      this.get('dataObject').tree = tree;
+      this.get('gameObject').load('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
+
+      this.get('chessBoardComponent').send('uploadPgn');
+      this.socket.emit('upload pgn', { pgn: pgn });
     }
   },
 
@@ -218,6 +235,17 @@ export default Ember.Controller.extend({
 
       this.get('iosSwitch').send('turnOffSwitch');
       this.get('iosSwitch').send('updateSwitchStatus');
+    },
+
+    uploadTheirPgn: function(obj) {
+      var tree = this.get('gameObject').load_pgn(obj.pgn);
+      if(!tree) {
+        alert('There was a problem with the PGN you tried to upload. Please make sure it is standard and follows all the PGN formatting rules.');
+        return;
+      }
+      this.get('dataObject').tree = tree;
+      this.get('gameObject').load('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
+      this.get('chessBoardComponent').send('uploadPgn');
     }
   }
 });

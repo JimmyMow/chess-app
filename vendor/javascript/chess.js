@@ -1424,6 +1424,7 @@ var Chess = function(fen) {
       /* delete empty entries */
       moves = moves.join(',').replace(/,,+/g, ',').split(',');
       var move = '';
+      var tree = [];
 
       for (var half_move = 0; half_move < moves.length - 1; half_move++) {
         move = get_move_obj(moves[half_move]);
@@ -1431,11 +1432,24 @@ var Chess = function(fen) {
         /* move not possible! (don't clear the board to examine to show the
          * latest valid position)
          */
-
         if (move == null) {
           return false;
         } else {
+          var prettyMove = make_pretty(move);
+          var moveObj = {};
+          moveObj.san = prettyMove.san;
+          moveObj.to = prettyMove.to;
+          moveObj.from = prettyMove.from;
+          moveObj.ply = half_move + 1;
+          moveObj.variations = [];
+          moveObj.comments = [];
+
           make_move(move);
+
+          var fen = this.fen();
+          moveObj.boardFen = fen.split(' ')[0];
+          moveObj.gameFen = fen;
+          tree.push(moveObj);
         }
       }
 
@@ -1454,7 +1468,8 @@ var Chess = function(fen) {
           make_move(move);
         }
       }
-      return true;
+      // return true;
+      return tree;
     },
 
     header: function() {

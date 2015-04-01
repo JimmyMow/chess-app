@@ -1,4 +1,8 @@
 <div class="eee-container">
+  <nav class='room-nav'>
+    {{#link-to 'index'}}Home{{/link-to}}
+    <a href="#pgnUploadContainer" class="upload-game-trigger" rel="modal:open">Upload a game</a>
+  </nav>
   <div class="content-container">
     <div class="videochat-outter-container outter-container">
       {{video-chat token=token sessionId=sessionId}}

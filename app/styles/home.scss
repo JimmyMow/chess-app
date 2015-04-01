@@ -12,7 +12,7 @@
 }
 
 .inner-section {
-  width: 70%;
+  width: 65%;
   margin: 0 auto;
 }
 
@@ -79,16 +79,17 @@
           background-size: 75px 75px;
         }
         .coach {
-          background-image: url('/assets/images/marketing/chess_coach.png');
+          background-image: url('/assets/images/marketing/chess_coach_white.png');
+          // background-image: url('/assets/images/marketing/chess_coach.png');
         }
         .analysis {
-          background-image: url('/assets/images/marketing/stockfish_logo.png');
+          background-image: url('/assets/images/marketing/fish_white.png');
         }
         .drawing-tools {
-         background-image: url('/assets/images/marketing/drawing_tools.png');
+         background-image: url('/assets/images/marketing/pencil_white.png');
         }
         .more {
-         background-image: url('/assets/images/marketing/more_heart.png');
+         background-image: url('/assets/images/marketing/heart_white.png');
         }
         h4 {
           font-size: 16px;
@@ -120,5 +121,73 @@
   .see-how-it-works {
     margin: 20px;
     font-size: 16px;
+  }
+}
+
+.we {
+  header {
+    padding: 40px 0;
+    h2 {
+      margin-bottom: 0;
+      margin-top: 10px;
+    }
+    h4 {
+      font-weight: 400;
+      text-align: center;
+      color: #1a3652;
+      font-size: 18px;
+      margin-bottom: 0;
+      margin-top: 10px;
+    }
+  }
+
+  aside {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    ol {
+      list-style: none;
+      margin: 10px auto;
+      li {
+        display: inline-block;
+        width: 33%;
+        figure {
+          height: 50px;
+          width: 50px;
+          border-radius: 100%;
+          text-align: center;
+          line-height: 50px;
+          position: relative;
+          color: #333;
+          font-size: 14px;
+          border: #5490ca 3px solid;
+          display: inline-block;
+          margin: 5px;
+          vertical-align: middle;
+        }
+        figcaption {
+          display: inline-block;
+          font-size: 18px;
+          color: #374950;
+          vertical-align: middle;
+          width: 80%;
+          text-align: left;
+          font-weight: 300;
+        }
+      }
+    }
+  }
+
+  .screenshot {
+    text-align: center;
+    background: url('/assets/images/marketing/screen_shot_one.png') no-repeat center center;
+    height: 700px;
+  }
+
+  .caption {
+    font-style: italic;
+    text-align: center;
+    margin: 0;
+    font-size: 18px;
   }
 }

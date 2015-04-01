@@ -17,6 +17,7 @@ var app = new EmberApp();
 // please specify an object with the list of modules as keys
 // along with the exports of each module as its value.
 app.import('vendor/javascript/chessground.min.js');
+app.import('vendor/javascript/jquery.modal.min.js');
 app.import('vendor/javascript/mithril.js');
 app.import('vendor/javascript/mithril.min.js.map');
 app.import('vendor/javascript/opentok.js');

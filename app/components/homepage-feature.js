@@ -9,7 +9,9 @@ export default Ember.Component.extend({
   mouseEnter: function() {
     Ember.$('.feature').removeClass('active');
     this.$().addClass('active');
-    Ember.$('#infobox').text(this.get('message'));
+    var el = "<p class='infobox' id='infobox'>" + this.get('message') + "</p>";
+    Ember.$("#infobox").remove();
+    Ember.$(el).hide().appendTo("#infoContainer").fadeIn(1000);
 
     clearInterval(window.interval);
     this.set('mousedOn', true);
@@ -29,12 +31,14 @@ export default Ember.Component.extend({
       next.addClass('active');
 
       var p = next.find('.hide');
-      Ember.$('#infobox').text(p.text());
+      var el = "<p class='infobox' id='infobox'>" + p.text() + "</p>";
+      Ember.$("#infobox").remove();
+      Ember.$(el).hide().appendTo("#infoContainer").fadeIn(1000);
 
       active = next;
       next = active.next().length > 0 ? active.next() :  Ember.$("ul#features li:eq(0)");
 
-    }, 7000);
+    }, 9000);
 
     window.interval = interval;
   },

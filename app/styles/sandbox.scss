@@ -189,6 +189,12 @@ canvas {
   color: #848484;
   text-decoration: none;
   text-shadow: 0px 1px 0px #FFF;
+
+  &.submit {
+    margin: 10px auto;
+    cursor: pointer;
+    font-size: 32px;
+  }
 }
 
 .other-outter-container {
@@ -344,3 +350,43 @@ canvas {
   }
 }
 
+.uploader {
+  width: 60%;
+  padding: 25px;
+  color: #707070;
+  position: relative;
+  .uploader-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    color: #707070;
+    &:hover {
+      color: darken(#707070, 20%);
+    }
+  }
+  h4 {
+    font-size: 22px;
+    margin: 0;
+  }
+  .explanation {
+    text-align: center;
+    margin: 40px 0;
+    font-size: 16px;
+  }
+  label {
+    font-size: 16px;
+    font-weight: 200;
+    span {
+      display: block;
+      margin-bottom: 15px;
+    }
+    textarea {
+      height: 25em;
+      width: 98%;
+      display: block;
+      padding: .5em;
+      font-size: 16px;
+    }
+  }
+}
