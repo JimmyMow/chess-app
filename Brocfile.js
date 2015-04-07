@@ -24,5 +24,6 @@ app.import('vendor/javascript/opentok.js');
 app.import('vendor/javascript/chess.js');
 app.import('bower_components/socket.io-client/socket.io.js');
 app.import('bower_components/ember-sockets/package/EmberSockets.js');
+app.import('bower_components/lodash/lodash.js');
 
 module.exports = app.toTree();

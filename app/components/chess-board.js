@@ -10,7 +10,43 @@ export default Ember.Component.extend(InboundActions, {
   variationActive: false,
   emptyMove: m('em.move.empty', '...'),
   sparePiece: null,
+  sandboxCfg: null,
+  reviewCfg: null,
+  sandboxMode: null,
   actions: {
+    clearBoard: function() {
+      this.get('board').set({
+        fen: '8/8/8/8/8/8/8/8',
+        lastMove: null
+      });
+    },
+
+    sandboxMode: function() {
+      this.toggleProperty('sandboxMode');
+      if( this.get('sandboxMode') ) {
+        this.send('sandboxOn');
+      } else {
+        this.send('sandboxOff');
+      }
+    },
+
+    sandboxOff: function() {
+      var cfg = this.get('reviewCfg');
+      var currMove = this.get('findMoveInTree')(this.get('data').tree, this.get('data').path);
+      cfg.fen = currMove.boardFen;
+      cfg.lastMove = [currMove.from, currMove.to];
+      cfg.selected = null;
+      cfg.movable.dests = this.get('chessToDests')(this.get('game'));
+      this.get('board').set(cfg);
+      Ember.$('.spare').addClass('deactivated');
+    },
+
+    sandboxOn: function() {
+      var cfg = this.get('sandboxCfg');
+      this.get('board').set(cfg);
+      Ember.$('.spare').removeClass('deactivated');
+    },
+
     setData: function() {
       this.set('data', this.get('targetObject.dataObject'));
     },
@@ -90,6 +126,10 @@ export default Ember.Component.extend(InboundActions, {
     uploadPgn: function() {
       this.get('displayTree')(this);
       Ember.$('#pgnUpload').val('');
+      this.get('board').set({
+        fen: 'start',
+        lastMove: null
+      });
     }
   },
   ////////////////////
@@ -100,6 +140,9 @@ export default Ember.Component.extend(InboundActions, {
   },
   sendStart: function(component) {
     component.sendAction('strt');
+  },
+  sendSandboxPosition: function(component, boardFen) {
+    component.sendAction('sandboxPstn', { boardFen: boardFen });
   },
   //////////////////////////
   //chess logic functions//
@@ -502,6 +545,17 @@ export default Ember.Component.extend(InboundActions, {
       var ply = path[i].ply;
       var variation = path[i].variation;
       if(!variation) {
+        if (!arrayThing.length) {
+          return {
+            boardFen: 'start',
+            gameFen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
+            san: null,
+            ply: null,
+            from: null,
+            to: null,
+            variations: []
+          };
+        }
         var move = arrayThing[parseInt(ply) - parseInt(arrayThing[0].ply)];
         return move;
       }
@@ -588,7 +642,7 @@ export default Ember.Component.extend(InboundActions, {
       _this.get('displayTree')(_this);
       _this.get('sendPosition')(_this, _this.get('game').fen(), _this.get('board').getFen(), from, to, _this.get('data'));
     };
-    var ground = new Chessground(document.getElementById('board'), {
+    var reviewCfg = {
       turnColor: _this.get('chessToColor')(chess),
       orientation: 'white',
       coordinates: true,
@@ -604,14 +658,47 @@ export default Ember.Component.extend(InboundActions, {
           after: onMove
         }
       }
-    });
+    };
+    var sandboxCfg = {
+      orientation: 'white',
+      movable: {
+        free: true,
+        color: 'both',
+        dropOff: 'trash',
+        events: {
+          after: function() {
+            console.log();
+          }
+        }
+      },
+      animation: {
+        enabled: true,
+        duration: 200
+      },
+      premovable: {
+        enabled: false
+      },
+      draggable: {
+        showGhost: false
+      },
+      events: {
+        change: function() {
+          m.redraw();
+          _this.get('sendSandboxPosition')(_this, _this.get('board').getFen());
+        }
+      },
+      disableContextMenu: true
+    };
+    this.set('sandboxCfg', sandboxCfg);
+    this.set('reviewCfg', reviewCfg);
+    var ground = new Chessground(document.getElementById('board'), reviewCfg);
     this.set('board', ground);
 
     Ember.$('.controls a').on('click', function() {
       _this.get('whichControl')(_this, Ember.$(this).attr('data-direction'));
     });
 
-    Ember.$('.pgn').on('click', '.move', function(e) {
+    Ember.$('.other-outter-container').on('click', '.move', function(e) {
       e.preventDefault();
       var path = _this.get('readPath')(Ember.$(this).attr('data-path'));
       _this.get('jump')(_this, path);
@@ -638,5 +725,54 @@ export default Ember.Component.extend(InboundActions, {
       }
       e.preventDefault();
     });
+
+    var util = Chessground.util;
+    var drag = Chessground.drag;
+    var groundData = this.get('board').dump();
+
+    document.addEventListener('mousedown', function(e) {
+      if (e.button !== 0) {
+        return;
+      }
+      var role = e.target.getAttribute('data-role'),
+      color = e.target.getAttribute('data-color');
+      if (!role || !color) {
+        return;
+      }
+      e.stopPropagation();
+      e.preventDefault();
+      var key = _.findKey(util.allKeys, function(k) {
+        return !groundData.pieces[k];
+      });
+      if(!key) {
+        return;
+      }
+      var coords = util.key2pos(groundData.orientation === 'white' ? key : util.invertKey(key));
+      var piece = {
+        role: role,
+        color: color
+      };
+      var obj = {};
+      obj[key] = piece;
+      _this.get('board').setPieces(obj);
+      var bounds = document.getElementById("board").getBoundingClientRect();
+      var squareBounds = e.target.parentNode.getBoundingClientRect();
+      var rel = [
+        (coords[0] - 1) * squareBounds.width + bounds.left,
+        (8 - coords[1]) * squareBounds.height + bounds.top
+      ];
+      groundData.draggable.current = {
+        orig: key,
+        piece: piece.color + ' ' + piece.role,
+        rel: rel,
+        epos: [e.clientX, e.clientY],
+        pos: [e.clientX - rel[0], e.clientY - rel[1]],
+        dec: [-squareBounds.width / 2, -squareBounds.height / 2],
+        bounds: bounds,
+        started: true
+      };
+      drag.processDrag(groundData);
+    });
+    window.dataObj = this.get('data');
   }
 });

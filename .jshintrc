@@ -7,7 +7,8 @@
     "m",
     "Chess",
     "EmberSockets",
-    "OT"
+    "OT",
+    "_"
   ],
   "browser" : true,
   "boss" : true,

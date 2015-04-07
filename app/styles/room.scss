@@ -1,10 +1,36 @@
 .room-nav {
-  padding: 15px 5%;
-  a {
-    font-size: 16px;
-    text-decoration: none;
+  padding: 0 10%;
+  border-bottom: 1px solid #ccc;
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
   }
-  .upload-game-trigger {
+  ul {
     float: right;
+    margin: 0;
+    li {
+      list-style: none;
+      display: inline-block;
+      line-height: 50px;
+      transition: all .15s ease;
+      margin: 0;
+      &:hover {
+        background-color: lighten(#eee, 20%);
+        a {
+          color: #3b7ebf;
+        }
+      }
+      a {
+        text-decoration: none;
+        text-transform: uppercase;
+        font-weight: 400;
+        color: #1a3652;
+        font-size: 14px;
+        letter-spacing: .3px;
+        transition: all .15s ease;
+        padding: 0 10px;
+      }
+    }
   }
 }

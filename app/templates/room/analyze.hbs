@@ -1,7 +1,7 @@
 <div class="board-outter-container outter-container">
   <div class="board-inner-container">
     {{canvas-diagram actionReceiver=canvasDiagram action='sendDiagram'}}
-    {{chess-board position='sendPosition' strt='start' board=controller.boardObject game=controller.gameObject actionReceiver=chessBoardComponent data=controller.dataObject}}
+    {{chess-board position='sendPosition' sandboxPstn='sandboxPosition' strt='start' board=controller.boardObject game=controller.gameObject actionReceiver=chessBoardComponent data=controller.dataObject sandboxMode=controller.sandboxMode}}
     <div class='diagram-mode-container'>
       {{#if diagramMode}}
         <div class="diagram-left">
@@ -21,41 +21,94 @@
     </div>
   </div>
   <div class="other-outter-container outter-container">
-    <div class="analysis">
-      <h3>Stockfish Analysis</h3>
-      {{ios-switch updateIfImChecked='updateIosSwitchCheckedStatus' actionReceiver=iosSwitch}}
-      <p class='depth-container'>
-        <label class='analysis-data-label'>At depth:  </label>
-        <span id="depth" class="engine-data"></span>
-      </p>
-      <hr class='divider'>
-      <div class='top-analysis'>
-        <p class='analysis-container score-container'>
-          <label class='analysis-data-label'>Score:</label>
-          <span id="score" class="engine-data"></span>
-        </p>
-        <p class='analysis-container bestmove-container'>
-          <label class='analysis-data-label'>Best move: </label>
-          <span id="bestmove" class="engine-data"></span>
-        </p>
-        <p class='analysis-container variation-container'>
-          <label class='analysis-data-label'>Variation: </label>
-          <span id="variation" class="engine-data engine-variation"></span>
-        </p>
+    {{#if sandboxMode}}
+      <div class="spare-container">
+        <div class="spare top orientation-white">
+          <div class='no-square'>
+            <div class=" cg-piece black king" data-color="black" data-role="king"></div>
+          </div>
+          <div class='no-square'>
+            <div class=" cg-piece black queen" data-color="black" data-role="queen"></div>
+          </div>
+          <div class='no-square'>
+            <div class=" cg-piece black rook" data-color="black" data-role="rook"></div>
+          </div>
+          <div class='no-square'>
+            <div class=" cg-piece black bishop" data-color="black" data-role="bishop"></div>
+          </div>
+          <div class='no-square'>
+            <div class=" cg-piece black knight" data-color="black" data-role="knight"></div>
+          </div>
+          <div class='no-square'>
+            <div class=" cg-piece black pawn" data-color="black" data-role="pawn"></div>
+          </div>
+        </div>
+        <div class="spare bottom orientation-white">
+          <div class='no-square'>
+            <div class=" cg-piece black king" data-color="white" data-role="king"></div>
+          </div>
+          <div class='no-square'>
+            <div class=" cg-piece black queen" data-color="white" data-role="queen"></div>
+          </div>
+          <div class='no-square'>
+            <div class=" cg-piece black rook" data-color="white" data-role="rook"></div>
+          </div>
+          <div class='no-square'>
+            <div class=" cg-piece black bishop" data-color="white" data-role="bishop"></div>
+          </div>
+          <div class='no-square'>
+            <div class=" cg-piece black knight" data-color="white" data-role="knight"></div>
+          </div>
+          <div class='no-square'>
+            <div class=" cg-piece black pawn" data-color="white" data-role="pawn"></div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="pgn" id="pgn"></div>
-    <div class="controls game-controls">
-      <a class='control-button' data-direction='first'>{{fa-icon "fast-backward"}}</a>
-      <a class='control-button' data-direction='prev'>{{fa-icon "step-backward"}}</a>
-      <a class='control-button' data-direction='next'>{{fa-icon "step-forward"}}</a>
-      <a class='control-button' data-direction='last'>{{fa-icon "fast-forward"}}</a>
-    </div>
-    <div class="game-controls">
-      <a href="#" class="control-button" {{action 'startOver'}}>Restart game</a>
-      <!-- <a href="#" class="control-button" {{action 'undo'}}>Undo last main line move</a> -->
-      <a href="#" class="control-button" {{action 'flip'}}>Flip board</a>
-    </div>
+      <div class="game-controls">
+        <a href="#" class="control-button" {{action 'clearBoard'}}>Clear board</a>
+        <a href="#" class="control-button" {{action 'sandboxMode'}}>Sandbox mode</a>
+        <!-- <a href="#" class="control-button" {{action 'undo'}}>Undo last main line move</a> -->
+        <a href="#" class="control-button" {{action 'flip'}}>Flip board</a>
+      </div>
+    {{else}}
+      <div class="analysis">
+        <h3>Stockfish Analysis</h3>
+        {{ios-switch updateIfImChecked='updateIosSwitchCheckedStatus' actionReceiver=iosSwitch}}
+        <p class='depth-container'>
+          <label class='analysis-data-label'>At depth:  </label>
+          <span id="depth" class="engine-data"></span>
+        </p>
+        <hr class='divider'>
+        <div class='top-analysis'>
+          <p class='analysis-container score-container'>
+            <label class='analysis-data-label'>Score:</label>
+            <span id="score" class="engine-data"></span>
+          </p>
+          <p class='analysis-container bestmove-container'>
+            <label class='analysis-data-label'>Best move: </label>
+            <span id="bestmove" class="engine-data"></span>
+          </p>
+          <p class='analysis-container variation-container'>
+            <label class='analysis-data-label'>Variation: </label>
+            <span id="variation" class="engine-data engine-variation"></span>
+          </p>
+        </div>
+      </div>
+      <!-- <div class="pgn" id="pgn"></div> -->
+      {{view "pgn" id="pgn"}}
+      <div class="controls game-controls">
+        <a class='control-button' data-direction='first'>{{fa-icon "fast-backward"}}</a>
+        <a class='control-button' data-direction='prev'>{{fa-icon "step-backward"}}</a>
+        <a class='control-button' data-direction='next'>{{fa-icon "step-forward"}}</a>
+        <a class='control-button' data-direction='last'>{{fa-icon "fast-forward"}}</a>
+      </div>
+      <div class="game-controls">
+        <a href="#" class="control-button" {{action 'startOver'}}>Restart game</a>
+        <a href="#" class="control-button" {{action 'sandboxMode'}}>Sandbox mode</a>
+        <!-- <a href="#" class="control-button" {{action 'undo'}}>Undo last main line move</a> -->
+        <a href="#" class="control-button" {{action 'flip'}}>Flip board</a>
+      </div>
+    {{/if}}
   </div>
   <form class="uploader modal" id="pgnUploadContainer">
   <a href="#pgnUploadContainer" class="uploader-close" rel="modal:close">{{fa-icon 'times'}}</a>

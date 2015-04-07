@@ -215,7 +215,7 @@ canvas {
       height: 22px;
       display: inline-block;
       line-height: 22px;
-      padding: 3px 0;
+      padding: 4px 0;
       background: #e0e0e0;
     }
     .move {
@@ -387,6 +387,76 @@ canvas {
       display: block;
       padding: .5em;
       font-size: 16px;
+    }
+  }
+}
+
+.spare-container {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.spare {
+  width: 35%;
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  &.deactivated {
+    display: none;
+  }
+  &.top.orientation-white {
+    .no-square {
+      .king {
+        background-image: url('/assets/images/pieces/cburnett/bK.svg');
+      }
+      .queen {
+        background-image: url('/assets/images/pieces/cburnett/bQ.svg');
+      }
+      .rook {
+        background-image: url('/assets/images/pieces/cburnett/bR.svg');
+      }
+      .bishop {
+        background-image: url('/assets/images/pieces/cburnett/bB.svg');
+      }
+      .knight {
+        background-image: url('/assets/images/pieces/cburnett/bN.svg');
+      }
+      .pawn {
+        background-image: url('/assets/images/pieces/cburnett/bP.svg');
+      }
+    }
+  }
+  &.bottom.orientation-white {
+    .no-square {
+      .king {
+        background-image: url('/assets/images/pieces/cburnett/wK.svg');
+      }
+      .queen {
+        background-image: url('/assets/images/pieces/cburnett/wQ.svg');
+      }
+      .rook {
+        background-image: url('/assets/images/pieces/cburnett/wR.svg');
+      }
+      .bishop {
+        background-image: url('/assets/images/pieces/cburnett/wB.svg');
+      }
+      .knight {
+        background-image: url('/assets/images/pieces/cburnett/wN.svg');
+      }
+      .pawn {
+        background-image: url('/assets/images/pieces/cburnett/wP.svg');
+      }
+    }
+  }
+  .no-square {
+    position: relative;
+    display:inline-block;
+    width: 64px;
+    height: 64px;
+    .cg-piece {
+      &.active {
+        border: red solid 1px;
+      }
     }
   }
 }

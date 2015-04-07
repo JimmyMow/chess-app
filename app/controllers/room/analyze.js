@@ -13,10 +13,31 @@ export default Ember.Controller.extend({
   diagramMode: false,
   stockfishAnalysis: false,
   orientation: 'white',
+  sandboxMode: false,
   actions: {
+    clearBoard: function() {
+      this.get('chessBoardComponent').send('clearBoard');
+      this.socket.emit('clear board');
+    },
+
+    updatePgnView: function() {
+      if (this.get('dataObject').tree.length > 0) {
+        this.get('chessBoardComponent').send('updateYourPgn');
+      }
+    },
+
+    sandboxMode: function() {
+      this.get('chessBoardComponent').send('sandboxMode');
+      this.socket.emit('sandbox mode clicked');
+    },
+
     sendPosition: function(data) {
       data.stockfish = this.get('stockfishAnalysis');
       this.socket.emit('sendPosition', data);
+    },
+
+    sandboxPosition: function(data) {
+      this.socket.emit('sandbox position', data);
     },
 
     sendDiagram: function(data) {
@@ -246,6 +267,21 @@ export default Ember.Controller.extend({
       this.get('dataObject').tree = tree;
       this.get('gameObject').load('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
       this.get('chessBoardComponent').send('uploadPgn');
+    },
+
+    sandboxModeClicked: function() {
+      this.get('chessBoardComponent').send('sandboxMode');
+    },
+
+    sandboxPositionChanged: function(data) {
+      this.get('boardObject').set({
+        fen: data.boardFen,
+        lastMove: null
+      });
+    },
+
+    sandboxClearBoard: function() {
+      this.get('chessBoardComponent').send('clearBoard');
     }
   }
 });
