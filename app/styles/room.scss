@@ -1,5 +1,4 @@
 .room-nav {
-  padding: 0 10%;
   border-bottom: 1px solid #ccc;
   &:after {
     content: "";
@@ -7,7 +6,6 @@
     clear: both;
   }
   ul {
-    float: right;
     margin: 0;
     li {
       list-style: none;
@@ -15,22 +13,24 @@
       line-height: 50px;
       transition: all .15s ease;
       margin: 0;
-      &:hover {
-        background-color: lighten(#eee, 20%);
-        a {
-          color: #3b7ebf;
-        }
-      }
       a {
-        text-decoration: none;
-        text-transform: uppercase;
         font-weight: 400;
-        color: #1a3652;
         font-size: 14px;
         letter-spacing: .3px;
         transition: all .15s ease;
         padding: 0 10px;
       }
     }
+  }
+}
+
+.sandbox-mode-header {
+  width: 79%;
+  margin-left: 20%;
+  margin-top: 15px;
+  font-size: 18px;
+  div {
+    width: 60%;
+    text-align: center;
   }
 }

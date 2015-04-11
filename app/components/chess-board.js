@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import InboundActions from 'ember-component-inbound-actions/inbound-actions';
+import Notify from 'ember-notify';
 
 export default Ember.Component.extend(InboundActions, {
   tag: 'div',
@@ -17,6 +18,13 @@ export default Ember.Component.extend(InboundActions, {
     clearBoard: function() {
       this.get('board').set({
         fen: '8/8/8/8/8/8/8/8',
+        lastMove: null
+      });
+    },
+
+    startingPos: function() {
+      this.get('board').set({
+        fen: 'start',
         lastMove: null
       });
     },
@@ -39,12 +47,21 @@ export default Ember.Component.extend(InboundActions, {
       cfg.movable.dests = this.get('chessToDests')(this.get('game'));
       this.get('board').set(cfg);
       Ember.$('.spare').addClass('deactivated');
+      // var txt = "You are now back in review mode! Review mode is for anaylizing. Whether it be a game you upload, opening you play out, or whatever else comes to mind, you can use Stockfish computer analysis, variations and more to help anaylze.";
+      // Notify.info(txt, {
+      //   closeAfter: null
+      // });
     },
 
     sandboxOn: function() {
       var cfg = this.get('sandboxCfg');
       this.get('board').set(cfg);
       Ember.$('.spare').removeClass('deactivated');
+      var txt = "You are now in sandbox mode! Sandbox mode is for setting up positions, puzzles, clearing the board, etc. Normal chess rules don't apply.";
+      Notify.info(txt, {
+        closeAfter: null,
+        radius: true
+      });
     },
 
     setData: function() {
@@ -611,6 +628,122 @@ export default Ember.Component.extend(InboundActions, {
     Ember.$('.move').removeClass('active');
     Ember.$("a[data-path='" + data.pathStr +"']").addClass('active');
   },
+  makeConfetti: function() {
+    var COLORS, Confetti, NUM_CONFETTI, PI_2, canvas, confetti, context, drawCircle, i, range, resizeWindow, xpos;
+
+    NUM_CONFETTI = 350;
+
+    COLORS = [[85, 71, 106], [174, 61, 99], [219, 56, 83], [244, 92, 68], [248, 182, 70]];
+
+    PI_2 = 2 * Math.PI;
+
+    canvas = document.getElementById("world");
+
+    context = canvas.getContext("2d");
+
+    var w = 0;
+
+    var h = 0;
+
+    resizeWindow = function() {
+      w = canvas.width = window.innerWidth;
+      return h = canvas.height = window.innerHeight;
+    };
+
+    window.addEventListener('resize', resizeWindow, false);
+
+    window.onload = function() {
+      return setTimeout(resizeWindow, 0);
+    };
+
+    range = function(a, b) {
+      return (b - a) * Math.random() + a;
+    };
+
+    drawCircle = function(x, y, r, style) {
+      context.beginPath();
+      context.arc(x, y, r, 0, PI_2, false);
+      context.fillStyle = style;
+      return context.fill();
+    };
+
+    xpos = 0.5;
+
+    document.onmousemove = function(e) {
+      return xpos = e.pageX / w;
+    };
+
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {
+        return window.setTimeout(callback, 1000 / 60);
+      };
+    })();
+
+    Confetti = (function() {
+      function Confetti() {
+        this.style = COLORS[~~range(0, 5)];
+        this.rgb = "rgba(" + this.style[0] + "," + this.style[1] + "," + this.style[2];
+        this.r = ~~range(2, 6);
+        this.r2 = 2 * this.r;
+        this.replace();
+      }
+
+      Confetti.prototype.replace = function() {
+        this.opacity = 0;
+        this.dop = 0.03 * range(1, 4);
+        this.x = range(-this.r2, w - this.r2);
+        this.y = range(-20, h - this.r2);
+        this.xmax = w - this.r;
+        this.ymax = h - this.r;
+        this.vx = range(0, 2) + 8 * xpos - 5;
+        return this.vy = 0.7 * this.r + range(-1, 1);
+      };
+
+      Confetti.prototype.draw = function() {
+        var _ref;
+        this.x += this.vx;
+        this.y += this.vy;
+        this.opacity += this.dop;
+        if (this.opacity > 1) {
+          this.opacity = 1;
+          this.dop *= -1;
+        }
+        if (this.opacity < 0 || this.y > this.ymax) {
+          this.replace();
+        }
+        if (!((0 < (_ref = this.x) && _ref < this.xmax))) {
+          this.x = (this.x + this.xmax) % this.xmax;
+        }
+        return drawCircle(~~this.x, ~~this.y, this.r, this.rgb + "," + this.opacity + ")");
+      };
+
+      return Confetti;
+
+    })();
+
+    confetti = (function() {
+      var _i, _results;
+      _results = [];
+      for (i = _i = 1; 1 <= NUM_CONFETTI ? _i <= NUM_CONFETTI : _i >= NUM_CONFETTI; i = 1 <= NUM_CONFETTI ? ++_i : --_i) {
+        _results.push(new Confetti());
+      }
+      return _results;
+    })();
+
+    var step = function() {
+      var c, _i, _len, _results;
+      requestAnimationFrame(step);
+      context.clearRect(0, 0, w, h);
+      _results = [];
+      for (_i = 0, _len = confetti.length; _i < _len; _i++) {
+        c = confetti[_i];
+        _results.push(c.draw());
+      }
+      return _results;
+    };
+
+    step();
+  },
   ////////////////////////////
   // element ready function //
   ////////////////////////////
@@ -653,6 +786,7 @@ export default Ember.Component.extend(InboundActions, {
       movable: {
         free: false,
         color: 'both',
+        dropOff: 'trash',
         dests: _this.get('chessToDests')(chess),
         events: {
           after: onMove
@@ -773,6 +907,27 @@ export default Ember.Component.extend(InboundActions, {
       };
       drag.processDrag(groundData);
     });
-    window.dataObj = this.get('data');
+
+    Ember.$(document).on('keypress', function(e) {
+      var key = e.keyCode || e.which;
+      if (key === 100) {
+        Ember.$('#board').removeClass('cburnett').addClass('duke');
+        Ember.$('html').addClass('duke-html');
+        Ember.$('body').addClass('duke-body');
+        Ember.$('.duke-header').addClass('on');
+        _this.get('makeConfetti')();
+      }
+    });
+
+    Ember.$(document).on('keyup', function(e) {
+      var key = e.keyCode || e.which;
+      if (key === 27) {
+        Ember.$('#board').removeClass('duke').addClass('cburnett');
+        Ember.$('html').removeClass('duke-html');
+        Ember.$('body').removeClass('duke-body');
+        Ember.$('.duke-header').removeClass('on');
+      }
+    });
+    window.ground = this.get('board');
   }
 });

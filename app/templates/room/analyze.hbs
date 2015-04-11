@@ -18,10 +18,14 @@
       {{else}}
         <a href="#" class="board-button diagram-on" {{action 'canvas'}}>Turn on diagram mode</a>
       {{/if}}
+      <div class='duke-header'>
+        <h2>Duke Bluedevils 2015 National Champions!</h2>
+      </div>
     </div>
   </div>
   <div class="other-outter-container outter-container">
     {{#if sandboxMode}}
+      <h2 class='spare-title'>Spare pieces</h2>
       <div class="spare-container">
         <div class="spare top orientation-white">
           <div class='no-square'>
@@ -65,9 +69,8 @@
         </div>
       </div>
       <div class="game-controls">
+        <a href="#" class="control-button" {{action 'startingPos'}}>Starting position</a>
         <a href="#" class="control-button" {{action 'clearBoard'}}>Clear board</a>
-        <a href="#" class="control-button" {{action 'sandboxMode'}}>Sandbox mode</a>
-        <!-- <a href="#" class="control-button" {{action 'undo'}}>Undo last main line move</a> -->
         <a href="#" class="control-button" {{action 'flip'}}>Flip board</a>
       </div>
     {{else}}
@@ -104,9 +107,8 @@
       </div>
       <div class="game-controls">
         <a href="#" class="control-button" {{action 'startOver'}}>Restart game</a>
-        <a href="#" class="control-button" {{action 'sandboxMode'}}>Sandbox mode</a>
-        <!-- <a href="#" class="control-button" {{action 'undo'}}>Undo last main line move</a> -->
         <a href="#" class="control-button" {{action 'flip'}}>Flip board</a>
+        <a href="#pgnUploadContainer" class="upload-game-trigger control-button" rel="modal:open">Upload PGN</a>
       </div>
     {{/if}}
   </div>

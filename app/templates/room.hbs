@@ -1,11 +1,21 @@
 <div class="eee-container">
+<canvas id="world"></canvas>
   <nav class='room-nav'>
     <ul>
       <li>{{#link-to 'index'}}Home{{/link-to}}</li>
-      <li><a href="#pgnUploadContainer" class="upload-game-trigger" rel="modal:open">Upload a game</a></li>
+      <li>{{zero-clipboard text=linkUrl label="URL"}}</li>
     </ul>
   </nav>
   <div class="content-container">
+    <div class='sandbox-mode-header'>
+      <div>
+        {{#if sandboxMode}}
+          <span>Sandbox mode is on, </span><a href="#" class="control-button" {{action 'sandboxMode'}}>turn on review mode</a>
+        {{else}}
+          <span>Review mode is on, </span><a href="#" class="control-button" {{action 'sandboxMode'}}>turn on sandbox mode</a>
+        {{/if}}
+      </div>
+    </div>
     <div class="videochat-outter-container outter-container">
       {{video-chat token=token sessionId=sessionId}}
     </div>

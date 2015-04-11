@@ -122,6 +122,56 @@ top: 8, bottom: 31
 .cburnett .cg-piece.king.black {
   background-image: url('/assets/images/pieces/cburnett/bK.svg');
 }
+// Duke
+.duke .cg-piece.king.white {
+  background-image: url('/assets/images/pieces/duke/Wjahlil_okafor.svg');
+}
+.duke .cg-piece.queen.white {
+  background-image: url('/assets/images/pieces/duke/Wtyus_jones.svg');
+}
+.duke .cg-piece.rook.white {
+  background-image: url('/assets/images/pieces/duke/Wjustise_winslow.svg');
+}
+.duke .cg-piece.bishop.white {
+  background-image: url('/assets/images/pieces/duke/Wquinn_cook.svg');
+}
+.duke .cg-piece.knight.white {
+  background-image: url('/assets/images/pieces/duke/Wmatt_jones.svg');
+}
+.duke .cg-piece.pawn.white {
+  background-image: url('/assets/images/pieces/duke/Wgrayson_allen.svg');
+}
+.duke .cg-piece.king.black {
+  background-image: url('/assets/images/pieces/duke/Wjahlil_okafor.svg');
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+.duke .cg-piece.queen.black {
+  background-image: url('/assets/images/pieces/duke/Wtyus_jones.svg');
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+.duke .cg-piece.rook.black {
+  background-image: url('/assets/images/pieces/duke/Wjustise_winslow.svg');
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+.duke .cg-piece.bishop.black {
+  background-image: url('/assets/images/pieces/duke/Wquinn_cook.svg');
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+.duke .cg-piece.knight.black {
+  background-image: url('/assets/images/pieces/duke/Wmatt_jones.svg');
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+.duke .cg-piece.pawn.black {
+  background-image: url('/assets/images/pieces/duke/Wgrayson_allen.svg');
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+
 .merida .cg-piece.pawn.white {
   background-image: url('/assets/images/pieces/merida/wP.svg');
 }

@@ -1,0 +1,23 @@
+.ember-notify-cn .ember-notify {
+  width: 500px;
+}
+.ember-notify {
+  font-size: 16px;
+  line-height: 1.5;
+  &.info {
+    background-color: #D9EDF7;
+    color: darken(#D9EDF7, 50%);
+  }
+  &.success {
+    background-color: #DFF0D8;
+    color: darken(#DFF0D8, 50%);
+  }
+  .close {
+    cursor: pointer;
+    transition: all .15s ease;
+
+    &:hover {
+      font-size: 20px;
+    }
+  }
+}

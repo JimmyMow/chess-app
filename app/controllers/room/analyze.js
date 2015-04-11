@@ -20,6 +20,11 @@ export default Ember.Controller.extend({
       this.socket.emit('clear board');
     },
 
+    startingPos: function() {
+      this.get('chessBoardComponent').send('startingPos');
+      this.socket.emit('starting pos');
+    },
+
     updatePgnView: function() {
       if (this.get('dataObject').tree.length > 0) {
         this.get('chessBoardComponent').send('updateYourPgn');
@@ -224,6 +229,7 @@ export default Ember.Controller.extend({
       dataObj.gameFen = this.get('gameObject').fen();
       dataObj.boardFen = this.get('boardObject').getFen();
       dataObj.analysisOn = this.get('stockfishAnalysis');
+      dataObj.sandboxMode = this.get('sandboxMode');
       this.socket.emit('update client', dataObj);
     },
 
@@ -240,6 +246,9 @@ export default Ember.Controller.extend({
       this.get('chessBoardComponent').send('updateYourPgn');
       if (obj.analysisOn) {
         this.socket.emit('start analyzing', { fen: this.get('gameObject').fen() });
+      }
+      if ( obj.sandboxMode ) {
+        this.get('chessBoardComponent').send('sandboxMode');
       }
     },
 
@@ -282,6 +291,10 @@ export default Ember.Controller.extend({
 
     sandboxClearBoard: function() {
       this.get('chessBoardComponent').send('clearBoard');
+    },
+
+    sandboxStartingPos: function() {
+      this.get('chessBoardComponent').send('startingPos');
     }
   }
 });
