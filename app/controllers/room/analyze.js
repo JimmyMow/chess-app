@@ -256,6 +256,7 @@ export default Ember.Controller.extend({
       }
       if ( obj.sandboxMode ) {
         this.get('chessBoardComponent').send('sandboxMode');
+        this.get('room').send('changeSandbox');
       }
     },
 
