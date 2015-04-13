@@ -9,6 +9,14 @@ export default Ember.ObjectController.extend({
       var analyzeController = this.get('controllers.room/analyze');
       analyzeController.send('sandboxMode');
       this.toggleProperty('sandboxMode');
+    },
+    sandboxModeWithPos: function() {
+      var analyzeController = this.get('controllers.room/analyze');
+      analyzeController.send('sandboxModeWithPos');
+      this.toggleProperty('sandboxMode');
+    },
+    changeSandbox: function() {
+      this.toggleProperty('sandboxMode');
     }
   }
 });

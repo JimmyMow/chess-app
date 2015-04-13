@@ -14,6 +14,13 @@ export default Ember.Component.extend(InboundActions, {
   sandboxCfg: null,
   reviewCfg: null,
   sandboxMode: null,
+  fenData: {
+    toPlay: 'w',
+    whiteKingCastles: 'K',
+    whiteQueenCastles: 'Q',
+    blackKingCastles: 'k',
+    blackQueenCastles: 'q',
+  },
   actions: {
     clearBoard: function() {
       this.get('board').set({
@@ -38,19 +45,39 @@ export default Ember.Component.extend(InboundActions, {
       }
     },
 
+    sandboxModeWithPos: function() {
+      this.set('sandboxMode', false);
+      this.get('game').load(this.get('computeFen')(this));
+      var cfg = this.get('reviewCfg');
+      var boardfen = this.get('board').getFen();
+      cfg.fen = boardfen;
+      cfg.lastMove = null;
+      cfg.selected = null;
+      cfg.movable.dests = this.get('chessToDests')(this.get('game'));
+      this.get('board').set(cfg);
+      Ember.$('#pgn').empty();
+      this.set('data', {
+        tree: [],
+        pathDefault: [{ ply: 0, variation: null }],
+        path: [{ ply: 0, variation: null }],
+        pathStr: ''
+      });
+    },
+
     sandboxOff: function() {
       var cfg = this.get('reviewCfg');
       var currMove = this.get('findMoveInTree')(this.get('data').tree, this.get('data').path);
-      cfg.fen = currMove.boardFen;
-      cfg.lastMove = [currMove.from, currMove.to];
+      console.log(currMove);
+      if (currMove) {
+        cfg.fen = currMove.boardFen;
+        cfg.lastMove = [currMove.from, currMove.to];
+      } else {
+        cfg.lastMove = null;
+      }
       cfg.selected = null;
       cfg.movable.dests = this.get('chessToDests')(this.get('game'));
       this.get('board').set(cfg);
       Ember.$('.spare').addClass('deactivated');
-      // var txt = "You are now back in review mode! Review mode is for anaylizing. Whether it be a game you upload, opening you play out, or whatever else comes to mind, you can use Stockfish computer analysis, variations and more to help anaylze.";
-      // Notify.info(txt, {
-      //   closeAfter: null
-      // });
     },
 
     sandboxOn: function() {
@@ -164,6 +191,13 @@ export default Ember.Component.extend(InboundActions, {
   //////////////////////////
   //chess logic functions//
   /////////////////////////
+  computeFen: function(component) {
+    var data = component.get('fenData');
+    var boardFen = component.get('board').getFen();
+    var res = boardFen + ' ' + data.toPlay + ' ' + data.whiteKingCastles + data.whiteQueenCastles + data.blackKingCastles + data.blackQueenCastles + ' - 0 1';
+    return res;
+  },
+
   chessToDests: function(chess) {
     var dests = {};
     chess.SQUARES.forEach(function(square) {
@@ -563,15 +597,16 @@ export default Ember.Component.extend(InboundActions, {
       var variation = path[i].variation;
       if(!variation) {
         if (!arrayThing.length) {
-          return {
-            boardFen: 'start',
-            gameFen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
-            san: null,
-            ply: null,
-            from: null,
-            to: null,
-            variations: []
-          };
+          // return {
+          //   boardFen: 'start',
+          //   gameFen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
+          //   san: null,
+          //   ply: null,
+          //   from: null,
+          //   to: null,
+          //   variations: []
+          // };
+          return false;
         }
         var move = arrayThing[parseInt(ply) - parseInt(arrayThing[0].ply)];
         return move;
@@ -652,9 +687,7 @@ export default Ember.Component.extend(InboundActions, {
 
     window.addEventListener('resize', resizeWindow, false);
 
-    window.onload = function() {
-      return setTimeout(resizeWindow, 0);
-    };
+    setTimeout(resizeWindow, 0);
 
     range = function(a, b) {
       return (b - a) * Math.random() + a;
@@ -837,6 +870,7 @@ export default Ember.Component.extend(InboundActions, {
       var path = _this.get('readPath')(Ember.$(this).attr('data-path'));
       _this.get('jump')(_this, path);
     });
+
     Ember.$(document).keydown(function(e) {
       switch(e.which) {
         case 37:
@@ -908,6 +942,20 @@ export default Ember.Component.extend(InboundActions, {
       drag.processDrag(groundData);
     });
 
+    Ember.$('.other-outter-container').on('change', '#colorToPlay', function() {
+      var clr = Ember.$(this).val();
+      this.get('fenData').toPlay = clr;
+    });
+
+    Ember.$('.other-outter-container').on('change', 'input:checkbox', function() {
+      var data = _this.get('fenData');
+      var $box = Ember.$(this);
+      var val = $box.val();
+      var attr = $box.data('attr');
+      $box.is(':checked') ? data[attr] = val : data[attr] = '';
+      console.log(data);
+    });
+
     Ember.$(document).on('keypress', function(e) {
       var key = e.keyCode || e.which;
       if (key === 100) {
@@ -915,7 +963,13 @@ export default Ember.Component.extend(InboundActions, {
         Ember.$('html').addClass('duke-html');
         Ember.$('body').addClass('duke-body');
         Ember.$('.duke-header').addClass('on');
+        Ember.$('#world').addClass('on');
         _this.get('makeConfetti')();
+        document.getElementById('audio').play();
+        Notify.info({
+          raw: "<div>Let's. Go. Duke. 2015 National Champs! <a href='https://www.youtube.com/watch?v=YOFWYCHQkEg' target='_blank'>Duke Blue Devils: 2015 National Champion Tribute</a></div>",
+          closeAfter: null
+        });
       }
     });
 
@@ -926,6 +980,7 @@ export default Ember.Component.extend(InboundActions, {
         Ember.$('html').removeClass('duke-html');
         Ember.$('body').removeClass('duke-body');
         Ember.$('.duke-header').removeClass('on');
+        Ember.$('#world').removeClass('on');
       }
     });
     window.ground = this.get('board');

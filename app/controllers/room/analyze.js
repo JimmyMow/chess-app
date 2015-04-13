@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+  needs: "room",
+  room: Ember.computed.alias("controllers.room"),
   boardObject: null,
   gameObject: null,
   dataObject: {
@@ -34,6 +36,11 @@ export default Ember.Controller.extend({
     sandboxMode: function() {
       this.get('chessBoardComponent').send('sandboxMode');
       this.socket.emit('sandbox mode clicked');
+    },
+
+    sandboxModeWithPos: function() {
+      this.get('chessBoardComponent').send('sandboxModeWithPos');
+      this.socket.emit('sandbox mode clicked with pos');
     },
 
     sendPosition: function(data) {
@@ -280,6 +287,12 @@ export default Ember.Controller.extend({
 
     sandboxModeClicked: function() {
       this.get('chessBoardComponent').send('sandboxMode');
+      this.get('room').send('changeSandbox');
+    },
+
+    sandboxModeClickedWithPosition: function() {
+      this.get('chessBoardComponent').send('sandboxModeWithPos');
+      this.get('room').send('changeSandbox');
     },
 
     sandboxPositionChanged: function(data) {

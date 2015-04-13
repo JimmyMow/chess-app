@@ -45,4 +45,9 @@ html.duke-html, body.duke-body {
   overflow: hidden;
 }
 
-
+#world {
+  display: none;
+  &.on {
+    display: block;
+  }
+}

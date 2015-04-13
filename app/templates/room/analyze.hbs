@@ -19,13 +19,15 @@
         <a href="#" class="board-button diagram-on" {{action 'canvas'}}>Turn on diagram mode</a>
       {{/if}}
       <div class='duke-header'>
-        <h2>Duke Bluedevils 2015 National Champions!</h2>
+        <h2>Duke Blue Devils: 2015 National Champions</h2>
+        <audio controls id="audio">
+          <source src="/assets/sounds/duke_championship_call_2015.mp3" type="audio/mpeg">
+        </audio>
       </div>
     </div>
   </div>
   <div class="other-outter-container outter-container">
     {{#if sandboxMode}}
-      <h2 class='spare-title'>Spare pieces</h2>
       <div class="spare-container">
         <div class="spare top orientation-white">
           <div class='no-square'>
@@ -66,6 +68,25 @@
           <div class='no-square'>
             <div class=" cg-piece black pawn" data-color="white" data-role="pawn"></div>
           </div>
+        </div>
+      </div>
+      <div id="clrCont">
+        <div class="color-to-play">
+          <select id="colorToPlay">
+            <option value="w">White to play</option>
+            <option value="b">Black to play</option>
+          </select>
+        </div>
+      </div>
+      <div class="castling-controls">
+        <strong>Castling</strong>
+        <div>
+          <label>White O-O<input type="checkbox" checked value='K' data-attr='whiteKingCastles'></label>
+          <label><input type="checkbox" checked value='Q' data-attr='whiteQueenCastles'>White O-O-O</label>
+        </div>
+        <div>
+          <label>Black O-O<input type="checkbox" checked value='k' data-attr='blackKingCastles'></label>
+          <label><input type="checkbox" checked value='q' data-attr='blackQueenCastles'>Black O-O-O</label>
         </div>
       </div>
       <div class="game-controls">

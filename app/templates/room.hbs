@@ -10,7 +10,7 @@
     <div class='sandbox-mode-header'>
       <div>
         {{#if sandboxMode}}
-          <span>Sandbox mode is on, </span><a href="#" class="control-button" {{action 'sandboxMode'}}>turn on review mode</a>
+          <span>Sandbox mode is on, </span><a href="#" class="control-button" {{action 'sandboxModeWithPos'}}>review this position</a><span> or </span><a href="#" class="control-button" {{action 'sandboxMode'}}>review what you had before</a>
         {{else}}
           <span>Review mode is on, </span><a href="#" class="control-button" {{action 'sandboxMode'}}>turn on sandbox mode</a>
         {{/if}}
