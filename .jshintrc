@@ -8,7 +8,8 @@
     "Chess",
     "EmberSockets",
     "OT",
-    "_"
+    "_",
+    "PhotoSwipe"
   ],
   "browser" : true,
   "boss" : true,

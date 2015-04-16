@@ -19,17 +19,22 @@
         </p>
       </div>
     </div>
-    <div class="create-room-container">
-      {{#if showLoading}}
-        <a href="/room" {{action 'createRoom'}} class='create-room'><i class="fa fa-spinner fa-pulse"></i> Creating your chess room</a>
-      {{else}}
-        <a href="/room" {{action 'createRoom'}} class='create-room'>Create your own chess room</a>
-        <div class="see-how-it-works">
-          <span>or <a href="#">see how it works</a></span>
-        </div>
-      {{/if}}
-    </div>
   </header>
+  <div class="create-room-container">
+    {{#if showLoading}}
+      <a href="/room" {{action 'createRoom'}} class='create-room'><i class="fa fa-spinner fa-pulse"></i> Creating your chess room</a>
+    {{else}}
+      <a href="/room" {{action 'createRoom'}} class='create-room'>Create your own chess room</a>
+      <div class="see-how-it-works">
+        <p class='fancy'><span>Not ready yet?</span></p>
+        <span>
+          <a href="#">watch a recorded session</a>
+          or
+          <a href="mailto:jimmymowschess@gmail.com?subject=Help%20finding%20coach%20or%20student">we can help you find a coach/student</a>
+        </span>
+      </div>
+    {{/if}}
+  </div>
 </div>
 <div class="section we">
   <header>
@@ -55,8 +60,7 @@
       </li>
     </ol>
   </aside>
-  <div class="screenshot">
-  </div>
+  {{photo-swipe dataArray=screenshotData}}
   <p class="caption">
     We've combined all the necessary chess tools with the power and connectivity of the internet
   </p>
@@ -66,9 +70,41 @@
     {{else}}
       <a href="/room" {{action 'createRoom'}} class='create-room'>Create your own chess room</a>
       <div class="see-how-it-works">
-        <span>or <a href="#">watch a snippet of the above screenshot</a></span>
+        <p class='fancy'><span>Not ready yet?</span></p>
+        <span>
+          <a href="#">watch a recorded session</a>
+          or
+          <a href="mailto:jimmymowschess@gmail.com?subject=Help%20finding%20coach%20or%20student">we can help you find a coach/student</a>
+        </span>
       </div>
     {{/if}}
   </div>
 </div>
-
+<div class="section why">
+  <header>
+    <h2 class='section-header'>
+      <strong>Why...</strong>
+      <span>improve your chess?</span>
+    </h2>
+    <blockquote>
+      Chess develops concentration, critical thinking, abstract reasoning, problem solving, pattern recognition, strategic planning, creativity, analysis, synthesis, and evaluation, to name a few.
+      <p>- <a href="http://edutechchess.com/whychess.html" target="_blank">Jim Celone, Yale University</a></p>
+    </blockquote>
+  </header>
+  {{photo-swipe dataArray=whyLearnChessData}}
+  <div class="create-room-container">
+    {{#if showLoading}}
+      <a href="/room" {{action 'createRoom'}} class='create-room'><i class="fa fa-spinner fa-pulse"></i> Creating your chess room</a>
+    {{else}}
+      <a href="/room" {{action 'createRoom'}} class='create-room'>Create your own chess room</a>
+      <div class="see-how-it-works">
+        <p class='fancy'><span>Not ready yet?</span></p>
+        <span>
+          <a href="#">watch a recorded session</a>
+          or
+          <a href="mailto:jimmymowschess@gmail.com?subject=Help%20finding%20coach%20or%20student">we can help you find a coach/student</a>
+        </span>
+      </div>
+    {{/if}}
+  </div>
+</div>

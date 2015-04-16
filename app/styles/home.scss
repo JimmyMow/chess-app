@@ -118,9 +118,43 @@
   text-align: center;
   margin: 50px 0;
 
+  .fancy {
+    line-height: 0.5;
+    text-align: center;
+  }
+  .fancy span {
+    display: inline-block;
+    position: relative;
+    font-weight: 300;
+    font-size: 18px;
+  }
+  .fancy span:before,
+  .fancy span:after {
+    content: "";
+    position: absolute;
+    height: 5px;
+    border-bottom: 1px solid #ccc;
+    // border-top: 1px solid white;
+    top: 0;
+    width: 300px;
+  }
+  .fancy span:before {
+    right: 100%;
+    margin-right: 15px;
+  }
+  .fancy span:after {
+    left: 100%;
+    margin-left: 15px;
+  }
+
   .see-how-it-works {
     margin: 20px;
     font-size: 16px;
+  }
+  span {
+    a {
+      font-weight: bold;
+    }
   }
 }
 
@@ -178,16 +212,84 @@
     }
   }
 
-  .screenshot {
-    text-align: center;
-    background: url('/assets/images/marketing/screen_shot_one.png') no-repeat center center;
-    height: 700px;
-  }
-
   .caption {
     font-style: italic;
     text-align: center;
     margin: 0;
     font-size: 18px;
   }
+}
+
+.why {
+  header {
+    padding: 40px 0;
+    h2 {
+      margin-bottom: 10px;
+      margin-top: 10px;
+    }
+    blockquote {
+      // background: #f9f9f9;
+      // border-left: 10px solid #ccc;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+      margin: 1.5em 10px;
+      padding: 2.5em 10px;
+      quotes: "\201C""\201D""\2018""\2019";
+      width: 80%;
+      margin: 0 auto;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+    blockquote:before {
+      color: #ccc;
+      content: open-quote;
+      font-size: 4em;
+      line-height: 0.1em;
+      margin-right: 0.25em;
+      vertical-align: -0.4em;
+    }
+    blockquote p {
+      display: inline;
+    }
+  }
+
+  .how_chess_helps {
+    width: 50%;
+    height: auto;
+  }
+}
+
+.my-simple-gallery {
+  width: 90%;
+  padding: 0 40px;
+}
+.my-simple-gallery img {
+  width: 100%;
+  height: auto;
+}
+.my-simple-gallery figure {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 5px 5px 0;
+  width: 50%;
+}
+.my-simple-gallery figcaption {
+  display: none;
+}
+
+.my-simple-gallery .img-content {
+  width: 45%;
+  display: inline-block;
+  vertical-align: middle;
+  padding: 20px;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.my-simple-gallery .screenshot {
+  width: 90%;
+}
+
+.my-simple-gallery .center {
+  text-align: center;
 }

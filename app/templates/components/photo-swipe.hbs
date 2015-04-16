@@ -1,0 +1,78 @@
+<div class="my-simple-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+  {{#each data in dataArray}}
+    {{#if data.content}}
+      {{#if data.after}}
+        <div class="img-block-container">
+          <figure class='how-chess-helps' itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+            <a {{bind-attr href=data.url}} itemprop="contentUrl" {{bind-attr data-size=data.dataSize}}>
+                <img {{bind-attr src=data.url}} itemprop="thumbnail" alt="Image description" />
+            </a>
+            <figcaption itemprop="caption description">How chess helps your brain</figcaption>
+          </figure>
+          <div class="img-content">
+            <p>{{data.content}}</p>
+          </div>
+        </div>
+      {{else}}
+        <div class="img-block-container">
+          <div class="img-content">
+            <p>{{data.content}}</p>
+          </div>
+          <figure class='chess-in-schools' itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+            <a {{bind-attr href=data.url}} itemprop="contentUrl" {{bind-attr data-size=data.dataSize}}>
+                <img {{bind-attr src=data.url}} itemprop="thumbnail" alt="Image description" />
+            </a>
+            <figcaption itemprop="caption description">How chess helps your brain</figcaption>
+          </figure>
+        </div>
+      {{/if}}
+    {{else}}
+      <div class="img-block-container center">
+        <figure class='screenshot' itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a {{bind-attr href=data.url}} itemprop="contentUrl" {{bind-attr data-size=data.dataSize}}>
+              <img {{bind-attr src=data.url}} itemprop="thumbnail" alt="Image description" />
+          </a>
+          <figcaption itemprop="caption description">How chess helps your brain</figcaption>
+        </figure>
+      </div>
+    {{/if}}
+  {{/each}}
+</div>
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="pswp__bg"></div>
+  <div class="pswp__scroll-wrap">
+    <div class="pswp__container">
+        <div class="pswp__item"></div>
+        <div class="pswp__item"></div>
+        <div class="pswp__item"></div>
+    </div>
+
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <div class="pswp__counter"></div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--share" title="Share"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <div class="pswp__preloader">
+            <div class="pswp__preloader__icn">
+              <div class="pswp__preloader__cut">
+                <div class="pswp__preloader__donut"></div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+          <div class="pswp__share-tooltip"></div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+          <div class="pswp__caption__center"></div>
+      </div>
+    </div>
+  </div>
+</div>

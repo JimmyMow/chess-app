@@ -5,6 +5,7 @@ import Notify from 'ember-notify';
 export default Ember.Component.extend(InboundActions, {
   tag: 'div',
   classNames: ['chess-board'],
+  classNameBindings: ['sandboxMode'],
   board: null,
   game: null,
   data: null,
@@ -14,6 +15,7 @@ export default Ember.Component.extend(InboundActions, {
   sandboxCfg: null,
   reviewCfg: null,
   sandboxMode: null,
+  startPosString: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
   fenData: {
     toPlay: 'w',
     whiteKingCastles: 'K',
@@ -30,6 +32,7 @@ export default Ember.Component.extend(InboundActions, {
     },
 
     startingPos: function() {
+      var startPos = this.get('startPos');
       this.get('board').set({
         fen: 'start',
         lastMove: null
@@ -50,6 +53,7 @@ export default Ember.Component.extend(InboundActions, {
       this.get('game').load(this.get('computeFen')(this));
       var cfg = this.get('reviewCfg');
       var boardfen = this.get('board').getFen();
+      this.set('startPosString', boardfen);
       cfg.fen = boardfen;
       cfg.lastMove = null;
       cfg.selected = null;
@@ -67,7 +71,6 @@ export default Ember.Component.extend(InboundActions, {
     sandboxOff: function() {
       var cfg = this.get('reviewCfg');
       var currMove = this.get('findMoveInTree')(this.get('data').tree, this.get('data').path);
-      console.log(currMove);
       if (currMove) {
         cfg.fen = currMove.boardFen;
         cfg.lastMove = [currMove.from, currMove.to];
@@ -120,6 +123,7 @@ export default Ember.Component.extend(InboundActions, {
           dests: this.get('chessToDests')(this.get('game'))
         }
       });
+      this.set('startPosString', 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
     },
 
     startPos: function() {
@@ -128,7 +132,7 @@ export default Ember.Component.extend(InboundActions, {
       var data = this.get('data');
       chess.reset();
       chessground.set({
-        fen: 'start',
+        fen: this.get('startPosString'),
         lastMove: null,
         turnColor: this.get('chessToColor')(chess),
         movable: {
@@ -174,6 +178,7 @@ export default Ember.Component.extend(InboundActions, {
         fen: 'start',
         lastMove: null
       });
+      this.set('startPosString', 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
     }
   },
   ////////////////////
@@ -832,6 +837,7 @@ export default Ember.Component.extend(InboundActions, {
         free: true,
         color: 'both',
         dropOff: 'trash',
+        dests: {},
         events: {
           after: function() {
             console.log();
@@ -861,7 +867,8 @@ export default Ember.Component.extend(InboundActions, {
     var ground = new Chessground(document.getElementById('board'), reviewCfg);
     this.set('board', ground);
 
-    Ember.$('.controls a').on('click', function() {
+    Ember.$('.other-outter-container').on('click', '.controls a', function() {
+
       _this.get('whichControl')(_this, Ember.$(this).attr('data-direction'));
     });
 
@@ -909,7 +916,7 @@ export default Ember.Component.extend(InboundActions, {
       }
       e.stopPropagation();
       e.preventDefault();
-      var key = _.findKey(util.allKeys, function(k) {
+      var key = _.find(util.allKeys, function(k) {
         return !groundData.pieces[k];
       });
       if(!key) {
@@ -947,13 +954,12 @@ export default Ember.Component.extend(InboundActions, {
       this.get('fenData').toPlay = clr;
     });
 
-    Ember.$('.other-outter-container').on('change', 'input:checkbox', function() {
+    Ember.$('.other-outter-container').on('change', '.castling-controls div input:checkbox', function() {
       var data = _this.get('fenData');
       var $box = Ember.$(this);
       var val = $box.val();
       var attr = $box.data('attr');
       $box.is(':checked') ? data[attr] = val : data[attr] = '';
-      console.log(data);
     });
 
     Ember.$(document).on('keypress', function(e) {

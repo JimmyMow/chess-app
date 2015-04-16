@@ -1,3 +1,6 @@
+@import 'default-skin';
+@import 'main-photoswipe-settings';
+@import 'photoswipe';
 @import 'ios-switch';
 @import 'notify';
 @import 'zero-clipboard';
@@ -30,6 +33,7 @@ a {
 
 .eee-container {
   background-color: #eee;
+  min-width: 1200px;
 }
 
 .content-container {

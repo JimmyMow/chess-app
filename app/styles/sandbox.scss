@@ -225,7 +225,7 @@ canvas {
       height: 22px;
       line-height: 22px;
       display: inline-block;
-      padding: 3px 7px;
+      padding: 4px 7px;
       cursor: pointer;
       transition-property: background-color;
       transition-duration: 0.13s;
@@ -401,64 +401,59 @@ canvas {
   display: inline-block;
   text-align: center;
   cursor: pointer;
-  &.deactivated {
-    display: none;
-  }
-  &.top.orientation-white {
-    .no-square {
-      .king {
-        background-image: url('/assets/images/pieces/cburnett/bK.svg');
-      }
-      .queen {
-        background-image: url('/assets/images/pieces/cburnett/bQ.svg');
-      }
-      .rook {
-        background-image: url('/assets/images/pieces/cburnett/bR.svg');
-      }
-      .bishop {
-        background-image: url('/assets/images/pieces/cburnett/bB.svg');
-      }
-      .knight {
-        background-image: url('/assets/images/pieces/cburnett/bN.svg');
-      }
-      .pawn {
-        background-image: url('/assets/images/pieces/cburnett/bP.svg');
-      }
-    }
-  }
-  &.bottom.orientation-white {
-    .no-square {
-      .king {
-        background-image: url('/assets/images/pieces/cburnett/wK.svg');
-      }
-      .queen {
-        background-image: url('/assets/images/pieces/cburnett/wQ.svg');
-      }
-      .rook {
-        background-image: url('/assets/images/pieces/cburnett/wR.svg');
-      }
-      .bishop {
-        background-image: url('/assets/images/pieces/cburnett/wB.svg');
-      }
-      .knight {
-        background-image: url('/assets/images/pieces/cburnett/wN.svg');
-      }
-      .pawn {
-        background-image: url('/assets/images/pieces/cburnett/wP.svg');
-      }
-    }
-  }
-  .no-square {
-    position: relative;
-    display:inline-block;
-    width: 64px;
-    height: 64px;
-    .cg-piece {
-      &.active {
-        border: red solid 1px;
-      }
-    }
-  }
+  // &.deactivated {
+  //   display: none;
+  // }
+  // &.top.orientation-white {
+  //   .no-square {
+  //     .king {
+  //       background-image: url('/assets/images/pieces/cburnett/bK.svg');
+  //     }
+  //     .queen {
+  //       background-image: url('/assets/images/pieces/cburnett/bQ.svg');
+  //     }
+  //     .rook {
+  //       background-image: url('/assets/images/pieces/cburnett/bR.svg');
+  //     }
+  //     .bishop {
+  //       background-image: url('/assets/images/pieces/cburnett/bB.svg');
+  //     }
+  //     .knight {
+  //       background-image: url('/assets/images/pieces/cburnett/bN.svg');
+  //     }
+  //     .pawn {
+  //       background-image: url('/assets/images/pieces/cburnett/bP.svg');
+  //     }
+  //   }
+  // }
+  // &.bottom.orientation-white {
+  //   .no-square {
+  //     .king {
+  //       background-image: url('/assets/images/pieces/cburnett/wK.svg');
+  //     }
+  //     .queen {
+  //       background-image: url('/assets/images/pieces/cburnett/wQ.svg');
+  //     }
+  //     .rook {
+  //       background-image: url('/assets/images/pieces/cburnett/wR.svg');
+  //     }
+  //     .bishop {
+  //       background-image: url('/assets/images/pieces/cburnett/wB.svg');
+  //     }
+  //     .knight {
+  //       background-image: url('/assets/images/pieces/cburnett/wN.svg');
+  //     }
+  //     .pawn {
+  //       background-image: url('/assets/images/pieces/cburnett/wP.svg');
+  //     }
+  //   }
+  // }
+  // .no-square {
+  //   position: relative;
+  //   display:inline-block;
+  //   width: 64px;
+  //   height: 64px;
+  // }
 }
 
 .color-to-play {
@@ -488,5 +483,59 @@ canvas {
   }
   h2 {
     color: #001A57;
+  }
+}
+
+.no-square {
+  position: relative;
+  display:inline-block;
+  width: 64px;
+  height: 64px;
+  .black.king {
+    background-image: url('/assets/images/pieces/cburnett/bK.svg');
+  }
+  .black.queen {
+    background-image: url('/assets/images/pieces/cburnett/bQ.svg');
+  }
+  .black.rook {
+    background-image: url('/assets/images/pieces/cburnett/bR.svg');
+  }
+  .black.bishop {
+    background-image: url('/assets/images/pieces/cburnett/bB.svg');
+  }
+  .black.knight {
+    background-image: url('/assets/images/pieces/cburnett/bN.svg');
+  }
+  .black.pawn {
+    background-image: url('/assets/images/pieces/cburnett/bP.svg');
+  }
+
+  .white.king {
+    background-image: url('/assets/images/pieces/cburnett/wK.svg');
+  }
+  .white.queen {
+    background-image: url('/assets/images/pieces/cburnett/wQ.svg');
+  }
+  .white.rook {
+    background-image: url('/assets/images/pieces/cburnett/wR.svg');
+  }
+  .white.bishop {
+    background-image: url('/assets/images/pieces/cburnett/wB.svg');
+  }
+  .white.knight {
+    background-image: url('/assets/images/pieces/cburnett/wN.svg');
+  }
+  .white.pawn {
+    background-image: url('/assets/images/pieces/cburnett/wP.svg');
+  }
+}
+
+
+.sandbox-mode {
+  .cg-square.last-move {
+    background-color: transparent;
+  }
+  .cg-square.selected {
+    background-color: rgba(20, 85, 30, 0.5);
   }
 }
