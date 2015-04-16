@@ -56,6 +56,9 @@ export default Ember.Controller.extend({
     sendPosition: function(data) {
       data.stockfish = this.get('stockfishAnalysis');
       this.socket.emit('sendPosition', data);
+      if (data.stockfish) {
+        Ember.$('#bestmove').text('');
+      }
     },
 
     sandboxPosition: function(data) {
@@ -148,6 +151,10 @@ export default Ember.Controller.extend({
       });
       this.get('gameObject').load(obj.gameFen);
       this.set('dataObject', obj.data);
+
+      if (this.get('stockfishAnalysis')) {
+        Ember.$('#bestmove').text('');
+      }
 
       this.get('chessBoardComponent').send('setData');
       this.get('chessBoardComponent').send('updateBoardDestsAndColorTurn');
