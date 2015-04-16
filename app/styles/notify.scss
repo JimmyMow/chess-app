@@ -12,6 +12,10 @@
     background-color: #DFF0D8;
     color: darken(#DFF0D8, 50%);
   }
+  &.warning {
+    background-color: #F2DEDE;
+    color: darken(#F2DEDE, 50%);
+  }
   .close {
     cursor: pointer;
     transition: all .15s ease;

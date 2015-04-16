@@ -23,6 +23,7 @@ export default Ember.Component.extend(InboundActions, {
     blackKingCastles: 'k',
     blackQueenCastles: 'q',
   },
+  notifyOn: true,
   actions: {
     clearBoard: function() {
       this.get('board').set({
@@ -49,11 +50,13 @@ export default Ember.Component.extend(InboundActions, {
     },
 
     sandboxModeWithPos: function() {
+      var computedFen = this.get('computeFen')(this);
+      console.log(computedFen);
       this.set('sandboxMode', false);
-      this.get('game').load(this.get('computeFen')(this));
+      this.get('game').load(computedFen);
       var cfg = this.get('reviewCfg');
       var boardfen = this.get('board').getFen();
-      this.set('startPosString', boardfen);
+      this.set('startPosString', computedFen);
       cfg.fen = boardfen;
       cfg.lastMove = null;
       cfg.selected = null;
@@ -87,11 +90,13 @@ export default Ember.Component.extend(InboundActions, {
       var cfg = this.get('sandboxCfg');
       this.get('board').set(cfg);
       Ember.$('.spare').removeClass('deactivated');
-      var txt = "You are now in sandbox mode! Sandbox mode is for setting up positions, puzzles, clearing the board, etc. Normal chess rules don't apply.";
-      Notify.info(txt, {
-        closeAfter: null,
-        radius: true
-      });
+      if (this.get('notifyOn')) {
+        Notify.info({
+          raw: "<div>You are now in sandbox mode! Sandbox mode is for setting up positions, puzzles, clearing the board, etc. Normal chess rules don't apply.</div>",
+          closeAfter: null
+        });
+      }
+      this.set('notifyOn', false);
     },
 
     setData: function() {
@@ -130,9 +135,10 @@ export default Ember.Component.extend(InboundActions, {
       var chess = this.get('game');
       var chessground = this.get('board');
       var data = this.get('data');
-      chess.reset();
+      var startPos = this.get('startPosString');
+      chess.load(startPos);
       chessground.set({
-        fen: this.get('startPosString'),
+        fen: startPos,
         lastMove: null,
         turnColor: this.get('chessToColor')(chess),
         movable: {
@@ -198,9 +204,20 @@ export default Ember.Component.extend(InboundActions, {
   /////////////////////////
   computeFen: function(component) {
     var data = component.get('fenData');
+    var finalCastleData = component.get('computeFenCastles')(component, data);
     var boardFen = component.get('board').getFen();
-    var res = boardFen + ' ' + data.toPlay + ' ' + data.whiteKingCastles + data.whiteQueenCastles + data.blackKingCastles + data.blackQueenCastles + ' - 0 1';
+    var res = boardFen + ' ' + data.toPlay + ' ' + finalCastleData + ' - 0 1';
     return res;
+  },
+
+  computeFenCastles: function(component, data) {
+    var castles = '';
+    Object.keys(data).forEach(function(piece) {
+      if (piece !== 'toPlay' && data[piece]) {
+        castles += data[piece];
+      }
+    });
+    return castles.length ? castles : '-';
   },
 
   chessToDests: function(chess) {
@@ -824,7 +841,7 @@ export default Ember.Component.extend(InboundActions, {
       movable: {
         free: false,
         color: 'both',
-        dropOff: 'trash',
+        dropOff: 'revert',
         dests: _this.get('chessToDests')(chess),
         events: {
           after: onMove
@@ -951,7 +968,7 @@ export default Ember.Component.extend(InboundActions, {
 
     Ember.$('.other-outter-container').on('change', '#colorToPlay', function() {
       var clr = Ember.$(this).val();
-      this.get('fenData').toPlay = clr;
+      _this.get('fenData').toPlay = clr;
     });
 
     Ember.$('.other-outter-container').on('change', '.castling-controls div input:checkbox', function() {
@@ -990,5 +1007,6 @@ export default Ember.Component.extend(InboundActions, {
       }
     });
     window.ground = this.get('board');
+    window.game = this.get('game');
   }
 });

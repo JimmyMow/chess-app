@@ -8,7 +8,6 @@ var Router = Ember.Router.extend({
 Router.map(function() {
   this.resource('room', { path: '/:room_id' }, function() {
     this.route('analyze');
-    this.route('sandbox');
   });
 });
 

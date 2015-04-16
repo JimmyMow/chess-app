@@ -7,7 +7,7 @@
             <a {{bind-attr href=data.url}} itemprop="contentUrl" {{bind-attr data-size=data.dataSize}}>
                 <img {{bind-attr src=data.url}} itemprop="thumbnail" alt="Image description" />
             </a>
-            <figcaption itemprop="caption description">How chess helps your brain</figcaption>
+            <figcaption itemprop="caption description">{{data.caption}}</figcaption>
           </figure>
           <div class="img-content">
             <p>{{data.content}}</p>
@@ -22,7 +22,7 @@
             <a {{bind-attr href=data.url}} itemprop="contentUrl" {{bind-attr data-size=data.dataSize}}>
                 <img {{bind-attr src=data.url}} itemprop="thumbnail" alt="Image description" />
             </a>
-            <figcaption itemprop="caption description">How chess helps your brain</figcaption>
+            <figcaption itemprop="caption description">{{data.caption}}</figcaption>
           </figure>
         </div>
       {{/if}}
@@ -32,7 +32,7 @@
           <a {{bind-attr href=data.url}} itemprop="contentUrl" {{bind-attr data-size=data.dataSize}}>
               <img {{bind-attr src=data.url}} itemprop="thumbnail" alt="Image description" />
           </a>
-          <figcaption itemprop="caption description">How chess helps your brain</figcaption>
+          <figcaption itemprop="caption description">{{data.caption}}</figcaption>
         </figure>
       </div>
     {{/if}}

@@ -17,6 +17,10 @@ export default Ember.Controller.extend({
   orientation: 'white',
   sandboxMode: false,
   actions: {
+    turnOffNotifications: function() {
+      console.log('nigga we made it!');
+    },
+
     clearBoard: function() {
       this.get('chessBoardComponent').send('clearBoard');
       this.socket.emit('clear board');
@@ -36,11 +40,17 @@ export default Ember.Controller.extend({
     sandboxMode: function() {
       this.get('chessBoardComponent').send('sandboxMode');
       this.socket.emit('sandbox mode clicked');
+      if (this.get('stockfishAnalysis')) {
+        this.socket.emit('stop analyzing');
+      }
     },
 
     sandboxModeWithPos: function() {
       this.get('chessBoardComponent').send('sandboxModeWithPos');
       this.socket.emit('sandbox mode clicked with pos');
+      if (this.get('stockfishAnalysis')) {
+        this.socket.emit('stop analyzing');
+      }
     },
 
     sendPosition: function(data) {
@@ -289,6 +299,7 @@ export default Ember.Controller.extend({
     sandboxModeClicked: function() {
       this.get('chessBoardComponent').send('sandboxMode');
       this.get('room').send('changeSandbox');
+      console.log("YPPPPPP");
     },
 
     sandboxModeClickedWithPosition: function() {
