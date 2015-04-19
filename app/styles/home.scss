@@ -148,7 +148,7 @@
   }
 
   .see-how-it-works {
-    margin: 20px;
+    margin: 30px;
     font-size: 16px;
   }
   span {
@@ -224,16 +224,13 @@
   header {
     padding: 40px 0;
     h2 {
-      margin-bottom: 10px;
+      margin-bottom: 35px;
       margin-top: 10px;
     }
     blockquote {
-      // background: #f9f9f9;
-      // border-left: 10px solid #ccc;
-      border-top: 1px solid #ccc;
-      border-bottom: 1px solid #ccc;
+      font-style: italic;
       margin: 1.5em 10px;
-      padding: 2.5em 10px;
+      padding: 1.5em 10px;
       quotes: "\201C""\201D""\2018""\2019";
       width: 80%;
       margin: 0 auto;
@@ -250,6 +247,7 @@
     }
     blockquote p {
       display: inline;
+      font-style: normal;
     }
   }
 

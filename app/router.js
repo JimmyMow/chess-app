@@ -9,6 +9,7 @@ Router.map(function() {
   this.resource('room', { path: '/:room_id' }, function() {
     this.route('analyze');
   });
+  this.route('examples');
 });
 
 export default Router;

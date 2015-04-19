@@ -97,6 +97,13 @@ export default Ember.Component.extend(InboundActions, {
         });
       }
       this.set('notifyOn', false);
+      this.set('fenData', {
+        toPlay: 'w',
+        whiteKingCastles: 'K',
+        whiteQueenCastles: 'Q',
+        blackKingCastles: 'k',
+        blackQueenCastles: 'q',
+      });
     },
 
     setData: function() {

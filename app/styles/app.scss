@@ -9,15 +9,13 @@
 @import 'chessground';
 @import 'chessboard';
 @import 'analyze';
-@import 'sparetest';
+@import 'examples';
 @import 'room';
 @import 'home';
 
 body {
   background-color: #fff;
-  // background-image: linear-gradient(to bottom, #d7d7d7 0%, #eeeeee 116px);
   color: #1a3652;
-  // font-family: 'Open Sans', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 12px;
   margin: 0;
