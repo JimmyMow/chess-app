@@ -38,7 +38,7 @@ export default Ember.Component.extend({
       active = next;
       next = active.next().length > 0 ? active.next() :  Ember.$("ul#features li:eq(0)");
 
-    }, 9000);
+    }, 10000);
 
     window.interval = interval;
   },
