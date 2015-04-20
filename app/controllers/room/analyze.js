@@ -48,7 +48,7 @@ export default Ember.Controller.extend({
 
     sandboxModeWithPos: function() {
       this.get('chessBoardComponent').send('sandboxModeWithPos');
-      this.socket.emit('sandbox mode clicked with pos');
+      this.socket.emit('sandbox mode clicked with pos', { fenData: this.get('fenDataObject') });
       if (this.get('stockfishAnalysis')) {
         this.socket.emit('stop analyzing');
       }
@@ -307,11 +307,17 @@ export default Ember.Controller.extend({
     sandboxModeClicked: function() {
       this.get('chessBoardComponent').send('sandboxMode');
       this.get('room').send('changeSandbox');
-      console.log("YPPPPPP");
     },
 
     sandboxModeClickedWithPosition: function(data) {
-      this.set('fenDataObject', data.fenData);
+      console.log(data);
+      var dataObj = this.get('fenDataObject');
+      dataObj.toPlay = data.fenData.toPlay;
+      dataObj.whiteKingCastles = data.fenData.whiteKingCastles;
+      dataObj.whiteQueenCastles = data.fenData.whiteQueenCastles;
+      dataObj.blackKingCastles = data.fenData.blackKingCastles;
+      dataObj.blackQueenCastles = data.fenData.blackQueenCastles;
+      console.log(this.get('fenDataObject'));
       this.get('chessBoardComponent').send('sandboxModeWithPos');
       this.get('room').send('changeSandbox');
     },

@@ -202,14 +202,15 @@ export default Ember.Component.extend(InboundActions, {
   sendStart: function(component) {
     component.sendAction('strt');
   },
-  sendSandboxPosition: function(component, boardFen, fenData) {
-    component.sendAction('sandboxPstn', { boardFen: boardFen, fenData: fenData });
+  sendSandboxPosition: function(component, boardFen) {
+    component.sendAction('sandboxPstn', { boardFen: boardFen});
   },
   //////////////////////////
   //chess logic functions//
   /////////////////////////
   computeFen: function(component) {
     var data = component.get('fenData');
+    console.log(data);
     var finalCastleData = component.get('computeFenCastles')(component, data);
     var boardFen = component.get('board').getFen();
     var res = boardFen + ' ' + data.toPlay + ' ' + finalCastleData + ' - 0 1';
