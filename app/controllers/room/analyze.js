@@ -16,6 +16,7 @@ export default Ember.Controller.extend({
   stockfishAnalysis: false,
   orientation: 'white',
   sandboxMode: false,
+  fenDataObject: null,
   actions: {
     turnOffNotifications: function() {
       console.log('nigga we made it!');
@@ -309,7 +310,8 @@ export default Ember.Controller.extend({
       console.log("YPPPPPP");
     },
 
-    sandboxModeClickedWithPosition: function() {
+    sandboxModeClickedWithPosition: function(data) {
+      this.set('fenDataObject', data.fenData);
       this.get('chessBoardComponent').send('sandboxModeWithPos');
       this.get('room').send('changeSandbox');
     },

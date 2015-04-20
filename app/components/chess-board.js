@@ -51,7 +51,6 @@ export default Ember.Component.extend(InboundActions, {
 
     sandboxModeWithPos: function() {
       var computedFen = this.get('computeFen')(this);
-      console.log(computedFen);
       this.set('sandboxMode', false);
       this.get('game').load(computedFen);
       var cfg = this.get('reviewCfg');
@@ -203,8 +202,8 @@ export default Ember.Component.extend(InboundActions, {
   sendStart: function(component) {
     component.sendAction('strt');
   },
-  sendSandboxPosition: function(component, boardFen) {
-    component.sendAction('sandboxPstn', { boardFen: boardFen });
+  sendSandboxPosition: function(component, boardFen, fenData) {
+    component.sendAction('sandboxPstn', { boardFen: boardFen, fenData: fenData });
   },
   //////////////////////////
   //chess logic functions//
@@ -881,7 +880,7 @@ export default Ember.Component.extend(InboundActions, {
       events: {
         change: function() {
           m.redraw();
-          _this.get('sendSandboxPosition')(_this, _this.get('board').getFen());
+          _this.get('sendSandboxPosition')(_this, _this.get('board').getFen(), _this.get('fenData'));
         }
       },
       disableContextMenu: true

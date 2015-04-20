@@ -1,7 +1,7 @@
 <div class="board-outter-container outter-container">
   <div class="board-inner-container">
     {{canvas-diagram actionReceiver=canvasDiagram action='sendDiagram'}}
-    {{chess-board position='sendPosition' sandboxPstn='sandboxPosition' strt='start' board=controller.boardObject game=controller.gameObject actionReceiver=chessBoardComponent data=controller.dataObject sandboxMode=controller.sandboxMode}}
+    {{chess-board position='sendPosition' sandboxPstn='sandboxPosition' strt='start' board=controller.boardObject game=controller.gameObject actionReceiver=chessBoardComponent data=controller.dataObject sandboxMode=controller.sandboxMode fenData=controller.fenDataObject}}
     <div class='diagram-mode-container'>
       {{#if diagramMode}}
         <div class="diagram-left">
