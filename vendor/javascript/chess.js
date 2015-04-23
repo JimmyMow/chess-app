@@ -1412,21 +1412,40 @@ var Chess = function(fen) {
       var ms = pgn.replace(header_string, '').replace(new RegExp(mask(newline_char), 'g'), ' ');
 
       /* delete comments */
-      ms = ms.replace(/(\{[^}]+\})+?/g, '');
+      // ms = ms.replace(/(\{[^}]+\})+?/g, '');
 
       /* delete move numbers */
       ms = ms.replace(/\d+\./g, '');
 
-
       /* trim and get array of moves */
-      var moves = trim(ms).split(new RegExp(/\s+/));
+      // var moves = trim(ms).split(new RegExp(/\s+/));
+      //  delete empty entries
+      // moves = moves.join(',').replace(/,,+/g, ',').split(',');
+      ms = ms.replace(/[{]/g, '&&&@');
+      ms = ms.replace(/[}]/g, '&&&');
 
-      /* delete empty entries */
-      moves = moves.join(',').replace(/,,+/g, ',').split(',');
+      var moves = trim(ms).split('&&&');
+      var myArr = []
+      moves.forEach(function(x) {
+        var x = x.replace(/\s{2,}/g,' ').replace(/^\s+|\s+$/g, '');
+        if(x[0] !== '@') {
+          myArr = myArr.concat(x.split(' '));
+        } else {
+          myArr = myArr.concat([x]);
+        }
+      });
+
+      moves = myArr;
       var move = '';
       var tree = [];
+      var realHalfMove = 1;
 
       for (var half_move = 0; half_move < moves.length - 1; half_move++) {
+        if (moves[half_move][0] === '@') {
+          var treeObj = tree[tree.length - 1];
+          treeObj.comments.push(moves[half_move].replace(/@/g, '').trim());
+          continue;
+        }
         move = get_move_obj(moves[half_move]);
         //JMOW
         /* move not possible! (don't clear the board to examine to show the
@@ -1440,7 +1459,7 @@ var Chess = function(fen) {
           moveObj.san = prettyMove.san;
           moveObj.to = prettyMove.to;
           moveObj.from = prettyMove.from;
-          moveObj.ply = half_move + 1;
+          moveObj.ply = realHalfMove;
           moveObj.variations = [];
           moveObj.comments = [];
 
@@ -1450,6 +1469,7 @@ var Chess = function(fen) {
           moveObj.boardFen = fen.split(' ')[0];
           moveObj.gameFen = fen;
           tree.push(moveObj);
+          realHalfMove++;
         }
       }
 

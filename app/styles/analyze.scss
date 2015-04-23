@@ -203,11 +203,15 @@ canvas {
   display: inline-block;
   height: 512px;
   margin-left: 2%;
-  .pgn {
+  .movelist {
     height: calc(50%);
     overflow: auto;
     overflow-x: hidden;
     border: 1px solid #ccc;
+    position: relative;
+  }
+  .pgn {
+    height: calc(100%);
     .index {
       width: 26px;
       text-align: center;
@@ -215,7 +219,7 @@ canvas {
       height: 22px;
       display: inline-block;
       line-height: 22px;
-      padding: 4px 0;
+      padding: 5px 0;
       background: #e0e0e0;
     }
     .move {
@@ -270,12 +274,23 @@ canvas {
         border: none;
       }
     }
+    .comment {
+      background-color: #e0e0e0;
+      padding: 5px;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+      color: #707070;
+      font: 12px 'Noto Sans','Lucida Grande','Lucida Sans Unicode',Geneva,Verdana,Sans-Serif;
+    }
+  }
+  .details {
+    text-align: center;
   }
   .analysis {
     padding: 10px;
     margin-bottom: 1em;
     background: #fff;
-    height: calc(25%);
+    height: calc(20%);
     overflow: auto;
     overflow-x: hidden;
     box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.2);

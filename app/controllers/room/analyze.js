@@ -17,6 +17,7 @@ export default Ember.Controller.extend({
   orientation: 'white',
   sandboxMode: false,
   fenDataObject: null,
+  detailsObj: null,
   actions: {
     turnOffNotifications: function() {
       console.log('nigga we made it!');
@@ -128,7 +129,11 @@ export default Ember.Controller.extend({
 
     submitPgn: function() {
       var pgn = Ember.$('#pgnUpload').val();
-
+      var details = {};
+      pgn.replace(/\[(.+?)\]/g, function($0, $1) {
+        details[$1.substr(0,$1.indexOf(' '))] = $1.replace(/['"]+/g, '').substr($1.indexOf(' ')+1);
+      });
+      this.set('detailsObj', details);
       var tree = this.get('gameObject').load_pgn(pgn);
       if(!tree) {
         alert('There was a problem with the PGN you tried to upload. Please make sure it is standard and follows all the PGN formatting rules.');
@@ -172,6 +177,7 @@ export default Ember.Controller.extend({
       this.get('chessBoardComponent').send('resetBoardStyles');
 
       Ember.$('.engine-data').text('');
+      // this.set('detailsObj', null);
     },
 
     startPos: function() {
@@ -193,7 +199,13 @@ export default Ember.Controller.extend({
       }
 
       if (data.bestmove) {
-        Ember.$("#bestmove").text(data.bestmove);
+        var moveObjects = game.moves({ verbose: true });
+        var pgnMove = _.find(moveObjects, function(x) {
+            var from = data.bestmove.slice(0, 2);
+            var to = data.bestmove.slice(2, 4);
+            return x.from === from && x.to === to;
+        });
+        Ember.$("#bestmove").text(pgnMove.san);
       }
 
       if (data.variation) {

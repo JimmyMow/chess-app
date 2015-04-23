@@ -120,6 +120,11 @@ export default Ember.Component.extend(InboundActions, {
     },
     updateYourPgn: function() {
       this.get('displayTree')(this);
+      var movelist = document.getElementsByClassName('movelist')[0];
+      var plyEl = movelist.querySelector('.active');
+      if (plyEl) {
+        movelist.scrollTop = plyEl.offsetTop - movelist.offsetHeight / 2 + plyEl.offsetHeight / 2;
+      }
     },
 
     resetBoardAndGame: function() {
@@ -184,6 +189,7 @@ export default Ember.Component.extend(InboundActions, {
     },
 
     uploadPgn: function() {
+      Ember.$('.move').removeClass('active');
       this.get('displayTree')(this);
       Ember.$('#pgnUpload').val('');
       this.get('board').set({
@@ -191,6 +197,8 @@ export default Ember.Component.extend(InboundActions, {
         lastMove: null
       });
       this.set('startPosString', 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
+      this.get('data').pathStr = '';
+      this.get('data').path = this.get('data').pathDefault;
     }
   },
   ////////////////////
@@ -452,10 +460,15 @@ export default Ember.Component.extend(InboundActions, {
     };
   },
   renderMeta: function(component, move, path) {
-    if (!move || !move.variations.length) {
+    if (!move || (!move.comments.length && !move.variations.length)) {
       return;
     }
     var children = [];
+    if (move.comments.length > 0) {
+      move.comments.forEach(function(comment) {
+        children.push(m('div.comment', comment));
+      });
+    }
     var border = children.length === 0;
     if (move.variations.length) {
       move.variations.forEach(function(variation, i) {
@@ -598,6 +611,11 @@ export default Ember.Component.extend(InboundActions, {
     component.get('reposition')(component, lastMove);
     component.get('addActive')(component);
     component.get('sendPosition')(component, component.get('game').fen(), component.get('board').getFen(), lastMove.from, lastMove.to, data);
+    var movelist = document.getElementsByClassName('movelist')[0];
+    var plyEl = movelist.querySelector('.active');
+    if (plyEl) {
+      movelist.scrollTop = plyEl.offsetTop - movelist.offsetHeight / 2 + plyEl.offsetHeight / 2;
+    }
   },
   moveList: function(component, path) {
     var data = component.get('data');
@@ -1013,7 +1031,5 @@ export default Ember.Component.extend(InboundActions, {
         Ember.$('#world').removeClass('on');
       }
     });
-    window.ground = this.get('board');
-    window.game = this.get('game');
   }
 });
