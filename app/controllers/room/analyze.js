@@ -19,10 +19,6 @@ export default Ember.Controller.extend({
   fenDataObject: null,
   detailsObj: null,
   actions: {
-    turnOffNotifications: function() {
-      console.log('nigga we made it!');
-    },
-
     clearBoard: function() {
       this.get('chessBoardComponent').send('clearBoard');
       this.socket.emit('clear board');
@@ -146,6 +142,15 @@ export default Ember.Controller.extend({
 
       this.get('chessBoardComponent').send('uploadPgn');
       this.socket.emit('upload pgn', { pgn: pgn });
+    },
+
+    submitNote: function() {
+      this.get('chessBoardComponent').send('submitNote');
+      Ember.$("#noteForm textarea").val("");
+    },
+
+    sendNote: function(data) {
+      this.socket.emit('send note', data);
     }
   },
 
@@ -347,6 +352,12 @@ export default Ember.Controller.extend({
 
     sandboxStartingPos: function() {
       this.get('chessBoardComponent').send('startingPos');
+    },
+
+    addNewNote: function(data) {
+      console.log(data.tree);
+      this.get('dataObject').tree = data.tree;
+      this.get('chessBoardComponent').send('updateYourPgn');
     }
   }
 });

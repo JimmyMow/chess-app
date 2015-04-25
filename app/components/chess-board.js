@@ -25,6 +25,18 @@ export default Ember.Component.extend(InboundActions, {
   },
   notifyOn: true,
   actions: {
+    submitNote: function() {
+      var note = Ember.$('#noteForm textarea').val();
+      var pathStr = Ember.$("#notePath").val();
+      var path = this.get('readPath')(pathStr);
+      var move = this.get('findMoveInTree')(this.get('data').tree, path);
+      move.comments.push(note);
+      this.send('updateYourPgn');
+      Ember.$.modal.close();
+
+      this.get('sendNote')(this, this.get('data').tree);
+    },
+
     clearBoard: function() {
       this.get('board').set({
         fen: '8/8/8/8/8/8/8/8',
@@ -212,6 +224,9 @@ export default Ember.Component.extend(InboundActions, {
   },
   sendSandboxPosition: function(component, boardFen) {
     component.sendAction('sandboxPstn', { boardFen: boardFen});
+  },
+  sendNote: function(component, tree) {
+    component.sendAction('newNote', { tree: tree });
   },
   //////////////////////////
   //chess logic functions//
@@ -455,7 +470,7 @@ export default Ember.Component.extend(InboundActions, {
         'href': '#' + path[0].ply
       },
       children: [
-        null, move.san
+        move.san, m('a.add-note', {path: pathStr, href: "#noteForm", rel: "modal:open", san: move.san}, m('i.fa fa-pencil-square-o'))
       ]
     };
   },
@@ -528,12 +543,26 @@ export default Ember.Component.extend(InboundActions, {
     return [component.get('renderIndex')(turn.turn + '...'), bMove, bMeta];
   },
   renderVariationMeta: function(component, move, path) {
-    if (!move || !move.variations.length) {
+    if (!move || (!move.comments.length && !move.variations.length)) {
       return;
     }
-    return move.variations.map(function(variation, i) {
-      return component.get('renderVariationNested')(component, variation, component.get('withVariation')(component, path, i + 1));
-    });
+    var children = [];
+    if (move.comments.length > 0) {
+      move.comments.forEach(function(comment) {
+        children.push(m('div.comment', comment));
+      });
+    }
+    var border = children.length === 0;
+    if (move.variations.length) {
+      move.variations.forEach(function(variation, i) {
+        children.push(component.get('renderVariationNested')(component, variation, component.get('withVariation')(component, path, i + 1)));
+        border = false;
+      });
+    }
+    return children;
+    // return move.variations.map(function(variation, i) {
+    //   return component.get('renderVariationNested')(component, variation, component.get('withVariation')(component, path, i + 1));
+    // });
   },
   renderVariationNested: function(component, variation, path) {
     return m('span.variation', [
@@ -1029,6 +1058,27 @@ export default Ember.Component.extend(InboundActions, {
         Ember.$('body').removeClass('duke-body');
         Ember.$('.duke-header').removeClass('on');
         Ember.$('#world').removeClass('on');
+      }
+    });
+
+    Ember.$('.other-outter-container').on('click', '.add-note', function() {
+      var $this = Ember.$(this);
+      Ember.$("#noteForm h4").text("Add comment to " + $this.attr('san'));
+      Ember.$("#notePath").val($this.attr('path'));
+      $.modal.defaults = {
+        overlay: "transparent",
+        opacity: 0,
+        zIndex: 1,
+        escapeClose: true,
+        clickClose: true,
+        closeText: 'Close',
+        closeClass: '',
+        showClose: true,
+        modalClass: "modal",
+        spinnerHtml: null,
+        showSpinner: true,
+        fadeDuration: null,
+        fadeDelay: 1.0
       }
     });
   }

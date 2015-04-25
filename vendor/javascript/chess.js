@@ -1411,11 +1411,17 @@ var Chess = function(fen) {
       /* delete header to get the moves */
       var ms = pgn.replace(header_string, '').replace(new RegExp(mask(newline_char), 'g'), ' ');
 
-      /* delete comments */
-      // ms = ms.replace(/(\{[^}]+\})+?/g, '');
+      /* delete periods in notes */
+      ms = ms.replace(/[^{A-Za-z0-9]+(?=\s+})/g, '');
+
+      /* delete variations */
+      ms = ms.replace(/(\([^)]+\))+?/g, '');
+
+      /* delete !? comments on moves */
+      ms = ms.replace(/[!?]+/g, '');
 
       /* delete move numbers */
-      ms = ms.replace(/\d+\./g, '');
+      ms = ms.replace(/\d+\.+/g, '');
 
       /* trim and get array of moves */
       // var moves = trim(ms).split(new RegExp(/\s+/));
@@ -1452,6 +1458,7 @@ var Chess = function(fen) {
          * latest valid position)
          */
         if (move == null) {
+          console.log(moves[half_move]);
           return false;
         } else {
           var prettyMove = make_pretty(move);

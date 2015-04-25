@@ -1,7 +1,7 @@
 <div class="board-outter-container outter-container">
   <div class="board-inner-container">
     {{canvas-diagram actionReceiver=canvasDiagram action='sendDiagram'}}
-    {{chess-board position='sendPosition' sandboxPstn='sandboxPosition' strt='start' board=controller.boardObject game=controller.gameObject actionReceiver=chessBoardComponent data=controller.dataObject sandboxMode=controller.sandboxMode fenData=controller.fenDataObject }}
+    {{chess-board position='sendPosition' sandboxPstn='sandboxPosition' strt='start' newNote='sendNote' board=controller.boardObject game=controller.gameObject actionReceiver=chessBoardComponent data=controller.dataObject sandboxMode=controller.sandboxMode fenData=controller.fenDataObject }}
     <div class='diagram-mode-container'>
       {{#if diagramMode}}
         <div class="diagram-left">
@@ -140,9 +140,16 @@
     <p class="explanation">
       Already have the PGN of what you want to analyze? Save time by simply uploading it.
     </p>
+    <div class="rules">
+      <h5>Formatting rules</h5>
+      <ul>
+        <li>Castling is with capital O's (O-O) <strong>not</strong> with zeros</li>
+        <li>Comments must be within these brackets (colloquially): {}</li>
+      </ul>
+    </div>
     <label>
       <span>Paste your PGN here:</span>
-      <textarea id="pgnUpload" placeholder="
+      <textarea autofocus id="pgnUpload" placeholder="
       [Event 'Reykjavik WCh']
       [Site 'Reykjavik WCh']
       [Date '1972.07.23']
@@ -167,6 +174,13 @@
       </textarea>
     </label>
     <button {{action 'submitPgn'}} class='board-button submit'>{{fa-icon 'hand-o-right'}} Upload this game</button>
+  </form>
+
+  <form id="noteForm" class='modal note-form'>
+    <h4></h4>
+    <textarea autofocus></textarea>
+    <input id="notePath" type="hidden">
+    <button {{action 'submitNote'}} class='board-button submit'>Add comment</button>
   </form>
 </div>
 
