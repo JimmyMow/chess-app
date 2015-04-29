@@ -228,12 +228,17 @@ export default Ember.Component.extend(InboundActions, {
   sendNote: function(component, tree) {
     component.sendAction('newNote', { tree: tree });
   },
+  addPoints: function(component) {
+    component.sendAction('addP');
+  },
+  removePoints:function(component) {
+    component.sendAction('removeP');
+  },
   //////////////////////////
   //chess logic functions//
   /////////////////////////
   computeFen: function(component) {
     var data = component.get('fenData');
-    console.log(data);
     var finalCastleData = component.get('computeFenCastles')(component, data);
     var boardFen = component.get('board').getFen();
     var res = boardFen + ' ' + data.toPlay + ' ' + finalCastleData + ' - 0 1';
@@ -391,6 +396,7 @@ export default Ember.Component.extend(InboundActions, {
   //////////////////////////////
   displayTree: function(component) {
     var tree = component.get('renderTree')(component, component.get('data').tree);
+    console.log('tree: ', tree);
     return m.render(document.getElementById('pgn'), tree);
   },
   renderTree: function(component, tree) {
@@ -900,6 +906,17 @@ export default Ember.Component.extend(InboundActions, {
         events: {
           after: onMove
         }
+      },
+      events: {
+        afterDraw: function() {
+          _this.get('addPoints')(_this);
+        },
+        clearDraw: function() {
+          _this.get('removePoints')(_this);
+        }
+      },
+      drawable: {
+        enabled: true
       }
     };
     var sandboxCfg = {
@@ -929,6 +946,12 @@ export default Ember.Component.extend(InboundActions, {
         change: function() {
           m.redraw();
           _this.get('sendSandboxPosition')(_this, _this.get('board').getFen(), _this.get('fenData'));
+        },
+        afterDraw: function() {
+          _this.get('addPoints')(_this);
+        },
+        clearDraw: function() {
+          _this.get('clearPoints')(_this);
         }
       },
       disableContextMenu: true
@@ -976,7 +999,7 @@ export default Ember.Component.extend(InboundActions, {
     var drag = Chessground.drag;
     var groundData = this.get('board').dump();
 
-    document.addEventListener('mousedown', function(e) {
+    document.getElementsByClassName('other-outter-container')[0].addEventListener('mousedown', function(e) {
       if (e.button !== 0) {
         return;
       }
@@ -1035,7 +1058,7 @@ export default Ember.Component.extend(InboundActions, {
 
     Ember.$(document).on('keypress', function(e) {
       var key = e.keyCode || e.which;
-      if (key === 100) {
+      if (e.shiftKey && key === 68) {
         Ember.$('#board').removeClass('cburnett').addClass('duke');
         Ember.$('html').addClass('duke-html');
         Ember.$('body').addClass('duke-body');
@@ -1081,5 +1104,7 @@ export default Ember.Component.extend(InboundActions, {
         fadeDelay: 1.0
       }
     });
+
+    window.dataObj = this.get('data');
   }
 });

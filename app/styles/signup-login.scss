@@ -1,0 +1,49 @@
+.signup, .login {
+  font-family: 'Roboto';
+  width: 30%;
+  margin: 0 auto;
+  h1 {
+    text-transform: uppercase;
+    margin-bottom: 22px;
+    font-weight: 300;
+    font-size: 24px;
+    color: #2a2a2a;
+  }
+
+  form {
+    font-size: 14px;
+  }
+
+  input[type=text], input[type=password], input[type=email] {
+    display: block;
+    line-height: 47px;
+    padding: 0 15px;
+    background: #fff;
+    border: 1px solid #ebebeb;
+    outline: none;
+    width: 93%;
+    font-size: 14px;
+  }
+
+  input[type=submit] {
+    display: block;
+    width: 100%;
+    margin-top: 30px;
+    cursor: pointer;
+    transition: background-color 0.13s;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fff;
+    border: none;
+    padding: 0 15px;
+    line-height: 47px;
+    outline: none;
+    background-color: #2196F3;
+    font-size: 14px;
+    letter-spacing: 1px;
+
+    &:hover {
+      background-color: darken(#2196F3, 5%);
+    }
+  }
+}

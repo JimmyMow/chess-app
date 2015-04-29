@@ -6,7 +6,16 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.resource('room', { path: '/:room_id' }, function() {
+  this.resource('home', { path: '/' }, function() {
+    this.route('marketing', { path: '/' });
+    this.route('login');
+    this.route('signup');
+  });
+
+  this.resource('user', { path: '/:user_id' }, function() {
+
+  });
+  this.resource('room', { path: '/room/:room_id' }, function() {
     this.route('analyze');
   });
   this.route('examples');

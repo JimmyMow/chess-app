@@ -63,8 +63,17 @@ export default Ember.Controller.extend({
       this.socket.emit('sandbox position', data);
     },
 
-    sendDiagram: function(data) {
-      this.socket.emit('send diagram', data);
+    // sendDiagram: function(data) {
+    //   this.socket.emit('send diagram', data);
+    // },
+
+    addPoints: function() {
+      var shapes = this.get('boardObject').dump().drawable.shapes;
+      this.socket.emit('send points', { points: shapes });
+    },
+
+    removePoints: function() {
+      this.socket.emit('remove points');
     },
 
     startOver: function() {
@@ -92,24 +101,6 @@ export default Ember.Controller.extend({
       this.get('canvasDiagram').send('flipOrientation');
 
       Ember.$('#diagram').toggleClass('flipTest');
-    },
-
-    canvas: function() {
-      if (this.get('diagramMode')) {
-        Ember.$('canvas').removeClass('diagram-mode');
-        this.set('diagramMode', false);
-        this.socket.emit('turn off diagram mode');
-      } else {
-        Ember.$('canvas').addClass('diagram-mode');
-        this.set('diagramMode', true);
-        this.socket.emit('turn on diagram mode');
-      }
-    },
-
-    clearCanvas: function() {
-      var context = document.getElementById('diagram').getContext('2d');
-      context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-      this.socket.emit('clear diagram');
     },
 
     updateIosSwitchCheckedStatus: function(data) {
@@ -232,36 +223,21 @@ export default Ember.Controller.extend({
       this.set('diagramMode', false);
     },
 
-    drawForOthers: function(data) {
-      var x, y;
-      if(this.get('orientation') !== data.orientation && this.get('orientation') === 'white') {
-        x = Ember.$('#diagram').height() - data.x;
-        y = Ember.$('#diagram').width() - data.y;
-      } else if(this.get('orientation') === data.orientation && this.get('orientation') === 'black') {
-        x = Ember.$('#diagram').height() - data.x;
-        y = Ember.$('#diagram').width() - data.y;
-      } else {
-        x = data.x;
-        y = data.y;
-      }
-      var type = data.type;
-      var paint = data.paint;
-      var context = document.getElementById('diagram').getContext('2d');
-
-      if (type === "mousedown") {
-        context.beginPath();
-        return context.moveTo(x, y);
-      } else if (type === "mousemove") {
-        if (paint) {
-            context.lineTo(x, y);
-        }
-        return context.stroke();
-      }
+    addPointsForOthers: function(data) {
+      var boardData = this.get('boardObject').dump();
+      console.log(boardData);
+      console.log(data);
+      boardData.drawable.shapes = data.points;
+      boardData.render();
     },
 
-    clearDiagram: function() {
-      var context = document.getElementById('diagram').getContext('2d');
-      context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+    removePointsForOthers: function() {
+      var boardData = this.get('boardObject').dump();
+      if (!boardData.drawable.shapes.length) {
+        return;
+      }
+      boardData.drawable.shapes = [];
+      boardData.render();
     },
 
     canIhaveYourGameData: function(data) {
@@ -327,14 +303,12 @@ export default Ember.Controller.extend({
     },
 
     sandboxModeClickedWithPosition: function(data) {
-      console.log(data);
       var dataObj = this.get('fenDataObject');
       dataObj.toPlay = data.fenData.toPlay;
       dataObj.whiteKingCastles = data.fenData.whiteKingCastles;
       dataObj.whiteQueenCastles = data.fenData.whiteQueenCastles;
       dataObj.blackKingCastles = data.fenData.blackKingCastles;
       dataObj.blackQueenCastles = data.fenData.blackQueenCastles;
-      console.log(this.get('fenDataObject'));
       this.get('chessBoardComponent').send('sandboxModeWithPos');
       this.get('room').send('changeSandbox');
     },
@@ -355,7 +329,6 @@ export default Ember.Controller.extend({
     },
 
     addNewNote: function(data) {
-      console.log(data.tree);
       this.get('dataObject').tree = data.tree;
       this.get('chessBoardComponent').send('updateYourPgn');
     }

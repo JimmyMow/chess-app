@@ -36,6 +36,47 @@
 .homepage-nav {
   padding: 5px 50px;
   border-bottom: 1px solid #eee;
+
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  h2 {
+    font-family: 'Roboto';
+    font-weight: 400;
+    display: inline-block;
+    a {
+      text-decoration: none;
+      color: none;
+    }
+  }
+
+  ul {
+    float: right;
+    li {
+      display: inline-block;
+      font-size: 16px;
+      padding: 0 10px;
+      a {
+        text-decoration: none;
+        border: 1px solid #d8d8d8;
+        text-transform: uppercase;
+        font-family: 'Roboto';
+        transition: .13s;
+        text-align: center;
+        padding: 10px 15px;
+        background: #fff;
+        color: #707070;
+
+        &:hover {
+          background-color: #2196F3;
+          color: white;
+          border: 1px solid #fff;
+        }
+      }
+    }
+  }
 }
 
 .homepage-header-container {
@@ -57,7 +98,7 @@
         text-align: center;
         &.active {
           div {
-            background-color: #3b7ebf;
+            background-color: darken(#2196F3, 10%);
             box-shadow: 0 0 0 8px #f2f2f2;
           }
 
@@ -67,7 +108,7 @@
           }
         }
         div {
-          background: #5490ca;
+          background: #2196F3;
           border-radius: 100%;
           height: calc(90px + 25px);
           width: calc(90px + 25px);
