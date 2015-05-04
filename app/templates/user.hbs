@@ -1,3 +1,9 @@
 <h1>Yoooo</h1>
 <p>Username: {{id}}</p>
 <p>Email: {{email}}</p>
+
+{{#if session.isAuthenticated}}
+  <p>SessionId: {{sessionId}}</p>
+  <p>Token: {{token}}</p>
+  <p><a href="#" {{action "signOut"}}>Sign out</a></p>
+{{/if}}

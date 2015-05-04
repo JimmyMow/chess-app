@@ -950,7 +950,7 @@ export default Ember.Component.extend(InboundActions, {
           _this.get('addPoints')(_this);
         },
         clearDraw: function() {
-          _this.get('clearPoints')(_this);
+          _this.get('removePoints')(_this);
         }
       },
       disableContextMenu: true

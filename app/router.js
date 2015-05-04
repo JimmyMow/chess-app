@@ -15,9 +15,7 @@ Router.map(function() {
   this.resource('user', { path: '/:user_id' }, function() {
 
   });
-  this.resource('room', { path: '/room/:room_id' }, function() {
-    this.route('analyze');
-  });
+  this.resource('room', { path: '/room/:room_id' }, function() {});
   this.route('examples');
 });
 

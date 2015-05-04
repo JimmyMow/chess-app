@@ -14,7 +14,7 @@ export default Ember.Controller.extend({
       var room = this.store.createRecord('room', {});
       room.save().then(function(room) {
           _this.set('showLoading', false);
-          _this.transitionToRoute('room.analyze', room.get('id'));
+          _this.transitionToRoute('room', room.get('id'));
         }, function() {
           _this.set('showLoading', false);
           _this.notify.warning("Hmmm, seems like there was a problem creating your chess room. You check your internet on your end, we'll check our servers on our end, and let's try again.", {
