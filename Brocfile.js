@@ -24,6 +24,7 @@ app.import('vendor/javascript/opentok.js');
 app.import('vendor/javascript/chess.js');
 app.import('vendor/javascript/photoswipe.min.js');
 app.import('vendor/javascript/photoswipe-ui-default.min.js');
+app.import('vendor/javascript/md5.js');
 app.import('bower_components/socket.io-client/socket.io.js');
 app.import('bower_components/ember-sockets/package/EmberSockets.js');
 app.import('bower_components/lodash/lodash.js');

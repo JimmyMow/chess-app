@@ -225,8 +225,6 @@ export default Ember.Controller.extend({
 
     addPointsForOthers: function(data) {
       var boardData = this.get('boardObject').dump();
-      console.log(boardData);
-      console.log(data);
       boardData.drawable.shapes = data.points;
       boardData.render();
     },
@@ -248,6 +246,7 @@ export default Ember.Controller.extend({
       dataObj.boardFen = this.get('boardObject').getFen();
       dataObj.analysisOn = this.get('stockfishAnalysis');
       dataObj.sandboxMode = this.get('sandboxMode');
+      dataObj.shapes = this.get('boardObject').dump().drawable.shapes;
       this.socket.emit('update client', dataObj);
     },
 
@@ -268,6 +267,12 @@ export default Ember.Controller.extend({
       if ( obj.sandboxMode ) {
         this.get('chessBoardComponent').send('sandboxMode');
         this.get('room').send('changeSandbox');
+      }
+
+      if ( obj.shapes ) {
+        var boardData = this.get('boardObject').dump();
+        boardData.drawable.shapes = obj.shapes;
+        boardData.render();
       }
     },
 

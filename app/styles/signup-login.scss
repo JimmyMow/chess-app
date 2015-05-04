@@ -10,6 +10,11 @@
     color: #2a2a2a;
   }
 
+  .message {
+    display: none;
+    color: #F04124;
+  }
+
   form {
     font-size: 14px;
   }
@@ -44,6 +49,14 @@
 
     &:hover {
       background-color: darken(#2196F3, 5%);
+    }
+  }
+}
+
+.login, .signup {
+  &.error {
+    .message {
+      display: block;
     }
   }
 }

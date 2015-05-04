@@ -1,9 +1,10 @@
-<div class="signup">
-  <h1>Sign up</h1>
-  <form class='signup-form'>
-    <input placeholder="User name" required="required" class="username" type="text">
-    <input placeholder="Email" required="required" class="email" type="email">
-    <input placeholder="Password" required="required" class="password" type="password">
+<div class="signup error">
+  <h1>Sign  up</h1>
+  <p class='message'></p>
+  <form {{action "createUser" on="submit"}} class='signup-form'>
+    {{input value=username type="text" class="username" placeholder="User name" autofocus="autofocus" required="required"}}
+    {{input value=email type="email" class="email" placeholder="Email" required="required"}}
+    {{input value=password type="password" class="password" placeholder="Password" required="required"}}
     <input class="submit" type="submit" value="Sign up">
   </form>
 </div>

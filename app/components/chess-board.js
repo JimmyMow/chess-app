@@ -396,7 +396,6 @@ export default Ember.Component.extend(InboundActions, {
   //////////////////////////////
   displayTree: function(component) {
     var tree = component.get('renderTree')(component, component.get('data').tree);
-    console.log('tree: ', tree);
     return m.render(document.getElementById('pgn'), tree);
   },
   renderTree: function(component, tree) {

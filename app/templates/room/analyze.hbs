@@ -2,21 +2,6 @@
   <div class="board-inner-container">
     {{chess-board position='sendPosition' sandboxPstn='sandboxPosition' strt='start' newNote='sendNote' addP='addPoints' removeP='removePoints' board=controller.boardObject game=controller.gameObject actionReceiver=chessBoardComponent data=controller.dataObject sandboxMode=controller.sandboxMode fenData=controller.fenDataObject }}
     <div class='diagram-mode-container'>
-      {{#if diagramMode}}
-        <div class="diagram-left">
-          <a href="#" class="board-button" {{action 'canvas'}}>Turn off diagram mode</a>
-        </div>
-        <div class="diagram-right">
-          <a href="#" class="board-button" {{action 'clearCanvas'}}>Clear diagram</a>
-          <p class='colors-container'>
-            <a href="#" data-hex="#32CD32" class='green active colors'></a>
-            <a href="#" data-hex="#F44336" class='red colors'></a>
-            <a href="#" data-hex="#212121" class='black colors'></a>
-          </p>
-        </div>
-      {{else}}
-        <a href="#" class="board-button diagram-on" {{action 'canvas'}}>Turn on diagram mode</a>
-      {{/if}}
       <div class='duke-header'>
         <h2>Duke Blue Devils: 2015 National Champions</h2>
         <audio controls id="audio">
