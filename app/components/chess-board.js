@@ -25,6 +25,11 @@ export default Ember.Component.extend(InboundActions, {
   },
   notifyOn: true,
   actions: {
+    hideMenu: function() {
+      Ember.$('.room-menu').removeClass('active');
+      Ember.$('.arrow').removeClass('close');
+      Ember.$('#ham-plate').removeClass('close');
+    },
     submitNote: function() {
       var note = Ember.$('#noteForm textarea').val();
       var pathStr = Ember.$("#notePath").val();
@@ -59,6 +64,31 @@ export default Ember.Component.extend(InboundActions, {
       } else {
         this.send('sandboxOff');
       }
+    },
+
+    puzzleClickedSetup: function() {
+      this.get('puzzleClickedSocket')(this, this.get('parentController.puzzleFenString'), this.get('parentController.puzzleGameFenString'));
+      this.send('puzzleClicked');
+    },
+
+    puzzleClicked: function() {
+      this.set('sandboxMode', false);
+      this.get('game').load(this.get('parentController.puzzleGameFenString'));
+      var cfg = this.get('reviewCfg');
+      this.set('startPosString', this.get('parentController.puzzleFenString'));
+      cfg.fen = this.get('parentController.puzzleFenString');
+      cfg.lastMove = null;
+      cfg.selected = null;
+      cfg.movable.dests = this.get('chessToDests')(this.get('game'));
+      this.get('board').set(cfg);
+      Ember.$('#pgn').empty();
+      this.set('data', {
+        tree: [],
+        pathDefault: [{ ply: 0, variation: null }],
+        path: [{ ply: 0, variation: null }],
+        pathStr: ''
+      });
+      this.send('hideMenu');
     },
 
     sandboxModeWithPos: function() {
@@ -233,6 +263,9 @@ export default Ember.Component.extend(InboundActions, {
   },
   removePoints:function(component) {
     component.sendAction('removeP');
+  },
+  puzzleClickedSocket: function(component, boardfen, gamefen) {
+    component.sendAction('puzzleC', { boardfen: boardfen, gamefen: gamefen });
   },
   //////////////////////////
   //chess logic functions//
@@ -866,6 +899,27 @@ export default Ember.Component.extend(InboundActions, {
     var chess = new Chess();
     this.set('game', chess);
     var onMove = function(from, to) {
+      var dump = _this.get('board').dump();
+      var piece = dump.pieces[to];
+      var promotionCheat = {
+        'q': 'queen',
+        'r': 'rook',
+        'b': 'bishop',
+        'n': 'knight'
+      }
+      var promotion = {
+        piece: null,
+        color: null
+      };
+      console.log("piece: ", piece);
+      console.log("dest[1]: ", to[1]);
+      console.log("turn color: ", dump.turnColor);
+      if (piece && piece.role == 'pawn') {
+        if ( (to[1] == 1 && dump.turnColor == 'black') || (to[1] == 8 && dump.turnColor == 'white') ) {
+          promotion.piece = 'q';
+          promotion.color = dump.turnColor;
+        }
+      }
       var chess = _this.get('game');
       var castle = _this.get('didTheyCastle')(from+"-"+to);
       if(castle) {
@@ -874,8 +928,22 @@ export default Ember.Component.extend(InboundActions, {
           lastMove: [from, to]
         });
       }
-      var move = chess.move({from: from, to: to});
-      chess.move({from: from, to: to});
+      var move = promotion ? chess.move({from: from, to: to, promotion: promotion.piece}) : chess.move({from: from, to: to});
+      if (promotion.piece) {
+        var x = {color: promotion.color, role: promotionCheat[promotion.piece]};
+        var y = {};
+        y[to] = x;
+        _this.get('board').setPieces(y);
+      }
+      if (move.flags === 'e') {
+        var x = _this.get('game').turn() === 'b' ? -1 : 1;
+        var square = to[0] + (parseInt(to[1]) + x);
+        var res = {};
+        res[square] = null;
+
+        _this.get('board').setPieces(res);
+      }
+      // chess.move({from: from, to: to});
       _this.get('board').set({
         turnColor: _this.get('chessToColor')(chess),
         movable: {
@@ -888,6 +956,9 @@ export default Ember.Component.extend(InboundActions, {
       _this.send('removeActive');
       _this.get('displayTree')(_this);
       _this.get('sendPosition')(_this, _this.get('game').fen(), _this.get('board').getFen(), from, to, _this.get('data'));
+    };
+    var promotionStart = function() {
+
     };
     var reviewCfg = {
       turnColor: _this.get('chessToColor')(chess),
@@ -907,6 +978,9 @@ export default Ember.Component.extend(InboundActions, {
         }
       },
       events: {
+        change: function() {
+
+        },
         afterDraw: function() {
           _this.get('addPoints')(_this);
         },
@@ -1105,5 +1179,6 @@ export default Ember.Component.extend(InboundActions, {
     });
 
     window.dataObj = this.get('data');
+    window.ground = this.get('board');
   }
 });

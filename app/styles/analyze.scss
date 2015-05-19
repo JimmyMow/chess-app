@@ -542,3 +542,43 @@ canvas {
     background-color: rgba(20, 85, 30, 0.5);
   }
 }
+
+.puzzle-form {
+  width: 50%;
+  margin: 0 auto;
+  form {
+    font-size: 14px;
+  }
+
+  input[type=text] {
+    display: inline-block;
+    line-height: 35px;
+    padding: 0 15px;
+    background: #fff;
+    border: 1px solid #ebebeb;
+    outline: none;
+    width: 45%;
+    font-size: 14px;
+  }
+
+  input[type=submit] {
+    display: inline-block;
+    width: 28%;
+    cursor: pointer;
+    transition: background-color 0.13s;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fff;
+    border: none;
+    padding: 0 15px;
+    line-height: 35px;
+    outline: none;
+    background-color: #2196F3;
+    font-size: 14px;
+    letter-spacing: 1px;
+
+    &:hover {
+      background-color: darken(#2196F3, 5%);
+    }
+  }
+}

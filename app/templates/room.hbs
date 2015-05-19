@@ -22,7 +22,7 @@
     <!-- {{outlet}} -->
     <div class="board-outter-container outter-container">
       <div class="board-inner-container">
-        {{chess-board position='sendPosition' sandboxPstn='sandboxPosition' strt='start' newNote='sendNote' addP='addPoints' removeP='removePoints' board=controller.boardObject game=controller.gameObject actionReceiver=chessBoardComponent data=controller.dataObject sandboxMode=controller.sandboxMode fenData=controller.fenDataObject }}
+        {{chess-board position='sendPosition' sandboxPstn='sandboxPosition' strt='start' newNote='sendNote' addP='addPoints' removeP='removePoints' puzzleC='puzzleClicked' board=controller.boardObject game=controller.gameObject actionReceiver=chessBoardComponent data=controller.dataObject sandboxMode=controller.sandboxMode fenData=controller.fenDataObject parentController=controller}}
         <div class='diagram-mode-container'>
           <div class='duke-header'>
             <h2>Duke Blue Devils: 2015 National Champions</h2>

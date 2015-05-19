@@ -1,9 +1,19 @@
-<h1>Yoooo</h1>
-<p>Username: {{id}}</p>
-<p>Email: {{email}}</p>
+<div class="content-container">
+  <h1>{{id}}</h1>
+  <p>Email: {{email}}</p>
+  <p>{{#link-to 'userroom' this}}Go to {{id}}'s room{{/link-to}}</p>
 
-{{#if session.isAuthenticated}}
-  <p>SessionId: {{sessionId}}</p>
-  <p>Token: {{token}}</p>
-  <p><a href="#" {{action "signOut"}}>Sign out</a></p>
-{{/if}}
+  <hr>
+
+  {{#if owner}}
+    {{#if editingSecret}}
+      <p> Room secret:
+        {{input value=roomsecret type="text" class="roomsecret" value=this.roomsecret required="required" autofocus="autofocus"}}
+        <span><a href="#" {{action 'editRoomSecret'}}>Done</a></span>
+      </p>
+    {{else}}
+      <p>Room secret: {{this.roomsecret}} <span><a href="#" {{action 'editRoomSecret'}}>Edit</a></span></p>
+    {{/if}}
+    <p><a href="#" {{action "signOut"}}>Sign out</a></p>
+  {{/if}}
+</div>

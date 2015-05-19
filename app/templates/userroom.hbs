@@ -1,0 +1,33 @@
+{{#if owner}}
+  {{room-menu user=session.user}}
+{{/if}}
+
+{{#if owner}}
+  <div class="room-menu slider">
+    <h1>Your puzzles</h1>
+    <div class="puzzles-container">
+      {{#each model.puzzles}}
+        <div class="puzzle-container">
+          <h3>{{this.name}}</h3>
+          {{view 'puzzle-board' fen=this.position gameFen=this.gameFen}}
+        </div>
+      {{/each}}
+    </div>
+    <div class="fetch-puzzles-container">
+      {{#if isFetchingPuzzles}}
+        <p>{{fa-icon "spinner"}} Loading...</p>
+      {{else}}
+        <a href="#" class='board-button' {{action 'fetchMorePuzzles'}}>Get more puzzles</a>
+      {{/if}}
+    </div>
+  </div>
+{{/if}}
+
+{{outlet}}
+
+{{#if sandboxModeOnAndUser}}
+  <form {{action "createPuzzle" on="submit"}} class='puzzle-form'>
+    {{input value=name type="text" placeholder="Position name" required="required"}}
+    <input class="submit" type="submit" value="Save this puzzle">
+  </form>
+{{/if}}

@@ -8,7 +8,7 @@ Ember.MODEL_FACTORY_INJECTIONS = true;
 var Socket = EmberSockets.extend({
   host: window.location.host,
   port: 3000,
-  controllers: ['room', 'index'],
+  controllers: ['room', 'index', 'user_room'],
   autoConnect: true
 });
 

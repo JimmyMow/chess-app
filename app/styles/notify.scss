@@ -16,6 +16,10 @@
     background-color: #F2DEDE;
     color: darken(#F2DEDE, 50%);
   }
+  &.error {
+    background-color: #F2DEDE;
+    color: darken(#F2DEDE, 50%);
+  }
   .close {
     cursor: pointer;
     transition: all .15s ease;

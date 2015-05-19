@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.ObjectController.extend({
   linkUrl: window.location.href,
   sandboxMode: false,
-    boardObject: null,
+  boardObject: null,
   gameObject: null,
   dataObject: {
     tree: [],
@@ -18,6 +18,9 @@ export default Ember.ObjectController.extend({
   sandboxMode: false,
   fenDataObject: null,
   detailsObj: null,
+  puzzleFenString: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
+  puzzleGameFenString: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
+
   actions: {
     sandboxMode: function() {
       this.toggleProperty('sandboxMode');
@@ -28,7 +31,7 @@ export default Ember.ObjectController.extend({
     changeSandbox: function() {
       this.toggleProperty('sandboxMode');
     },
-        clearBoard: function() {
+    clearBoard: function() {
       this.get('chessBoardComponent').send('clearBoard');
       this.socket.emit('clear board');
     },
@@ -50,6 +53,10 @@ export default Ember.ObjectController.extend({
       if (this.get('stockfishAnalysis')) {
         this.socket.emit('stop analyzing');
       }
+    },
+
+    puzzleClicked: function(data) {
+      this.socket.emit('puzzle clicked', data);
     },
 
     sandboxModeWithPos: function() {
@@ -322,6 +329,12 @@ export default Ember.ObjectController.extend({
       dataObj.blackQueenCastles = data.fenData.blackQueenCastles;
       this.get('chessBoardComponent').send('sandboxModeWithPos');
       this.send('changeSandbox');
+    },
+
+    getThePuzzleClicked: function(data) {
+      this.set('puzzleFenString', data.boardfen);
+      this.set('puzzleGameFenString', data.gamefen);
+      this.get('chessBoardComponent').send('puzzleClicked');
     },
 
     sandboxPositionChanged: function(data) {
