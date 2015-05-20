@@ -4,7 +4,7 @@ export default Ember.Route.extend({
   activate: function() {
     Ember.$('body').addClass('eee-container');
     this.notify.success('Welcome to your own chess room! All you have to do now is invite others to review chess with you. To invite others, share the url in the top of your browser or click the link in the top left of your screen.', {
-      closeAfter: null
+      closeAfter: 10000
     });
   },
   deactivate: function() {

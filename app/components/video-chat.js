@@ -6,6 +6,9 @@ export default Ember.Component.extend({
   apiKey: "44827272",
   didInsertElement: function() {
     var session = OT.initSession(this.get('apiKey'), this.get('sessionId'));
+    if ( session.isConnected() ) {
+      session.disconnect();
+    }
 
     session.on("streamCreated", function(event) {
       session.subscribe(event.stream, "otherPeople", { width: 200, height: 159, insertMode: 'append', style: { buttonDisplayMode: 'off', nameDisplayMode: 'off', bugDisplayMode: 'off' } });

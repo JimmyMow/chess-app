@@ -75,13 +75,13 @@ export default Ember.Component.extend(InboundActions, {
       this.set('sandboxMode', false);
       this.get('game').load(this.get('parentController.puzzleGameFenString'));
       var cfg = this.get('reviewCfg');
-      this.set('startPosString', this.get('parentController.puzzleFenString'));
+      this.set('startPosString', this.get('parentController.puzzleGameFenString'));
       cfg.fen = this.get('parentController.puzzleFenString');
       cfg.lastMove = null;
       cfg.selected = null;
       cfg.movable.dests = this.get('chessToDests')(this.get('game'));
       this.get('board').set(cfg);
-      Ember.$('#pgn').empty();
+      m.render(document.getElementById('pgn'), null);
       this.set('data', {
         tree: [],
         pathDefault: [{ ply: 0, variation: null }],
@@ -103,7 +103,7 @@ export default Ember.Component.extend(InboundActions, {
       cfg.selected = null;
       cfg.movable.dests = this.get('chessToDests')(this.get('game'));
       this.get('board').set(cfg);
-      Ember.$('#pgn').empty();
+      m.render(document.getElementById('pgn'), null);
       this.set('data', {
         tree: [],
         pathDefault: [{ ply: 0, variation: null }],
@@ -134,7 +134,7 @@ export default Ember.Component.extend(InboundActions, {
       if (this.get('notifyOn')) {
         Notify.info({
           raw: "<div>You are now in sandbox mode! Sandbox mode is for setting up positions, puzzles, clearing the board, etc. Normal chess rules don't apply.</div>",
-          closeAfter: null
+          closeAfter: 10000
         });
       }
       this.set('notifyOn', false);
@@ -429,6 +429,8 @@ export default Ember.Component.extend(InboundActions, {
   //////////////////////////////
   displayTree: function(component) {
     var tree = component.get('renderTree')(component, component.get('data').tree);
+    console.log(tree);
+    console.log(document.getElementById('pgn'));
     return m.render(document.getElementById('pgn'), tree);
   },
   renderTree: function(component, tree) {
@@ -895,6 +897,14 @@ export default Ember.Component.extend(InboundActions, {
   // element ready function //
   ////////////////////////////
   didInsertElement: function() {
+    if ( this.get('data').tree.length ) {
+      this.set('data', {
+        tree: [],
+        pathDefault: [{ ply: 0, variation: null }],
+        path: [{ ply: 0, variation: null }],
+        pathStr: ''
+      });
+    }
     var _this = this;
     var chess = new Chess();
     this.set('game', chess);
@@ -911,9 +921,6 @@ export default Ember.Component.extend(InboundActions, {
         piece: null,
         color: null
       };
-      console.log("piece: ", piece);
-      console.log("dest[1]: ", to[1]);
-      console.log("turn color: ", dump.turnColor);
       if (piece && piece.role == 'pawn') {
         if ( (to[1] == 1 && dump.turnColor == 'black') || (to[1] == 8 && dump.turnColor == 'white') ) {
           promotion.piece = 'q';
