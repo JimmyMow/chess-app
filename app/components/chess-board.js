@@ -103,13 +103,13 @@ export default Ember.Component.extend(InboundActions, {
       cfg.selected = null;
       cfg.movable.dests = this.get('chessToDests')(this.get('game'));
       this.get('board').set(cfg);
-      m.render(document.getElementById('pgn'), null);
       this.set('data', {
         tree: [],
         pathDefault: [{ ply: 0, variation: null }],
         path: [{ ply: 0, variation: null }],
         pathStr: ''
       });
+      m.render(document.getElementById('pgn'), null);
     },
 
     sandboxOff: function() {
@@ -429,8 +429,6 @@ export default Ember.Component.extend(InboundActions, {
   //////////////////////////////
   displayTree: function(component) {
     var tree = component.get('renderTree')(component, component.get('data').tree);
-    console.log(tree);
-    console.log(document.getElementById('pgn'));
     return m.render(document.getElementById('pgn'), tree);
   },
   renderTree: function(component, tree) {
@@ -911,6 +909,7 @@ export default Ember.Component.extend(InboundActions, {
     var onMove = function(from, to) {
       var dump = _this.get('board').dump();
       var piece = dump.pieces[to];
+      var game = _this.get('game');
       var promotionCheat = {
         'q': 'queen',
         'r': 'rook',
@@ -922,9 +921,9 @@ export default Ember.Component.extend(InboundActions, {
         color: null
       };
       if (piece && piece.role == 'pawn') {
-        if ( (to[1] == 1 && dump.turnColor == 'black') || (to[1] == 8 && dump.turnColor == 'white') ) {
+        if ( (to[1] == 1 && game.turn() == 'b') || (to[1] == 8 && game.turn() == 'w') ) {
           promotion.piece = 'q';
-          promotion.color = dump.turnColor;
+          promotion.color = game.turn() === 'w' ? 'white' : 'black';
         }
       }
       var chess = _this.get('game');

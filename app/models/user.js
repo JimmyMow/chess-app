@@ -6,6 +6,12 @@ var User = DS.Model.extend({
   sessionId: DS.attr("string"),
   token: DS.attr("string"),
   roomsecret: DS.attr("string"),
+  about: DS.attr("string"),
+  rating: DS.attr("string"),
+  location: DS.attr("string"),
+  name: DS.attr("string"),
+  created_at: DS.attr("string"),
+  updated_at: DS.attr("string"),
   puzzles: DS.hasMany('puzzle', {async: true})
 });
 

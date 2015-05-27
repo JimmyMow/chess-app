@@ -1,19 +1,26 @@
-<div class="content-container">
-  <h1>{{id}}</h1>
-  <p>Email: {{email}}</p>
-  <p>{{#link-to 'userroom' this}}Go to {{id}}'s room{{/link-to}}</p>
+<div class="content-container profile">
+  <div class="header">
+    <h1>{{id}}</h1>
+    <div class="mini-menu">
+      {{#link-to 'user.edit' this data-hint="Edit your profile" class="board-button small hint--bottom-left"}}{{fa-icon 'cog'}}{{/link-to}}
+    </div>
+    <div class="info">
+    <p>{{name}}</p>
+    <p>{{email}}</p>
+    <p>{{rating}}</p>
+    <p>{{location}}</p>
+    <p>{{about}}</p>
+    <div class='room-action'>
+      {{#link-to 'userroom' this class="board-button"}}Go to {{id}}'s room{{/link-to}}
+      {{#if owner}}
+        <p>Your room secret is "{{roomsecret}}"</p>
+      {{/if}}
+    </div>
+  </div>
 
-  <hr>
-
-  {{#if owner}}
-    {{#if editingSecret}}
-      <p> Room secret:
-        {{input value=roomsecret type="text" class="roomsecret" value=this.roomsecret required="required" autofocus="autofocus"}}
-        <span><a href="#" {{action 'editRoomSecret'}}>Done</a></span>
-      </p>
-    {{else}}
-      <p>Room secret: {{this.roomsecret}} <span><a href="#" {{action 'editRoomSecret'}}>Edit</a></span></p>
-    {{/if}}
+  {{#if session.isAuthenticated}}
     <p><a href="#" {{action "signOut"}}>Sign out</a></p>
   {{/if}}
+
+  {{outlet}}
 </div>

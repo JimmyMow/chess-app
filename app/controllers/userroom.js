@@ -9,6 +9,9 @@ export default Ember.Controller.extend({
   sandboxModeOnAndUser: function() {
     return this.get('controllers.room.sandboxMode') && this.get('owner');
   }.property('controllers.room.sandboxMode', 'owner'),
+  thereArePuzzles: function() {
+    return this.get('model.puzzles.length') > 0;
+  }.property('model.puzzles.length'),
 
   actions: {
     createPuzzle: function() {
@@ -32,7 +35,7 @@ export default Ember.Controller.extend({
           _this.set('name', '');
            _this.get('model.puzzles').pushObject(puzzle);
         }, function() {
-          _this.notify.error("Fuck, we had a problem saving your puzzle", {
+          _this.notify.error("Shoot, we had a problem saving your puzzle", {
             closeAfter: 3000
           });
         });
@@ -42,11 +45,17 @@ export default Ember.Controller.extend({
     fetchMorePuzzles: function() {
       var _this = this;
       this.set('isFetchingPuzzles', true);
+      console.log("puzzles length: ", this.get('model.puzzles.length'));
       this.store.find('puzzle', { user : this.get('model.id'), skip : this.get('model.puzzles.length') }).then(function(puzzlesArr) {
         _this.set('isFetchingPuzzles', false);
+        console.log("puzzles: ", puzzlesArr);
+        _this.get('model.puzzles').then(function(puzzles) {
+          puzzles.pushObjects(puzzlesArr.content);
+          console.log("after push: ", _this.get('model.puzzles.length'));
+        });
       }, function() {
         _this.set('isFetchingPuzzles', false);
-        this.notify.error("Fuck, we had a problem getting some more puzzles for ya", {
+        this.notify.error("Shoot, we had a problem getting some more puzzles for ya", {
           closeAfter: 3000
         });
       });

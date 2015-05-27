@@ -12,6 +12,7 @@
 @import 'ios-switch';
 @import 'notify';
 @import 'zero-clipboard';
+@import 'tooltip';
 @import 'modal';
 @import 'chessground';
 @import 'chessboard';
@@ -21,6 +22,7 @@
 @import 'room';
 @import 'home';
 @import 'userroom';
+@import 'user';
 
 
 
@@ -48,6 +50,11 @@ a {
 .content-container {
   width: 90%;
   margin: 0 auto;
+}
+
+.content-container.profile {
+  width: 70%;
+  margin: 40px auto;
 }
 
 html.duke-html, body.duke-body {

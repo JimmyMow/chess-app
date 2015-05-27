@@ -12,7 +12,9 @@ Router.map(function() {
     this.route('signup');
   });
 
-  this.resource('user', { path: '/:user_id' }, function() {});
+  this.resource('user', { path: '/:user_id' }, function() {
+    this.route('edit');
+  });
 
   this.resource('userroom', { path: '/:user_id/room' }, function() {
     this.route('personalroom', { path: '/' });

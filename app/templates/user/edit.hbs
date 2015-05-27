@@ -1,1 +1,9 @@
-yo editing {{this.id}}
+{{#if owner}}
+  <p>Name: {{input value=name type="text" class="name" value=this.name}}</p>
+  <p>Rating: {{input value=rating type="text" class="rating" value=this.rating}}</p>
+  <p>Email: {{input value=email type="text" class="email" value=this.email}}</p>
+  <p>About: {{textarea value=about class="about" value=this.about}}</p>
+  <p>Location: {{input value=location type="text" class="location" value=this.location}}</p>
+  <p>Room secret: {{input value=roomsecret type="text" class="roomsecret" value=this.roomsecret}}</p>
+  <span><a href="#" class="board-button" {{action 'editUser'}}>Done</a></span>
+{{/if}}

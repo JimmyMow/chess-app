@@ -4,7 +4,7 @@
 
 {{#if owner}}
   <div class="room-menu slider">
-    <h1>Your puzzles</h1>
+    <h1>Your positions</h1>
     <div class="puzzles-container">
       {{#each model.puzzles}}
         <div class="puzzle-container">
@@ -13,13 +13,19 @@
         </div>
       {{/each}}
     </div>
-    <div class="fetch-puzzles-container">
-      {{#if isFetchingPuzzles}}
-        <p>{{fa-icon "spinner"}} Loading...</p>
-      {{else}}
-        <a href="#" class='board-button' {{action 'fetchMorePuzzles'}}>Get more puzzles</a>
-      {{/if}}
-    </div>
+    {{#if thereArePuzzles}}
+      <div class="fetch-puzzles-container">
+        {{#if isFetchingPuzzles}}
+          <p>{{fa-icon "spinner"}} Loading...</p>
+        {{else}}
+          <a href="#" class='board-button' {{action 'fetchMorePuzzles'}}>Get more puzzles</a>
+        {{/if}}
+      </div>
+    {{else}}
+      <p class='no-puzzles'>
+        Wow, you don't have any positions, and that ain't right. While in sandbox mode, there is a form below the board that allows you to name and save any position you please so that you can access it here later and make life easier. Go save you some.
+      </p>
+    {{/if}}
   </div>
 {{/if}}
 
@@ -28,6 +34,6 @@
 {{#if sandboxModeOnAndUser}}
   <form {{action "createPuzzle" on="submit"}} class='puzzle-form'>
     {{input value=name type="text" placeholder="Position name" required="required"}}
-    <input class="submit" type="submit" value="Save this puzzle">
+    <input class="submit" type="submit" value="Save this position">
   </form>
 {{/if}}

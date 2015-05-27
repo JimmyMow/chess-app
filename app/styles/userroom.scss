@@ -129,10 +129,20 @@ $color: #707070;
   .puzzle-container {
     display: inline-block;
     padding: 0 10px;
+    width: 20%;
 
     h3 {
       font-weight: 200;
     }
+
+  }
+
+  .no-puzzles {
+    font-size: 24px;
+    width: 50%;
+    margin: 0 auto;
+    line-height: 1.5;
+    font-weight: 300;
   }
 
   .fetch-puzzles-container {
