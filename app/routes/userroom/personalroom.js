@@ -15,6 +15,8 @@ export default Ember.Route.extend({
     this.socket.emit('join room', { room: model.id });
   },
   renderTemplate: function(controller) {
-    this.render('room');
+    this.render('room', {
+      outlet: 'room'
+    });
   }
 });

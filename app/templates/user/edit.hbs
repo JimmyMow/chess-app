@@ -1,10 +1,16 @@
-<hr>
-{{#if owner}}
-  <p>Name: {{input type="text" class="name" value=this.name}}</p>
-  <p>Rating: {{input type="text" class="rating" value=this.rating}}</p>
-  <p>Email: {{input type="text" class="email" value=this.email}}</p>
-  <p>About: {{textarea class="about" value=this.about}}</p>
-  <p>Location: {{input type="text" class="location" value=this.location}}</p>
-  <p>Room secret: {{input type="text" class="roomsecret" value=this.roomsecret}}</p>
-  <div class='edit-user-submit'><a href="#" class="board-button" {{action 'editUser'}}>Done</a></span>
-{{/if}}
+<div class="edit-user">
+  <h3>Edit your profile here and it will update live. Click done at the bottom when you are finished.</h3>
+  {{#if owner}}
+    <p>Name: {{input type="text" class="name" value=this.name}}</p>
+    <p>Rating: {{input type="text" class="rating" value=this.rating}}</p>
+    <p>Email: {{input type="text" class="email" value=this.email}}</p>
+    <p>About: {{textarea class="about" value=this.about}}</p>
+    <p>Location: {{input type="text" class="location" value=this.location}}</p>
+    <p>Room secret: {{input type="text" class="roomsecret" value=this.roomsecret}}</p>
+    <div class='edit-user-submit'>
+      <a href="#" class="board-button" {{action 'editUser'}}>
+        Done
+      </a>
+    </div>
+  {{/if}}
+</div>

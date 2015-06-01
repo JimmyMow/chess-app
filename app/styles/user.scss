@@ -35,20 +35,23 @@
     }
   }
 
+}
+
+.edit-user {
+  margin: 40px;
   input[type=text] {
-    padding: 0 15px;
     background: #fff;
     border: 1px solid #ebebeb;
     outline: none;
-    width: 93%;
+    width: 100%;
     font-size: 14px;
     line-height: 30px;
   }
 
   textarea {
-    width: 93%;
+    width: 100%;
     height: 120px;
-    padding: 10px 15px;
+    padding: 10px 0;
     font-size: 14px;
     display: block;
     border: 1px solid #ebebeb;
@@ -56,10 +59,9 @@
     background-position: bottom right;
     background-repeat: no-repeat;
   }
-}
 
-.edit-user-submit {
-  width: 50%;
-  margin: 20px auto;
+  .edit-user-submit {
+    width: 50%;
+    margin: 20px auto;
+  }
 }
-

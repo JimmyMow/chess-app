@@ -9,16 +9,17 @@
       </div>
     {{/if}}
     <div class="info">
-    <p>{{name}}</p>
-    <p>{{email}}</p>
-    <p>{{rating}}</p>
-    <p>{{location}}</p>
-    <p>{{about}}</p>
-    <div class='room-action'>
-      {{#link-to 'userroom' this class="board-button"}}Go to {{id}}'s room{{/link-to}}
-      {{#if owner}}
-        <p>Your room secret is "{{roomsecret}}"</p>
-      {{/if}}
+      <p>{{name}}</p>
+      <p>{{email}}</p>
+      <p>{{rating}}</p>
+      <p>{{location}}</p>
+      <p>{{about}}</p>
+      <div class='room-action'>
+        {{#link-to 'userroom' this class="board-button"}}Go to {{id}}'s room{{/link-to}}
+        {{#if owner}}
+          <p>Your room secret is "{{roomsecret}}"</p>
+        {{/if}}
+      </div>
     </div>
   </div>
 
