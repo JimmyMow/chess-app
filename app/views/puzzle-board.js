@@ -5,9 +5,13 @@ export default Ember.View.extend({
   classNames: ['puzzle-board', 'chessground', 'wood', 'tiny', 'cburnett', 'coordinates'],
   fen: null,
   gameFen: null,
+  ground: null,
 
   click: function() {
-    var roomController = this.get('controller.controllers.room');
+    if (this.get('isEditing') ) {
+      return;
+    }
+    var roomController = this.get('roomController');
     roomController.set('puzzleFenString', this.get('fen'));
     roomController.set('puzzleGameFenString', this.get('gameFen'));
     roomController.get('chessBoardComponent').send('puzzleClickedSetup');
@@ -17,10 +21,10 @@ export default Ember.View.extend({
     var ground = new Chessground(document.getElementById(this.get('elementId')), {
       fen: this.get('fen'),
       coordinates: false,
-      viewOnly: true,
       movable: {
         free: false
       }
     });
+    this.set('ground', ground);
   }
 });

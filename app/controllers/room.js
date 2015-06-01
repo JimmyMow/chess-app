@@ -15,19 +15,18 @@ export default Ember.ObjectController.extend({
   diagramMode: false,
   stockfishAnalysis: false,
   orientation: 'white',
-  sandboxMode: false,
   fenDataObject: null,
   detailsObj: null,
   puzzleFenString: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
   puzzleGameFenString: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
 
   actions: {
-    sandboxMode: function() {
-      this.toggleProperty('sandboxMode');
-    },
-    sandboxModeWithPos: function() {
-      this.toggleProperty('sandboxMode');
-    },
+    // sandboxMode: function() {
+    //   this.toggleProperty('sandboxMode');
+    // },
+    // sandboxModeWithPos: function() {
+    //   this.toggleProperty('sandboxMode');
+    // },
     changeSandbox: function() {
       this.toggleProperty('sandboxMode');
     },
@@ -48,6 +47,7 @@ export default Ember.ObjectController.extend({
     },
 
     sandboxMode: function() {
+      this.toggleProperty('sandboxMode');
       this.get('chessBoardComponent').send('sandboxMode');
       this.socket.emit('sandbox mode clicked');
       if (this.get('stockfishAnalysis')) {
@@ -60,6 +60,7 @@ export default Ember.ObjectController.extend({
     },
 
     sandboxModeWithPos: function() {
+      this.toggleProperty('sandboxMode');
       this.get('chessBoardComponent').send('sandboxModeWithPos');
       this.socket.emit('sandbox mode clicked with pos', { fenData: this.get('fenDataObject') });
       if (this.get('stockfishAnalysis')) {

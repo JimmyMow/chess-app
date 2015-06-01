@@ -34,4 +34,32 @@
       text-align: center;
     }
   }
+
+  input[type=text] {
+    padding: 0 15px;
+    background: #fff;
+    border: 1px solid #ebebeb;
+    outline: none;
+    width: 93%;
+    font-size: 14px;
+    line-height: 30px;
+  }
+
+  textarea {
+    width: 93%;
+    height: 120px;
+    padding: 10px 15px;
+    font-size: 14px;
+    display: block;
+    border: 1px solid #ebebeb;
+    outline: none;
+    background-position: bottom right;
+    background-repeat: no-repeat;
+  }
 }
+
+.edit-user-submit {
+  width: 50%;
+  margin: 20px auto;
+}
+

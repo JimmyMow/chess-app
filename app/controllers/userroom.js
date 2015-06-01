@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   needs: ['room'],
   isFetchingPuzzles: false,
+  roomController: Ember.computed.alias('controllers.room'),
   owner: function() {
     return this.get('model.id') === this.get('session.user.id');
   }.property('model', 'session'),
@@ -45,13 +46,10 @@ export default Ember.Controller.extend({
     fetchMorePuzzles: function() {
       var _this = this;
       this.set('isFetchingPuzzles', true);
-      console.log("puzzles length: ", this.get('model.puzzles.length'));
       this.store.find('puzzle', { user : this.get('model.id'), skip : this.get('model.puzzles.length') }).then(function(puzzlesArr) {
         _this.set('isFetchingPuzzles', false);
-        console.log("puzzles: ", puzzlesArr);
         _this.get('model.puzzles').then(function(puzzles) {
           puzzles.pushObjects(puzzlesArr.content);
-          console.log("after push: ", _this.get('model.puzzles.length'));
         });
       }, function() {
         _this.set('isFetchingPuzzles', false);

@@ -1,11 +1,6 @@
 <div class="eee-container">
 <canvas id="world"></canvas>
-  <nav class='room-nav'>
-    <ul>
-      <li>{{#link-to 'home.marketing'}}Home{{/link-to}}</li>
-      <li>{{zero-clipboard text=linkUrl label="URL"}}</li>
-    </ul>
-  </nav>
+  {{navbar-object session=session}}
   <div class="content-container">
     <div class='sandbox-mode-header'>
       <div>

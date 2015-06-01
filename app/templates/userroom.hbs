@@ -7,10 +7,7 @@
     <h1>Your positions</h1>
     <div class="puzzles-container">
       {{#each model.puzzles}}
-        <div class="puzzle-container">
-          <h3>{{this.name}}</h3>
-          {{view 'puzzle-board' fen=this.position gameFen=this.gameFen}}
-        </div>
+        {{user-puzzle puzzle=this roomController=controller.roomController}}
       {{/each}}
     </div>
     {{#if thereArePuzzles}}

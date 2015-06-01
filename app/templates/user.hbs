@@ -1,9 +1,13 @@
+{{navbar-object session=session}}
+
 <div class="content-container profile">
   <div class="header">
     <h1>{{id}}</h1>
-    <div class="mini-menu">
-      {{#link-to 'user.edit' this data-hint="Edit your profile" class="board-button small hint--bottom-left"}}{{fa-icon 'cog'}}{{/link-to}}
-    </div>
+    {{#if owner}}
+      <div class="mini-menu">
+        {{#link-to 'user.edit' this data-hint="Edit your profile" class="board-button small hint--bottom-left"}}{{fa-icon 'cog'}}{{/link-to}}
+      </div>
+    {{/if}}
     <div class="info">
     <p>{{name}}</p>
     <p>{{email}}</p>
@@ -17,10 +21,6 @@
       {{/if}}
     </div>
   </div>
-
-  {{#if session.isAuthenticated}}
-    <p><a href="#" {{action "signOut"}}>Sign out</a></p>
-  {{/if}}
 
   {{outlet}}
 </div>

@@ -1,0 +1,8 @@
+<ul>
+  {{#if session.isAuthenticated}}
+    <li>{{#link-to 'home.marketing'}}{{session.user.id}}{{/link-to}}</li>
+    <li><a href="#" {{action "signOut"}}>Sign out</a></li>
+  {{else}}
+    <li>{{#link-to 'home.marketing'}}Home{{/link-to}}</li>
+  {{/if}}
+</ul>
