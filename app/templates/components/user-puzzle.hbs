@@ -1,9 +1,9 @@
 <div class="puzzle-container">
-<!--   {{#if isEditing}}
-    <a href="#" {{action 'edit'}}>Done</a>
+  {{#if isEditing}}
+    <a href="#" class='edit-done board-button small hint--bottom-left' data-hint="Save your puzzle" {{action 'edit'}}>Done</a>
     <h3>{{input type="text" class="name" value=puzzle.name}}</h3>
     <div>
-      <select id="colorToPlay">
+      <select class="puzzle-color">
         {{#if whiteToPlay}}
           <option value="w" selected>White to play</option>
           <option value="b">Black to play</option>
@@ -14,9 +14,9 @@
       </select>
     </div>
   {{else}}
-    <a href="#" {{action 'edit'}}>{{fa-icon "cog"}}</a>
-  {{/if}} -->
+    <a href="#" class='edit-done board-button small hint--bottom-left' data-hint="Edit your profile" {{action 'edit'}}>{{fa-icon "cog"}}</a>
+    <h3>{{puzzle.name}}</h3>
+  {{/if}}
 
-  <h3>{{puzzle.name}}</h3>
   {{view 'puzzle-board' ground=board fen=puzzle.position gameFen=puzzle.gameFen roomController=roomController isEditing=isEditing}}
 </div>
