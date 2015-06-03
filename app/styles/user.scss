@@ -3,7 +3,7 @@
   margin: 40px auto;
   // Header
   .header {
-    margin: 40px;
+    margin: 40px 40px 0px 40px;
     background-color: #f0f0f0;
     background-image: linear-gradient(to bottom,#fafafa 0%,#f0f0f0 100%);
     text-shadow: 0px 1px 0px #FFF;
@@ -13,6 +13,15 @@
     position: relative;
     font-family: 'Roboto';
     font-weight: 300;
+    .info {
+      p {
+        b {
+          color: #404040;
+          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+          margin-right: 5px;
+        }
+      }
+    }
     h1 {
       display: inline-block;
       vertical-align: baseline;
@@ -38,7 +47,14 @@
 }
 
 .edit-user {
-  margin: 40px;
+  margin: 0px 40px 40px 40px;
+  background: #fff;
+  padding: 10px;
+  text-shadow: 0px 1px 0px #FFF;
+  border: 1px solid #ccc;
+  .message {
+    text-align: center;
+  }
   input[type=text] {
     background: #fff;
     border: 1px solid #ebebeb;
@@ -46,11 +62,12 @@
     width: 100%;
     font-size: 14px;
     line-height: 30px;
+    padding: 0 5px;
   }
 
   textarea {
     width: 100%;
-    height: 120px;
+    height: 50px;
     padding: 10px 0;
     font-size: 14px;
     display: block;

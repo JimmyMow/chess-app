@@ -1,5 +1,8 @@
 <div class="edit-user">
-  <h3>Edit your profile here and it will update live. Click done at the bottom when you are finished.</h3>
+  <div class="message">
+    <h3>Edit your profile here and it will update live. Click done at the bottom when you are finished.</h3>
+    <span>*All info is public and optional</span>
+  </div>
   {{#if owner}}
     <p>Name: {{input type="text" class="name" value=this.name}}</p>
     <p>Rating: {{input type="text" class="rating" value=this.rating}}</p>

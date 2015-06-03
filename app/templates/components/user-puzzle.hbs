@@ -1,22 +1,27 @@
-<div class="puzzle-container">
-  {{#if isEditing}}
-    <a href="#" class='edit-done board-button small hint--bottom-left' data-hint="Save your puzzle" {{action 'edit'}}>Done</a>
-    <h3>{{input type="text" class="name" value=puzzle.name}}</h3>
-    <div>
-      <select class="puzzle-color">
-        {{#if whiteToPlay}}
-          <option value="w" selected>White to play</option>
-          <option value="b">Black to play</option>
-        {{else}}
-          <option value="w">White to play</option>
-          <option value="b" selected>Black to play</option>
-        {{/if}}
-      </select>
-    </div>
-  {{else}}
-    <a href="#" class='edit-done board-button small hint--bottom-left' data-hint="Edit your profile" {{action 'edit'}}>{{fa-icon "cog"}}</a>
-    <h3>{{puzzle.name}}</h3>
-  {{/if}}
+{{#if isEditing}}
+  <div class="options">
+    <a href="#" class='edit-done board-button small hint--bottom-left' data-hint="Save your position" {{action 'edit'}}>Done</a>
+  </div>
+  <h3>{{input type="text" class="name" value=puzzle.name}}</h3>
+  <div class='select-container'>
+    <select class="puzzle-color">
+      {{#if whiteToPlay}}
+        <option value="w" selected>White to play</option>
+        <option value="b">Black to play</option>
+      {{else}}
+        <option value="w">White to play</option>
+        <option value="b" selected>Black to play</option>
+      {{/if}}
+    </select>
+  </div>
+{{else}}
+  <div class="options">
+    <a href="#" class='edit-done board-button small hint--bottom-left' data-hint="Edit your position" {{action 'edit'}}>{{fa-icon "cog"}}</a>
+     <a href="#" class='edit-done board-button small hint--bottom-left' data-hint="Delete this position" {{action 'delete'}}>{{fa-icon "trash-o"}}</a>
+  </div>
+  <h3>{{puzzle.name}}</h3>
+{{/if}}
 
-  {{view 'puzzle-board' ground=board fen=puzzle.position gameFen=puzzle.gameFen roomController=roomController isEditing=isEditing}}
-</div>
+{{view 'puzzle-board' ground=board fen=puzzle.position gameFen=puzzle.gameFen roomController=roomController isEditing=isEditing}}
+
+

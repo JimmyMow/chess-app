@@ -20,6 +20,13 @@ export default Ember.Component.extend({
     return this.get('turn') === 'w';
   }.property('turn'),
   actions: {
+    delete: function() {
+      if (confirm("Are you sure you want to delete this position?") == true) {
+        this.get('puzzle').destroyRecord();
+      } else {
+        return;
+      }
+    },
     edit: function() {
       var controller = this.get('targetObject');
       var _this = this;
@@ -112,7 +119,7 @@ export default Ember.Component.extend({
 
     this.send('parseFen');
 
-    Ember.$('.puzzle-container').on('change', '.puzzle-color', function() {
+    Ember.$('#' + this.get('elementId')).on('change', '.puzzle-color', function() {
       var val = Ember.$(this).val();
       _this.get('fenData').toPlay = val;
       _this.set('turn', val);

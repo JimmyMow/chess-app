@@ -53,7 +53,7 @@ export default Ember.Controller.extend({
         });
       }, function() {
         _this.set('isFetchingPuzzles', false);
-        this.notify.error("Shoot, we had a problem getting some more puzzles for ya", {
+        _this.notify.error("Shoot, we had a problem getting some more puzzles for ya", {
           closeAfter: 3000
         });
       });
