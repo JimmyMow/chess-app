@@ -109,6 +109,8 @@ export default Ember.Component.extend(InboundActions, {
         path: [{ ply: 0, variation: null }],
         pathStr: ''
       });
+      console.log('here with hawk');
+      console.log('pgn: ', document.getElementById('pgn'))
       m.render(document.getElementById('pgn'), null);
     },
 

@@ -1458,7 +1458,6 @@ var Chess = function(fen) {
          * latest valid position)
          */
         if (move == null) {
-          console.log(moves[half_move]);
           return false;
         } else {
           var prettyMove = make_pretty(move);

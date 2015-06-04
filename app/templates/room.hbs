@@ -119,6 +119,14 @@
               </p>
             </div>
           </div>
+          {{#if detailsObj}}
+            <div class="game-details">
+              <h4>You're reviewing</h4>
+              <p>{{fa-icon "circle-thin"}} {{detailsObj.White}}({{detailsObj.WhiteElo}})</p>
+              <p>{{fa-icon "circle"}} {{detailsObj.Black}}({{detailsObj.BlackElo}})</p>
+              <p class='result'>{{detailsObj.Result}}</p>
+            </div>
+          {{/if}}
           <div class="movelist">
             {{view "pgn" id="pgn"}}
           </div>

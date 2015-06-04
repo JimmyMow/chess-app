@@ -21,12 +21,6 @@ export default Ember.ObjectController.extend({
   puzzleGameFenString: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
 
   actions: {
-    // sandboxMode: function() {
-    //   this.toggleProperty('sandboxMode');
-    // },
-    // sandboxModeWithPos: function() {
-    //   this.toggleProperty('sandboxMode');
-    // },
     changeSandbox: function() {
       this.toggleProperty('sandboxMode');
     },
@@ -57,15 +51,21 @@ export default Ember.ObjectController.extend({
 
     puzzleClicked: function(data) {
       this.socket.emit('puzzle clicked', data);
+      if (this.get('detailsObj')) {
+        this.set('detailsObj', null);
+      }
     },
 
     sandboxModeWithPos: function() {
+      if (this.get('detailsObj')) {
+        this.set('detailsObj', null);
+      }
       this.toggleProperty('sandboxMode');
-      this.get('chessBoardComponent').send('sandboxModeWithPos');
       this.socket.emit('sandbox mode clicked with pos', { fenData: this.get('fenDataObject') });
       if (this.get('stockfishAnalysis')) {
         this.socket.emit('stop analyzing');
       }
+      this.get('chessBoardComponent').send('sandboxModeWithPos');
     },
 
     sendPosition: function(data) {
@@ -99,6 +99,9 @@ export default Ember.ObjectController.extend({
       this.get('chessBoardComponent').send('resetBoardStyles');
       Ember.$('.engine-data').text('');
       this.socket.emit('startingGameOver');
+      if (this.get('detailsObj')) {
+        this.set('detailsObj', null);
+      }
     },
 
     start: function() {
@@ -148,7 +151,7 @@ export default Ember.ObjectController.extend({
       this.get('gameObject').load('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
 
       this.get('chessBoardComponent').send('uploadPgn');
-      this.socket.emit('upload pgn', { pgn: pgn });
+      this.socket.emit('upload pgn', { pgn: pgn, gameDetails: details });
     },
 
     submitNote: function() {
@@ -188,7 +191,9 @@ export default Ember.ObjectController.extend({
       this.get('chessBoardComponent').send('resetBoardStyles');
 
       Ember.$('.engine-data').text('');
-      // this.set('detailsObj', null);
+      if (this.get('detailsObj')) {
+        this.set('detailsObj', null);
+      }
     },
 
     startPos: function() {
@@ -313,6 +318,7 @@ export default Ember.ObjectController.extend({
       }
       this.get('dataObject').tree = tree;
       this.get('gameObject').load('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
+      this.set('detailsObj', obj.gameDetails);
       this.get('chessBoardComponent').send('uploadPgn');
     },
 
@@ -330,12 +336,19 @@ export default Ember.ObjectController.extend({
       dataObj.blackQueenCastles = data.fenData.blackQueenCastles;
       this.get('chessBoardComponent').send('sandboxModeWithPos');
       this.send('changeSandbox');
+      if (this.get('detailsObj')) {
+        this.set('detailsObj', null);
+      }
     },
 
     getThePuzzleClicked: function(data) {
       this.set('puzzleFenString', data.boardfen);
       this.set('puzzleGameFenString', data.gamefen);
       this.get('chessBoardComponent').send('puzzleClicked');
+
+      if (this.get('detailsObj')) {
+        this.set('detailsObj', null);
+      }
     },
 
     sandboxPositionChanged: function(data) {
