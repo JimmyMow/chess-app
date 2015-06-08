@@ -132,6 +132,10 @@ $color: #707070;
     position: relative;
     max-width: 20%;
 
+    &:hover {
+      background: rgba(244, 244, 244, 0.75);
+    }
+
     .options {
       text-align: right;
       &:after {

@@ -1187,5 +1187,6 @@ export default Ember.Component.extend(InboundActions, {
     });
 
     window.dataObj = this.get('data');
+    window.ground = this.get('board');
   }
 });

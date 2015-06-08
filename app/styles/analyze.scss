@@ -209,10 +209,11 @@ canvas {
   margin-left: 2%;
   .game-details {
     border: 5px solid #ccc;
-    margin: 0 auto 5px auto;
+    margin: 0 auto 0 auto;
     width: 80%;
     padding: 7px;
     font-family: 'Noto Sans', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    border-bottom: none;
 
     h4 {
       text-align: center;
