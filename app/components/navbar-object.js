@@ -4,7 +4,6 @@ import Notify from 'ember-notify';
 export default Ember.Component.extend({
   tagName: 'nav',
   classNames: ['room-nav'],
-
   actions: {
     signOut: function() {
       var controller = this.get('targetObject');

@@ -1,6 +1,6 @@
 <div class="eee-container">
 <canvas id="world"></canvas>
-  {{navbar-object session=session}}
+  {{navbar-object session=session room=isRoom}}
   <div class="content-container">
     <div class='sandbox-mode-header'>
       <div>
@@ -13,6 +13,14 @@
     </div>
     <div class="videochat-outter-container outter-container">
       {{video-chat token=token sessionId=sessionId}}
+      <div class="keyboard-shortcuts">
+        <p class='title'>{{fa-icon "caret-down"}} Keyboard shortcuts</p>
+        <ul>
+          <li>Press <strong>shift</strong> + <strong>click</strong> or <strong>right click</strong> to draw arrows and cicles on the board</li>
+          <li>Use <strong>←</strong>/<strong>→</strong> to move backwards/forwards</li>
+          <li>Use <strong>↑</strong>/<strong>↓</strong> to go to start/end</li>
+        </ul>
+      </div>
     </div>
     <!-- {{outlet}} -->
     <div class="board-outter-container outter-container">
