@@ -130,18 +130,6 @@ export default Ember.Component.extend({
         this.send('play');
       }
     },
-    toggleVolume: function() {
-      var player = this.get('player');
-      this.toggleProperty('isMuted');
-      if (player.isMuted()) {
-        this.send('unMute');
-      } else {
-        this.send('mute');
-      }
-    },
-    seekTo(ms) {
-      this.get('player').seekTo(ms);
-    },
 
     // youtube events
     ready: function() {},
