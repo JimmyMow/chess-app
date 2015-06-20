@@ -36,11 +36,11 @@ export default Ember.Component.extend({
         return _this.createPlayer();
       };
     }
-    var tag = document.createElement('script');
-    var firstTag = document.getElementsByTagName('script')[0];
+    // var tag = document.createElement('script');
+    // var firstTag = document.getElementsByTagName('script')[0];
 
-    tag.src = "https://www.youtube.com/iframe_api";
-    firstTag.parentNode.insertBefore(tag, firstTag);
+    // tag.src = "https://www.youtube.com/iframe_api";
+    // firstTag.parentNode.insertBefore(tag, firstTag);
 
     // YouTube callback when API is ready
     window.onYouTubeIframeAPIReady = function() {
