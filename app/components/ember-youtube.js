@@ -36,18 +36,18 @@ export default Ember.Component.extend({
         return _this.createPlayer();
       };
     }
-    // var tag = document.createElement('script');
-    // var firstTag = document.getElementsByTagName('script')[0];
-
-    // tag.src = "https://www.youtube.com/iframe_api";
-    // firstTag.parentNode.insertBefore(tag, firstTag);
-
     // YouTube callback when API is ready
     window.onYouTubeIframeAPIReady = function() {
       console.log("here at iframeApi callback");
       window.imtryingaccount();
       window.imtryingroom();
     }.bind(this);
+
+    var tag = document.createElement('script');
+    var firstTag = document.getElementsByTagName('script')[0];
+
+    tag.src = "https://www.youtube.com/iframe_api";
+    firstTag.parentNode.insertBefore(tag, firstTag);
   }.on('init'),
 
   createPlayer: function() {
