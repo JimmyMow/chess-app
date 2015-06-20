@@ -21,7 +21,8 @@ export default Ember.Component.extend({
     showinfo: 0,
     autohide: 1,
     fs: 0, // disable fullscreen button
-    playsinline: 1
+    playsinline: 1,
+    "wmode": "opaque"
   },
 
   youtubeInit: function() {
