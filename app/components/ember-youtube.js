@@ -77,7 +77,7 @@ export default Ember.Component.extend({
 
   onPlayerStateChange: function(event) {
     // Get a readable state name
-    let state = this.get('stateNames.' + event.data.toString());
+    var state = this.get('stateNames.' + event.data.toString());
     this.set('playerState', state);
 
     if (this.get('showDebug')) { debug(state); }
@@ -90,7 +90,7 @@ export default Ember.Component.extend({
   },
 
   onPlayerError: function(event) {
-    let errorCode = event.data;
+    var errorCode = event.data;
     this.set('playerState', 'error');
 
     Ember.warn('error' + errorCode);
@@ -131,7 +131,7 @@ export default Ember.Component.extend({
       }
     },
     toggleVolume: function() {
-      let player = this.get('player');
+      var player = this.get('player');
       this.toggleProperty('isMuted');
       if (player.isMuted()) {
         this.send('unMute');
