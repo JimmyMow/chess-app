@@ -13,10 +13,6 @@
     </div>
     <div class="videochat-outter-container outter-container">
       {{video-chat token=token sessionId=sessionId}}
-      <div class="fake-video"></div>
-      <div class="fake-video"></div>
-      <div class="fake-video"></div>
-      <div class="fake-video"></div>
       <div class="keyboard-shortcuts">
         <p class='title'>{{fa-icon "caret-down"}} Keyboard shortcuts</p>
         <ul>
@@ -26,7 +22,6 @@
         </ul>
       </div>
     </div>
-    <!-- {{outlet}} -->
     <div class="board-outter-container outter-container">
       <div class="board-inner-container">
         {{chess-board position='sendPosition' sandboxPstn='sandboxPosition' strt='start' newNote='sendNote' addP='addPoints' removeP='removePoints' puzzleC='puzzleClicked' board=controller.boardObject game=controller.gameObject actionReceiver=chessBoardComponent data=controller.dataObject sandboxMode=controller.sandboxMode fenData=controller.fenDataObject parentController=controller}}
