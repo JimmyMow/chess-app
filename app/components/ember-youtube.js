@@ -25,6 +25,7 @@ export default Ember.Component.extend({
   },
 
   youtubeInit: function() {
+    console.log("here on init");
     var _this = this;
     if(this.get('iframeId') === 'accountVideo') {
       window.imtryingaccount = function() {
@@ -43,6 +44,7 @@ export default Ember.Component.extend({
 
     // YouTube callback when API is ready
     window.onYouTubeIframeAPIReady = function() {
+      console.log("here at iframeApi callback");
       window.imtryingaccount();
       window.imtryingroom();
     }.bind(this);

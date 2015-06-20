@@ -3,6 +3,8 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   roomYouTubeId: "0HVngR1EzpY",
   accountYouTubeId: "xeY0sVaif3w",
+  roomVideo: null,
+  accountVideo:null,
   screenshotData: [{ url: window.location.href + '/assets/images/marketing/jackschess_screenshot.png', dataSize: '1997x1024', before: false, after: false, content: null, caption: "Jack (top) is reviewing a puzzle with Harsha (bottom)" }],
   whyLearnChessData: [
     { url: window.location.href + '/assets/images/marketing/how_chess_helps.png', dataSize: '1750x1024', before: false, after: true, content: "Not only is chess fun, but many studies have shown it improves the mind. So why doesn't everyone actively play chess and improve themselves while having fun? Well chess is not an easy game, and used to be very hard to learn and study. That has changed. All it takes now is sessions on our platform from your own computer to have access to the whole chess world!", caption: "How chess helps your brain" },
