@@ -3,7 +3,6 @@ import Ember from 'ember';
 export default Ember.ObjectController.extend({
   linkUrl: window.location.href,
   isRoom: true,
-  editingDetails: false,
   sandboxMode: false,
   boardObject: null,
   gameObject: null,
