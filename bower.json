@@ -15,6 +15,8 @@
     "qunit": "~1.15.0",
     "socket.io-client": "~1.2.1",
     "ember-sockets": "~0.6.10",
-    "lodash": "~3.6.0"
+    "lodash": "~3.6.0",
+    "moment": "~2.10.3",
+    "ember-cli-moment-shim": "0.1.0"
   }
 }

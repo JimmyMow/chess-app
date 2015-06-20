@@ -28,5 +28,7 @@ app.import('vendor/javascript/md5.js');
 app.import('bower_components/socket.io-client/socket.io.js');
 app.import('bower_components/ember-sockets/package/EmberSockets.js');
 app.import('bower_components/lodash/lodash.js');
+app.import('bower_components/moment/moment.js');
+app.import('bower_components/ember-cli-moment-shim/moment-shim.js');
 
 module.exports = app.toTree();

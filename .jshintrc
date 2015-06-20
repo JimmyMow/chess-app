@@ -9,7 +9,8 @@
     "EmberSockets",
     "OT",
     "_",
-    "PhotoSwipe"
+    "PhotoSwipe",
+    "moment"
   ],
   "browser" : true,
   "boss" : true,

@@ -5,6 +5,14 @@
 
 // Video chat
 
+.fake-video {
+  width: 200px;
+  height: 159px;
+  background-color: blue;
+  margin-bottom: 1em;
+  display: inline-block;
+}
+
 .videochat-outter-container {
   width: 20%;
   display: inline-block;
@@ -232,6 +240,10 @@ canvas {
     font-family: 'Noto Sans', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     border-bottom: none;
 
+    .edit-done {
+      margin-top: 0px;
+    }
+
     h4 {
       text-align: center;
       border-bottom: 1px solid #ccc;
@@ -241,6 +253,10 @@ canvas {
 
     p {
       margin: 2px 0;
+    }
+
+    .elo {
+      width: 15%;
     }
   }
   .movelist {

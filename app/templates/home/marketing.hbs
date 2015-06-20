@@ -1,107 +1,208 @@
-<div class="section">
-  <header class='homepage-header-container inner-section'>
-    <h1 class='homepage-header'>Improving your chess has never been easier</h1>
-    <div class="features">
-      <h2>All of this in one screen, over the internet, in your browser:</h2>
-      <ul class='features-container' id="features">
-        {{homepage-feature className="coach" header="Connect with any coach" message="You now have access to every chess coach in the world. By simply sharing a link, you are connected with whoever you want via video chat in your browser." active=true }}
-        {{homepage-feature className="analysis" header="Best computer analysis" message="Enjoy the best chess player in the world in the top right of your screen. You have StockFish (the computer chess champion) giving you analysis on the score of the position, the best move, and its suggested continuation for whatever position is currently on the board."}}
-        {{homepage-feature className="drawing-tools" header="Advanced drawing tools" message="A lot goes on in the mind of a chess player, so much so that sometimes it gets difficult to convey all that's going on to someone else. You can use drawing tools to draw on the board however you please to visualize your thoughts and make learning easier." }}
-        {{homepage-feature className="more" header="A whole lot more" message="jackschess.com is built for chess players by a chess player. I am constantly learning, just like you. Enjoy features like easily creating variations, uploading games via PGN, and much more."}}
-      </ul>
-      <div class="info-container" id="infoContainer">
-        <p class="infobox" id="infobox">
-          You now have access to every chess coach in the world. By simply sharing a link to your board, you are connected with whoever you want via video chat in your browser.
+<div class="video-overlay">
+  <a href="#" class="video-close" {{action 'closeVideo'}}>×</a>
+</div>
+
+<div id="topbar">
+  <div class="container">
+    <h1 id="logo">
+      jackschess
+      <span class="beta">beta</span>
+    </h1>
+    <nav class="primary">
+    </nav>
+    <nav class="secondary">
+      <a href="#">About</a>
+      <a href="#">FAQ</a>
+      {{#link-to "home.login" class='login'}}Log In{{/link-to}}
+    </nav>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="container clearfix">
+    <div class="value-prop">
+      <h1>Improving your chess has never been easier</h1>
+      <h3>jackschess lets you connect with any chess player in the world while giving you the tools to make learning chess with others easier than ever</h3>
+      {{#if showLoading}}
+        <a href="/room" {{action 'createRoom'}} class='button green'>
+          Your own chess room is loading...
+        </a>
+      {{else}}
+        <p>
+          <a href="/room" {{action 'createRoom'}} class='button green'>
+            Create your own chess room →
+          </a>
         </p>
+        <p>
+          <a href="#" {{action 'watchVideo'}} class='button grey'>
+            {{fa-icon 'play'}}  Watch the video
+          </a>
+        </p>
+      {{/if}}
+    </div>
+    <div class="desktop screenshot">
+      <img alt="Desktop-screenshot" src="/assets/images/marketing/jackschess_screenshot.png" width="100%">
+    </div>
+  </div>
+   <div id="room-video" class="video room">
+    <div class="video-embed">
+      {{ember-youtube ytid=roomYouTubeId player=controller.roomVideo iframeId="roomVideo"}}
+    </div>
+  </div>
+</div>
+
+
+<div id="main">
+  <div class="bar"></div>
+
+  <div class="container">
+    <h2>Everything a chess player needs</h2>
+    <p>If you play chess, and love chess, I assume you've tried many things to get better at chess. Tactics trainers, chess lectures, driving hours to provate lessons or trying to hack something together online, etc. Well my freind, look no further, I got what you need.</p>
+  </div>
+  <div class="features container">
+    <div id="timeline">
+      <span id="step-1" class="step">1</span>
+      <span id="step-2" class="step">2</span>
+      <span id="step-3" class="step">3</span>
+    </div>
+
+    <section class="feature">
+      <h3>Ability to connect</h3>
+      <p>On jackschess.com you can connect with anyone in the world right next to a chessboard. Whether it is Uncle Tom or GM Magnus Carlsen, if they accept an invite to your jackschess room, you guys will be connected with a board on the same screen. All in your browser, over the internet.</p>
+    </section>
+
+    <section class="feature">
+      <h3>The best tools</h3>
+      <p>A jackschess room is what every player dreams of. Enjoy the best player in the world giving you analysis when you need it, PGN annotation with notes, PGN uploader, drawing tools, ability to set up and save positions, all in one screen. Yeah I know, thank me later.</p>
+    </section>
+
+    <section class="feature">
+      <h3>Teachers/learners community</h3>
+      <p>The number one best way to learn chess is with others that are better or that want to learn too. Let's make jackschess the community of teachers and learners. This internet thing is pretty cool, we should use it to help us get better at chess.</p>
+    </section>
+
+    <div class="screenshot">
+      <img alt="Team-overview" src="/assets/images/marketing/me_and_im.png">
+    </div>
+  </div>
+
+  <div class="bar"></div>
+
+  <div id="overview" class="container">
+    <section>
+      <h2>A dream for chess coaches</h2>
+      <p>Teaching the game of chess is hard, but it's never the hardest part of being a chess coach, which is super annoying. We've all been there with Skype and ICC/chess.com fighting eachother for screen space. Group lessons are a mess. You keep awkwardly looking down to set up puzzles from the book in your lap. The list goes on. <a href="https://www.youtube.com/watch?v=NEN5baraAaQ" target="_blank">Cars are about to start driving themselves</a>, you'd think someone can make something to help chess coaches right? Yeah, I thought the same too. That's why I built jackschess and designed {{#link-to 'home.signup'}}accounts{{/link-to}} just for coaches. You have your own "chess room" at your own URL with a personalized toolbox of positions, games, puzzles, etc.</p>
+    </section>
+    <p class="button-container">
+      <a href="#" {{action 'watchAccountVideo'}} class='button grey'>
+        {{fa-icon 'play'}}  Watch the accounts video
+      </a>
+    </p>
+    <p class="button-container">
+      {{#link-to 'home.signup' class='button green'}}Sign up for an acount →{{/link-to}}
+    </p>
+    <div class="overview screenshot">
+      <img alt="Team-overview" src="/assets/images/marketing/coaches_toolbox.png">
+    </div>
+    <div class="video account">
+      <div class="video-embed">
+        {{ember-youtube ytid=accountYouTubeId player=controller.accountVideo iframeId="accountVideo"}}
       </div>
     </div>
-  </header>
-  <div class="create-room-container">
-    {{#if showLoading}}
-      <a href="/room" {{action 'createRoom'}} class='create-room'><i class="fa fa-spinner fa-pulse"></i> Creating your chess room</a>
-    {{else}}
-      <a href="/room" {{action 'createRoom'}} class='create-room'>Create your own chess room</a>
-      <div class="see-how-it-works">
-        <p class='fancy'><span>Not ready yet?</span></p>
-        <span>
-          {{#link-to 'examples'}}watch a recorded chess lesson{{/link-to}}
-          or
-          <a href="mailto:jimmymowschess@gmail.com?subject=Help%20finding%20coach%20or%20student">I can help you find a coach/student</a>
-        </span>
+  </div>
+
+  <div class="bar"></div>
+
+  <div class="testimonials container">
+    <h2>Here's what some chess players had to say</h2>
+    <div class="testimonial">
+    <!-- https://twitter.com/Tiateach/status/598257153208627200 -->
+      <div class="author">
+        <img alt="Tiateach_profilepic" class="author-pic" src="https://pbs.twimg.com/profile_images/473646730148593665/bVWV_2EG_400x400.jpeg">
+        <div class="author-info">
+          <div class="name">GM Francisco Vallejo</div>
+          <div class="rating">FIDE 2686</div>
+        </div>
       </div>
-    {{/if}}
+      <div class="quote">Well, I like the website for its simplicity! Worked nicely and easy
+      </div>
+      <div class="date">10 June 2015</div>
+    </div>
+
+    <div class="testimonial">
+    <!-- https://twitter.com/itsmesarahp/status/581597665923702784 -->
+      <div class="author">
+        <img alt="Sarahpark_profilepic" class="author-pic" src="https://scontent-ord1-1.xx.fbcdn.net/hphotos-xfa1/t31.0-8/11270667_10155636840515230_223054462629868972_o.jpg">
+        <div class="author-info">
+          <div class="name">Jack Hanson</div>
+          <div class="rating">USCF 1849</div>
+        </div>
+      </div>
+      <div class="quote">jackschess.com has helped me connect with coaches all over the world whenever I need it
+      </div>
+      <div class="date">27 May 2015</div>
+    </div>
+
+    <div class="testimonial">
+    <!-- https://twitter.com/robertcollings/status/582931592844181505 -->
+      <div class="author">
+        <img alt="Robertcollings_profilepic" class="author-pic" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAACzAAAAJDI1ZTJhMjk2LWQ2ZWUtNGI4My1hNTM2LTc4ZjJlMTJmNGU0Yw.jpg">
+        <div class="author-info">
+          <div class="name">IM Filip Pancevski</div>
+          <div class="rating">FIDE 2499</div>
+        </div>
+      </div>
+      <div class="quote">Your site is great. I prefer this over chess.com</div>
+      <div class="date">20 April 2015</div>
+    </div>
+
+    <div class="testimonial">
+    <!-- https://twitter.com/chetanbharadwaj/status/562566249817710593 -->
+      <div class="author">
+        <img alt="Chetanb_profilepic" class="author-pic" src="http://firstsaturday.hu/1007/Pic/kislik_usa.JPG">
+        <div class="author-info">
+          <div class="name">IM Erik Kislik</div>
+          <div class="rating">FIDE 2362</div>
+        </div>
+      </div>
+      <div class="quote">The website is great and very simple</div>
+      <div class="date">10 June 2015</div>
+    </div>
+
   </div>
 </div>
-<div class="section we">
-  <header>
-    <h2 class='section-header'>
-      <strong>Learning chess</strong>
-      <span>should be natural and easy</span>
-    </h2>
-    <h4>No more tactics trainers, instructional videos, etc. </h4>
-    <h4>Learn from real experts and masters who can answer questions, with no limitations, in <strong>three easy</strong> steps.</h4>
-  </header>
-  <aside>
-    <ol>
-      <li>
-        <figure>1</figure>
-        <figcaption>Create your own "chess room"</figcaption>
-      </li>
-      <li>
-        <figure>2</figure>
-        <figcaption>Connect with a coach</figcaption>
-      </li>
-      <li>
-        <figure>3</figure>
-        <figcaption>Learn chess</figcaption>
-      </li>
-    </ol>
-  </aside>
-  {{photo-swipe dataArray=screenshotData}}
-  <p class="caption">
-    jackschess.com combines all the necessary chess tools with the power and connectivity of the internet
-  </p>
-  <div class="create-room-container">
-    {{#if showLoading}}
-      <a href="/room" {{action 'createRoom'}} class='create-room'><i class="fa fa-spinner fa-pulse"></i> Creating your chess room</a>
-    {{else}}
-      <a href="/room" {{action 'createRoom'}} class='create-room'>Create your own chess room</a>
-      <div class="see-how-it-works">
-        <p class='fancy'><span>Not ready yet?</span></p>
-        <span>
-          {{#link-to 'examples'}}watch a recorded chess lesson{{/link-to}}
-          or
-          <a href="mailto:jimmymowschess@gmail.com?subject=Help%20finding%20coach%20or%20student">I can help you find a coach/student</a>
-        </span>
-      </div>
-    {{/if}}
-  </div>
+
+<div class="get-started">
+  <h2>The new best interactive chess platform is <span class='free'>free</span></h2>
+  {{#if showLoading}}
+    <a href="/room" {{action 'createRoom'}} class='button green'>
+      Your own chess room is loading...
+    </a>
+  {{else}}
+    <p>
+      <a href="/room" {{action 'createRoom'}} class='button green'>
+        Create your own chess room →
+      </a>
+    </p>
+    <p>
+      {{#link-to 'home.signup' class='button grey'}}Sign up for an account{{/link-to}}
+    </p>
+  {{/if}}
 </div>
-<div class="section why">
-  <header>
-    <h2 class='section-header'>
-      <strong>Why</strong>
-      <span>improve your chess?</span>
-    </h2>
-    <blockquote>
-      Chess develops concentration, critical thinking, abstract reasoning, problem solving, pattern recognition, strategic planning, creativity, analysis, synthesis, and evaluation, to name a few.
-      <p>- <a href="http://edutechchess.com/whychess.html" target="_blank">Jim Celone, Yale University</a></p>
-    </blockquote>
-  </header>
-  {{photo-swipe dataArray=whyLearnChessData}}
-  <div class="create-room-container">
-    {{#if showLoading}}
-      <a href="/room" {{action 'createRoom'}} class='create-room'><i class="fa fa-spinner fa-pulse"></i> Creating your chess room</a>
-    {{else}}
-      <a href="/room" {{action 'createRoom'}} class='create-room'>Create your own chess room</a>
-      <div class="see-how-it-works">
-        <p class='fancy'><span>Not ready yet?</span></p>
-        <span>
-          {{#link-to 'examples'}}watch a recorded chess lesson{{/link-to}}
-          or
-          <a href="mailto:jimmymowschess@gmail.com?subject=Help%20finding%20coach%20or%20student">I can help you find a coach/student</a>
-        </span>
-      </div>
-    {{/if}}
-  </div>
+
+<div class="container">
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="#">About</a>
+      <a href="#">FAQ</a>
+      <a href="#">Blog</a>
+      <a href="mailto:jimmymowschess@gmail.com">Contact</a>
+      <span class="social-icons">
+        <a href="https://twitter.com/JackMallers"><i class="fa fa-twitter"></i></a>
+        <a href="https://www.facebook.com/jack.mallers"><i class="fa fa-facebook"></i></a>
+        <a href="https://plus.google.com/108104158228107899864" rel="publisher"><i class="fa fa-google-plus"></i></a>
+      </span>
+    </div>
+    <span class="copyright">© 2015. All rights reserved.</span>
+  </footer>
 </div>

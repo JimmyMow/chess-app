@@ -13,10 +13,14 @@
     </div>
     <div class="videochat-outter-container outter-container">
       {{video-chat token=token sessionId=sessionId}}
+      <div class="fake-video"></div>
+      <div class="fake-video"></div>
+      <div class="fake-video"></div>
+      <div class="fake-video"></div>
       <div class="keyboard-shortcuts">
         <p class='title'>{{fa-icon "caret-down"}} Keyboard shortcuts</p>
         <ul>
-          <li>Press <strong>shift</strong> + <strong>click</strong> or <strong>right click</strong> to draw arrows and cicles on the board</li>
+          <li>Press <strong>shift</strong> + <strong>click</strong> or <strong>right click</strong> to draw arrows and circles on the board</li>
           <li>Use <strong>←</strong>/<strong>→</strong> to move backwards/forwards</li>
           <li>Use <strong>↑</strong>/<strong>↓</strong> to go to start/end</li>
         </ul>
@@ -129,10 +133,33 @@
           </div>
           {{#if detailsObj}}
             <div class="game-details">
-              <h4>Game details</h4>
-              <p>{{fa-icon "circle-thin"}} {{detailsObj.White}} ({{detailsObj.WhiteElo}})</p>
-              <p>{{fa-icon "circle"}} {{detailsObj.Black}} ({{detailsObj.BlackElo}})</p>
-              <p class='result'>{{detailsObj.Result}}</p>
+              <h4>
+                Game details
+                {{#if editingDetails}}
+                  <a href="#" class='edit-done board-button small hint--bottom-left' data-hint='Edit the game details' {{action 'editDetails'}}>Done</a>
+                {{else}}
+                  <a href="#" class='edit-done board-button small hint--bottom-left' data-hint='Edit the game details' {{action 'editDetails'}}>{{fa-icon "cog"}}</a>
+                {{/if}}
+              </h4>
+              {{#if editingDetails}}
+                <p>
+                  {{fa-icon "circle-thin"}}
+                  {{input type="text" class="white" value=detailsObj.White placeholder="White"}}
+                  ({{input type="text" class="white-elo elo" value=detailsObj.WhiteElo placeholder="White Elo"}})
+                </p>
+                <p>
+                  {{fa-icon "circle"}}
+                  {{input type="text" class="black" value=detailsObj.Black placeholder="Black"}}
+                  ({{input type="text" class="black-elo elo" value=detailsObj.BlackElo placeholder="Black Elo"}})
+                </p>
+                <p class='result'>
+                  {{input type="text" class="name" value=detailsObj.Result placeholder="Result"}}
+                </p>
+              {{else}}
+                <p>{{fa-icon "circle-thin"}} {{detailsObj.White}} ({{detailsObj.WhiteElo}})</p>
+                <p>{{fa-icon "circle"}} {{detailsObj.Black}} ({{detailsObj.BlackElo}})</p>
+                <p class='result'>{{detailsObj.Result}}</p>
+              {{/if}}
             </div>
           {{/if}}
           <div class="movelist">
@@ -162,6 +189,7 @@
           <ul>
             <li>Castling is with capital O's (O-O) <strong>not</strong> with zeros</li>
             <li>Comments must be within these brackets (colloquially): {}</li>
+            <li>Promotions must have an equals sign (c1=Q)</li>
           </ul>
         </div>
         <label>

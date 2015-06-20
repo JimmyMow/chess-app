@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.ObjectController.extend({
   linkUrl: window.location.href,
   isRoom: true,
+  editingDetails: false,
   sandboxMode: false,
   boardObject: null,
   gameObject: null,
@@ -18,6 +19,7 @@ export default Ember.ObjectController.extend({
   orientation: 'white',
   fenDataObject: null,
   detailsObj: null,
+  editingDetails: false,
   puzzleFenString: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
   puzzleGameFenString: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
 
@@ -136,14 +138,19 @@ export default Ember.ObjectController.extend({
 
     submitPgn: function() {
       var pgn = Ember.$('#pgnUpload').val();
-      var details = {};
+      var details = {
+        White: 'Unknown',
+        Black: 'Unknown',
+        WhiteElo: '?',
+        BlackElo: '?'
+      };
       pgn.replace(/\[(.+?)\]/g, function($0, $1) {
         details[$1.substr(0,$1.indexOf(' '))] = $1.replace(/['"]+/g, '').substr($1.indexOf(' ')+1);
       });
       this.set('detailsObj', details);
       var tree = this.get('gameObject').load_pgn(pgn);
       if(!tree) {
-        alert('There was a problem with the PGN you tried to upload. Please make sure it is standard and follows all the PGN formatting rules.');
+        // alert('There was a problem with the PGN you tried to upload. Please make sure it is standard and follows all the PGN formatting rules.');
         return;
       } else {
         Ember.$.modal.close();
@@ -162,6 +169,11 @@ export default Ember.ObjectController.extend({
 
     sendNote: function(data) {
       this.socket.emit('send note', data);
+    },
+
+    editDetails: function() {
+      this.toggleProperty('editingDetails');
+      console.log("dets: ", this.get('detailsObj'));
     }
   },
   sockets: {

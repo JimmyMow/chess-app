@@ -1458,6 +1458,7 @@ var Chess = function(fen) {
          * latest valid position)
          */
         if (move == null) {
+          alert("There is a problem with your pgn. Specifically move number " + Math.ceil(half_move/2) + ": " + moves[half_move] + ". Please fix that move and try again.");
           return false;
         } else {
           var prettyMove = make_pretty(move);
