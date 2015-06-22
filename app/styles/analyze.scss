@@ -4,13 +4,16 @@
 }
 
 // Video chat
-
-.fake-video {
-  width: 200px;
-  height: 159px;
-  background-color: blue;
-  margin-bottom: 1em;
-  display: inline-block;
+.fake-cont {
+    width: 100%;
+    height: 205px;
+  .fake-video {
+    margin-bottom: 1em;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    background-color: blue;
+  }
 }
 
 .videochat-outter-container {
@@ -18,11 +21,23 @@
   display: inline-block;
 }
 
+.num-3 {
+  background: red;
+  .other-people {
+    .OT_subscriber {
+      width: 49%;
+      height: 102px;
+      display: inline-block;
+    }
+  }
+}
+
 .video-chat {
     text-align: center;
     display: inline-block;
     margin-bottom: 1em;
-    // position: relative;
+    width: 100%;
+    height: 205px;
 }
 
 .video-box {
@@ -89,8 +104,11 @@
 }
 
 .other-people {
+  width: 100%;
+  height: 205px;
   .OT_subscriber {
-    margin: 1em 0;
+    margin: 1em 1px;
+    display: inline-block;
   }
 }
 
