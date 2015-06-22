@@ -911,63 +911,94 @@ export default Ember.Component.extend(InboundActions, {
     var onMove = function(from, to) {
       var dump = _this.get('board').dump();
       var piece = dump.pieces[to];
+      var board = _this.get('board');
       var game = _this.get('game');
+      var promoting = false;
       var promotionCheat = {
         'q': 'queen',
         'r': 'rook',
         'b': 'bishop',
-        'n': 'knight'
-      }
+        'n': 'knight',
+        'queen': 'q',
+        'rook': 'r',
+        'knight': 'n',
+        'bishop': 'b'
+      };
       var promotion = {
         piece: null,
         color: null
       };
+
       if (piece && piece.role == 'pawn') {
         if ( (to[1] == 1 && game.turn() == 'b') || (to[1] == 8 && game.turn() == 'w') ) {
-          promotion.piece = 'q';
-          promotion.color = game.turn() === 'w' ? 'white' : 'black';
+          renderPromotion();
+        } else {
+          finishOnMove();
         }
+      } else {
+        finishOnMove();
       }
-      var chess = _this.get('game');
-      var castle = _this.get('didTheyCastle')(from+"-"+to);
-      if(castle) {
-        _this.get('board').move(castle.from, castle.to);
-        _this.get('board').set({
-          lastMove: [from, to]
+
+      function renderPromotion() {
+        var pieces = ['queen', 'knight', 'rook', 'bishop'];
+        var left =  (util.key2pos(board.getOrientation() === 'white' ? to : util.invertKey(to))[0] -1) * 12.5;
+        var color = game.turn() === 'w' ? 'white' : 'black';
+        var vertical = color === board.getOrientation() ? 'top' : 'bottom';
+        $('.chess-board').append("<div id='promotion-choice' class='" +  vertical + "'></div>");
+
+        m.render(document.getElementById('promotion-choice'), pieces.map(function(serverRole, i) {
+          return m('div.cg-square', {
+            style: vertical + ': ' + i * 12.5 + '%;left: ' + left + '%'
+          }, m('div.cg-piece.' + serverRole + '.' + color, {'data-id': serverRole}))
+        }));
+
+        $('.cg-piece').on('click', function() {
+          promotion.piece = promotionCheat[$(this).data('id')];
+          promotion.color = game.turn() === 'w' ? 'white' : 'black';
+          finishOnMove();
+          $("#promotion-choice").remove();
         });
       }
-      var move = promotion ? chess.move({from: from, to: to, promotion: promotion.piece}) : chess.move({from: from, to: to});
-      if (promotion.piece) {
-        var x = {color: promotion.color, role: promotionCheat[promotion.piece]};
-        var y = {};
-        y[to] = x;
-        _this.get('board').setPieces(y);
-      }
-      if (move.flags === 'e') {
-        var x = _this.get('game').turn() === 'b' ? -1 : 1;
-        var square = to[0] + (parseInt(to[1]) + x);
-        var res = {};
-        res[square] = null;
 
-        _this.get('board').setPieces(res);
-      }
-      // chess.move({from: from, to: to});
-      _this.get('board').set({
-        turnColor: _this.get('chessToColor')(chess),
-        movable: {
-          dests: _this.get('chessToDests')(chess)
+      function finishOnMove() {
+        var chess = _this.get('game');
+        var castle = _this.get('didTheyCastle')(from+"-"+to);
+        if(castle) {
+          _this.get('board').move(castle.from, castle.to);
+          _this.get('board').set({
+            lastMove: [from, to]
+          });
         }
-      });
-      var data = _this.get('data');
-      data.path = _this.get('explore')(_this, data.path, move.san, chess.fen().split(' ')[0], chess.fen(), { from: from, to: to });
-      data.pathStr = _this.get('writePath')(data.path);
-      _this.send('removeActive');
-      _this.get('displayTree')(_this);
-      _this.get('sendPosition')(_this, _this.get('game').fen(), _this.get('board').getFen(), from, to, _this.get('data'));
-    };
-    var promotionStart = function() {
+        var move = promotion.piece ? chess.move({from: from, to: to, promotion: promotion.piece}) : chess.move({from: from, to: to});
+        if (promotion.piece) {
+          var x = {color: promotion.color, role: promotionCheat[promotion.piece]};
+          var y = {};
+          y[to] = x;
+          _this.get('board').setPieces(y);
+        }
+        if (move.flags === 'e') {
+          var x = _this.get('game').turn() === 'b' ? -1 : 1;
+          var square = to[0] + (parseInt(to[1]) + x);
+          var res = {};
+          res[square] = null;
 
+          _this.get('board').setPieces(res);
+        }
+        _this.get('board').set({
+          turnColor: _this.get('chessToColor')(chess),
+          movable: {
+            dests: _this.get('chessToDests')(chess)
+          }
+        });
+        var data = _this.get('data');
+        data.path = _this.get('explore')(_this, data.path, move.san, chess.fen().split(' ')[0], chess.fen(), { from: from, to: to });
+        data.pathStr = _this.get('writePath')(data.path);
+        _this.send('removeActive');
+        _this.get('displayTree')(_this);
+        _this.get('sendPosition')(_this, _this.get('game').fen(), _this.get('board').getFen(), from, to, _this.get('data'));
+      }
     };
+
     var reviewCfg = {
       turnColor: _this.get('chessToColor')(chess),
       orientation: 'white',

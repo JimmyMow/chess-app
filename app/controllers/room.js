@@ -120,8 +120,6 @@ export default Ember.ObjectController.extend({
       var board = this.get('boardObject');
       board.toggleOrientation();
       this.set('orientation', board.getOrientation());
-
-      Ember.$('#diagram').toggleClass('flipTest');
     },
 
     updateIosSwitchCheckedStatus: function(data) {
