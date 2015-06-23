@@ -82,10 +82,6 @@ export default Ember.ObjectController.extend({
       this.socket.emit('sandbox position', data);
     },
 
-    // sendDiagram: function(data) {
-    //   this.socket.emit('send diagram', data);
-    // },
-
     addPoints: function() {
       var shapes = this.get('boardObject').dump().drawable.shapes;
       this.socket.emit('send points', { points: shapes });
@@ -366,6 +362,8 @@ export default Ember.ObjectController.extend({
         fen: data.boardFen,
         lastMove: null
       });
+      var $positions = Ember.$('.positions');
+      data.opening ? $positions.val(data.opening) : $positions.val("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -");
     },
 
     sandboxClearBoard: function() {

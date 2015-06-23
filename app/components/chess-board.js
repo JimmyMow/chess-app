@@ -109,8 +109,6 @@ export default Ember.Component.extend(InboundActions, {
         path: [{ ply: 0, variation: null }],
         pathStr: ''
       });
-      console.log('here with hawk');
-      console.log('pgn: ', document.getElementById('pgn'))
       m.render(document.getElementById('pgn'), null);
     },
 
@@ -254,8 +252,8 @@ export default Ember.Component.extend(InboundActions, {
   sendStart: function(component) {
     component.sendAction('strt');
   },
-  sendSandboxPosition: function(component, boardFen) {
-    component.sendAction('sandboxPstn', { boardFen: boardFen});
+  sendSandboxPosition: function(component, boardFen, opening) {
+    component.sendAction('sandboxPstn', { boardFen: boardFen, opening: opening });
   },
   sendNote: function(component, tree) {
     component.sendAction('newNote', { tree: tree });
@@ -1057,7 +1055,7 @@ export default Ember.Component.extend(InboundActions, {
       events: {
         change: function() {
           m.redraw();
-          _this.get('sendSandboxPosition')(_this, _this.get('board').getFen(), _this.get('fenData'));
+          _this.get('sendSandboxPosition')(_this, _this.get('board').getFen(), null);
         },
         afterDraw: function() {
           _this.get('addPoints')(_this);
@@ -1166,6 +1164,13 @@ export default Ember.Component.extend(InboundActions, {
       var val = $box.val();
       var attr = $box.data('attr');
       $box.is(':checked') ? data[attr] = val : data[attr] = '';
+    });
+
+    Ember.$('.other-outter-container').on('change', '.positions', function() {
+      _this.get('board').set({
+        fen: $(this).val()
+      });
+      _this.get('sendSandboxPosition')(_this, _this.get('board').getFen(), $(this).val());
     });
 
     Ember.$(document).on('keypress', function(e) {

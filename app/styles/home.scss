@@ -227,6 +227,9 @@
       color: #D6D8CD;
       text-decoration: none;
       display: inline-block;
+      &:hover {
+        color: lighten(#D6D8CD, 15%);
+      }
     }
     .login, .signup {
       display: inline;
@@ -559,6 +562,9 @@
 }
 
 @media (max-width: 1280px) {
+  .marketing {
+    min-height: 600px;
+  }
   #main {
     .testimonials {
       .testimonial {
