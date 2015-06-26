@@ -10,6 +10,8 @@ Router.map(function() {
     this.route('marketing', { path: '/' });
     this.route('login');
     this.route('signup');
+    this.route('about');
+    this.route('faq');
   });
 
   this.resource('user', { path: '/:user_id' }, function() {

@@ -50,7 +50,7 @@
 }
 
 // Normal
-.marketing {
+.marketing, .about, .faq {
  background: #384046;
 }
 
@@ -203,6 +203,11 @@
     float: left;
     -webkit-font-smoothing: antialiased;
     margin-right: 20px;
+
+    a {
+      text-decoration: none;
+      color: #fff;
+    }
 
     span {
       display: block;
@@ -643,3 +648,4 @@
     display: none;
   }
 }
+

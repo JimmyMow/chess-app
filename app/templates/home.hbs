@@ -1,1 +1,51 @@
+<div id="topbar">
+  <div class="container">
+    <h1 id="logo">
+      {{#link-to 'home.marketing'}}jackschess{{/link-to}}
+      <span class="beta">beta</span>
+    </h1>
+    <nav class="primary">
+    </nav>
+    <nav class="secondary">
+      <a href="#">About</a>
+      {{#link-to 'home.faq'}}FAQ{{/link-to}}
+      {{#link-to "home.login" class='login'}}Log In{{/link-to}}
+    </nav>
+  </div>
+</div>
+
 {{outlet}}
+
+<div class="get-started">
+  <h2>The new best interactive chess platform is <span class='free'>free</span></h2>
+  {{#if showLoading}}
+    <a href="/room" {{action 'createRoom'}} class='button green'>
+      Your own chess room is loading...
+    </a>
+  {{else}}
+    <p>
+      <a href="/room" {{action 'createRoom'}} class='button green'>
+        Create your own chess room →
+      </a>
+    </p>
+    <p>
+      {{#link-to 'home.signup' class='button grey'}}Sign up for an account{{/link-to}}
+    </p>
+  {{/if}}
+</div>
+<div class="container">
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="#">About</a>
+      {{#link-to 'home.faq'}}FAQ{{/link-to}}
+      <a href="#">Blog</a>
+      <a href="mailto:jimmymowschess@gmail.com">Contact</a>
+      <span class="social-icons">
+        <a href="https://twitter.com/JackMallers"><i class="fa fa-twitter"></i></a>
+        <a href="https://www.facebook.com/jack.mallers"><i class="fa fa-facebook"></i></a>
+        <a href="https://plus.google.com/108104158228107899864" rel="publisher"><i class="fa fa-google-plus"></i></a>
+      </span>
+    </div>
+    <span class="copyright">© 2015. All rights reserved.</span>
+  </footer>
+</div>
