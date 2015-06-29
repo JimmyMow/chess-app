@@ -1,3 +1,12 @@
+.signup-body, .login-body {
+  #topbar {
+    display: none;
+  }
+  .get-started {
+    display: none;
+  }
+}
+
 .signup, .login {
   font-family: 'Roboto';
   width: 30%;
