@@ -1,0 +1,68 @@
+.about {
+  .hero {
+    img {
+      width: 40%;
+      margin: 0 165px -180px;
+    }
+  }
+  #main {
+    background: #fff;
+    padding: 5% 0 3%;
+    section {
+      margin: 0 0 6%;
+      overflow: hidden;
+    }
+
+    .features {
+      text-align: center;
+      padding-bottom: 5%;
+      .feature {
+        max-width: 300px;
+        margin: 4% 2% 0;
+        display: inline-block;
+        text-align: left;
+        h4 {
+          text-transform: uppercase;
+          color: #999;
+          text-align: center;
+          margin-bottom: 1.5%;
+          letter-spacing: 1px;
+          font-size: 16px;
+          font-weight: 300;
+        }
+      }
+    }
+  }
+}
+
+// Media query
+@media (max-width: 1080px) {
+  .about {
+    .hero {
+      .container {
+        .value-prop {
+          position: static;
+          top: 10%;
+          text-align: center;
+          h1 {
+            max-width: 700px;
+            clear: both;
+            font-size: 26x;
+            margin: 12% auto 20px;
+          }
+        }
+      }
+      .desktop.screenshot {
+        width: 90%;
+        overflow: hidden;
+        img {
+          max-width: 1000px;
+          width: 100%;
+          float: none;
+          margin: 0 auto;
+        }
+      }
+    }
+  }
+}
+

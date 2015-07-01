@@ -274,7 +274,7 @@
     font-family: "proxima-nova", Helvetica,Arial,sans-serif;
 
     h1 {
-      font-size: 30px;
+      font-size: 29px;
       line-height: 38px;
       margin: 40% 0 20px;
       max-width: 700px;
@@ -569,6 +569,21 @@
 @media (max-width: 1280px) {
   .marketing {
     min-height: 600px;
+  }
+  .hero {
+    .value-prop {
+      h1 {
+        max-width: 480px;
+        font-size: 30px;
+        margin: 35% auto 20px;
+        padding: 0;
+      }
+      h3 {
+        max-width: 480px;
+        margin: 0 auto 30px;
+        padding: 0;
+      }
+    }
   }
   #main {
     .testimonials {
