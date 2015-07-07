@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   needs: ['room'],
   isFetchingPuzzles: false,
+  isFetchingGames: false,
   roomController: Ember.computed.alias('controllers.room'),
   owner: function() {
     return this.get('model.id') === this.get('session.user.id');
@@ -53,6 +54,21 @@ export default Ember.Controller.extend({
         });
       }, function() {
         _this.set('isFetchingPuzzles', false);
+        _this.notify.error("Shoot, we had a problem getting some more puzzles for ya", {
+          closeAfter: 3000
+        });
+      });
+    },
+    fetchMoreGames: function() {
+      var _this = this;
+      this.set('isFetchingGames', true);
+      this.store.find('game', { user : this.get('model.id'), skip : this.get('model.games.length') }).then(function(gamesArr) {
+        _this.set('isFetchingGames', false);
+        _this.get('model.games').then(function(games) {
+          games.pushObjects(gamesArr.content);
+        });
+      }, function() {
+        _this.set('isFetchingGames', false);
         _this.notify.error("Shoot, we had a problem getting some more puzzles for ya", {
           closeAfter: 3000
         });

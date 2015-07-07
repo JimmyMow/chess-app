@@ -29,6 +29,13 @@
           {{#each model.games}}
             {{user-game game=this roomController=controller.roomController}}
           {{/each}}
+          <div class="fetch-puzzles-container">
+            {{#if isFetchingGames}}
+              <p>{{fa-icon "spinner"}} Loading...</p>
+            {{else}}
+              <a href="#" class='board-button' {{action 'fetchMoreGames'}}>Get more games</a>
+            {{/if}}
+          </div>
         </div>
       {{/em-tab-panel}}
     {{/em-tabs}}
