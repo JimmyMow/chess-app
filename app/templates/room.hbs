@@ -214,6 +214,7 @@
           <ul>
             <li>Castling is with capital O's (O-O) <strong>not</strong> with zeros</li>
             <li>Comments must be within these brackets (colloquially): {}</li>
+            <li>Variations must be within parenthesis: ()</li>
             <li>Promotions must have an equals sign (c1=Q)</li>
           </ul>
         </div>
@@ -243,7 +244,11 @@
           37. Qe4 Nf6 38. Rxf6 gxf6 39. Rxf6 Kg8 40. Bc4 Kh8 41. Qf4 1-0">
           </textarea>
         </label>
-        <button {{action 'submitPgn'}} class='board-button submit'>{{fa-icon 'hand-o-right'}} Upload this game</button>
+        {{#if session.isAuthenticated}}
+          <button {{action 'submitPgn'}} class='board-button submit'>{{fa-icon 'hand-o-right'}} Upload and save this game</button>
+        {{else}}
+          <button {{action 'submitPgn'}} class='board-button submit'>{{fa-icon 'hand-o-right'}} Upload this game</button>
+        {{/if}}
       </form>
 
       <form id="noteForm" class='modal note-form'>

@@ -12,7 +12,8 @@ var User = DS.Model.extend({
   name: DS.attr("string"),
   created_at: DS.attr("string"),
   updated_at: DS.attr("string"),
-  puzzles: DS.hasMany('puzzle', {async: true})
+  puzzles: DS.hasMany('puzzle', {async: true}),
+  games: DS.hasMany('game', {async: true})
 });
 
 export default User;

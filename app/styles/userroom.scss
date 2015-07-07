@@ -121,9 +121,29 @@ $color: #707070;
     font-weight: 200;
   }
 
-  .puzzles-container {
+  .puzzles-container, .games-container {
     width: 90%;
     margin: 0 auto;
+  }
+
+  .game-container {
+    display: inline-block;
+    padding: 0 5px;
+    position: relative;
+    max-width: 20%;
+    text-align: center;
+
+    &:hover {
+      background: rgba(244, 244, 244, 0.75);
+    }
+
+    .title {
+      font-weight: 200;
+    }
+
+    .result {
+      font-weight: bold;
+    }
   }
 
   .puzzle-container {

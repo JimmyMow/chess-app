@@ -1,0 +1,6 @@
+<div class="options">
+   <a href="#" class='edit-done board-button small hint--bottom-left' data-hint="Delete this game" {{action 'delete'}}>{{fa-icon "trash-o"}}</a>
+</div>
+<p class='title'>{{game.white}} vs. {{game.black}}</p>
+<p class='result'>{{game.result}}</p>
+{{view 'game-board' game=game fen=game.fen roomController=roomController}}

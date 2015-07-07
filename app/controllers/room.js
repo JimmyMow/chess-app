@@ -131,6 +131,10 @@ export default Ember.ObjectController.extend({
 
     submitPgn: function() {
       var pgn = Ember.$('#pgnUpload').val();
+      this.send('pgnConverter', pgn, true);
+    },
+
+    pgnConverter: function(pgn, submit) {
       var details = {
         White: 'Unknown',
         Black: 'Unknown',
@@ -143,7 +147,6 @@ export default Ember.ObjectController.extend({
       this.set('detailsObj', details);
       var tree = this.get('gameObject').load_pgn(pgn);
       if(!tree) {
-        // alert('There was a problem with the PGN you tried to upload. Please make sure it is standard and follows all the PGN formatting rules.');
         return;
       } else {
         Ember.$.modal.close();
@@ -153,6 +156,40 @@ export default Ember.ObjectController.extend({
 
       this.get('chessBoardComponent').send('uploadPgn');
       this.socket.emit('upload pgn', { pgn: pgn, gameDetails: details });
+
+      if ( this.get('session.isAuthenticated') && submit ) {
+        var fen = tree[tree.length - 1].boardFen;
+        this.send('savePgn', pgn, fen, details.White, details.Black, details.WhiteElo, details.BlackElo, details.Result);
+      }
+    },
+
+    savePgn: function(pgn, fen, white, black, white_elo, black_elo, result) {
+      var _this = this;
+      var pgn = pgn;
+
+      var game = this.store.createRecord('game', {
+        pgn: pgn,
+        fen: fen,
+        white: white,
+        black: black,
+        white_elo: white_elo,
+        black_elo: black_elo,
+        result: result,
+        user: _this.get("session.user")
+      });
+
+      game.get('user').then(function() {
+        game.save().then(function(game) {
+          _this.notify.success("Your game is now saved for you to reuse!", {
+            closeAfter: 3000
+          });
+          _this.get('session.user.games').pushObject(game);
+        }, function() {
+          _this.notify.error("Shoot, we had a problem saving your puzzle", {
+            closeAfter: 3000
+          });
+        });
+      });
     },
 
     submitNote: function() {

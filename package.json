@@ -35,7 +35,8 @@
     "ember-export-application-global": "^1.0.0",
     "ember-notify": "~3.1.4",
     "express": "^4.8.5",
-    "glob": "^4.0.5"
+    "glob": "^4.0.5",
+    "ember-idx-tabs": "~0.1.4"
   },
   "dependencies": {
     "ember-component-inbound-actions": "0.0.2"

@@ -1,4 +1,15 @@
 'use strict';
+
+Array.prototype.clean = function(deleteValue) {
+  for (var i = 0; i < this.length; i++) {
+    if (this[i] == deleteValue) {
+      this.splice(i, 1);
+      i--;
+    }
+  }
+  return this;
+};
+
 /*
  * Copyright (c) 2014, Jeff Hlywa (jhlywa@gmail.com)
  * All rights reserved.
@@ -1414,14 +1425,19 @@ var Chess = function(fen) {
       /* delete periods in notes */
       ms = ms.replace(/[^{A-Za-z0-9]+(?=\s+})/g, '');
 
-      /* delete variations */
-      ms = ms.replace(/(\([^)]+\))+?/g, '');
-
       /* delete !? comments on moves */
       ms = ms.replace(/[!?]+/g, '');
 
       /* delete move numbers */
       ms = ms.replace(/\d+\.+/g, '');
+
+      /* delete evals */
+      // ms = ms.replace(/→|,/g, '');
+      // ms = ms.replace(/(\([^a-zA-Z]+\))+?/g, '');
+      ms = ms.replace(/(\([Mate\s0-9a-zA-z\-\→\,]+\))+?/g, '');
+
+      ms = ms.replace(/[(]/g, '&&&#');
+      ms = ms.replace(/[)]/g, '&&&');
 
       /* trim and get array of moves */
       // var moves = trim(ms).split(new RegExp(/\s+/));
@@ -1434,7 +1450,7 @@ var Chess = function(fen) {
       var myArr = []
       moves.forEach(function(x) {
         var x = x.replace(/\s{2,}/g,' ').replace(/^\s+|\s+$/g, '');
-        if(x[0] !== '@') {
+        if(x[0] !== '@' && x[0] !== '#') {
           myArr = myArr.concat(x.split(' '));
         } else {
           myArr = myArr.concat([x]);
@@ -1442,14 +1458,49 @@ var Chess = function(fen) {
       });
 
       moves = myArr;
+      moves = moves.clean("");
+
       var move = '';
       var tree = [];
       var realHalfMove = 1;
-
       for (var half_move = 0; half_move < moves.length - 1; half_move++) {
         if (moves[half_move][0] === '@') {
           var treeObj = tree[tree.length - 1];
           treeObj.comments.push(moves[half_move].replace(/@/g, '').trim());
+          continue;
+        }
+        if(moves[half_move][0] === '#') {
+          var chessThingy = this;
+          var treeObj = tree[tree.length - 1];
+
+          var str = moves[half_move].replace(/#/g, '').trim();
+          var varMoves = str.split(' ');
+          var aVariation = [];
+          chessThingy.load(tree[tree.length - 2].gameFen);
+          varMoves.forEach(function(move, index) {
+            var varMove = get_move_obj(move);
+            if (varMove == null) {
+              alert("There is a problem with your pgn. Specifically move number " + Math.ceil(half_move/2) + ": " + move + ". Please fix that move and try again.");
+              return false;
+            } else {
+              var prettyMove = make_pretty(varMove);
+              var moveObj = {};
+              moveObj.san = prettyMove.san;
+              moveObj.to = prettyMove.to;
+              moveObj.from = prettyMove.from;
+              moveObj.ply = index + 1;
+              moveObj.variations = [];
+              moveObj.comments = [];
+
+              make_move(varMove);
+              var fen = chessThingy.fen();
+              moveObj.boardFen = fen.split(' ')[0];
+              moveObj.gameFen = fen;
+              aVariation.push(moveObj);
+            }
+          });
+          treeObj.variations.push(aVariation);
+          this.load(treeObj.gameFen);
           continue;
         }
         move = get_move_obj(moves[half_move]);

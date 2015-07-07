@@ -34,7 +34,7 @@ export default Ember.Controller.extend({
             closeAfter: 5000
           });
           _this.set('name', '');
-           _this.get('model.puzzles').pushObject(puzzle);
+          _this.get('model.puzzles').pushObject(puzzle);
         }, function() {
           _this.notify.error("Shoot, we had a problem saving your puzzle", {
             closeAfter: 3000

@@ -4,25 +4,34 @@
 
 {{#if owner}}
   <div class="room-menu slider">
-    <h1>Your positions</h1>
-    <div class="puzzles-container">
-      {{#each model.puzzles}}
-        {{user-puzzle puzzle=this roomController=controller.roomController}}
-      {{/each}}
-    </div>
-    {{#if thereArePuzzles}}
-      <div class="fetch-puzzles-container">
-        {{#if isFetchingPuzzles}}
-          <p>{{fa-icon "spinner"}} Loading...</p>
-        {{else}}
-          <a href="#" class='board-button' {{action 'fetchMorePuzzles'}}>Get more puzzles</a>
-        {{/if}}
-      </div>
-    {{else}}
-      <p class='no-puzzles'>
-        Wow, you don't have any positions, and that ain't right. While in sandbox mode, there is a form below the board that allows you to name and save any position you please so that you can access it here later and make life easier. Go save you some.
-      </p>
-    {{/if}}
+    <h1>Your toolbox</h1>
+    {{#em-tabs}}
+      {{#em-tab-list}}
+          {{#em-tab}}Positions{{/em-tab}}
+          {{#em-tab}}Games{{/em-tab}}
+      {{/em-tab-list}}
+      {{#em-tab-panel}}
+          <div class="puzzles-container">
+            {{#each model.puzzles}}
+              {{user-puzzle puzzle=this roomController=controller.roomController}}
+            {{/each}}
+            <div class="fetch-puzzles-container">
+              {{#if isFetchingPuzzles}}
+                <p>{{fa-icon "spinner"}} Loading...</p>
+              {{else}}
+                <a href="#" class='board-button' {{action 'fetchMorePuzzles'}}>Get more puzzles</a>
+              {{/if}}
+            </div>
+          </div>
+      {{/em-tab-panel}}
+      {{#em-tab-panel}}
+        <div class="games-container">
+          {{#each model.games}}
+            {{user-game game=this roomController=controller.roomController}}
+          {{/each}}
+        </div>
+      {{/em-tab-panel}}
+    {{/em-tabs}}
   </div>
 {{/if}}
 
