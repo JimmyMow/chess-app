@@ -18,6 +18,7 @@ Router.map(function() {
     this.route('edit');
   });
 
+
   this.resource('userroom', { path: '/:user_id/room' }, function() {
     this.route('personalroom', { path: '/' });
   });

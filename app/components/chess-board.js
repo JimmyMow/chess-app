@@ -301,7 +301,10 @@ export default Ember.Component.extend(InboundActions, {
   chessToColor: function(chess) {
     return (chess.turn() === "w") ? "white" : "black";
   },
-  didTheyCastle: function(fromTo) {
+  didTheyCastle: function(piece, fromTo) {
+    if (piece != 'king') {
+      return false;
+    }
     switch (fromTo) {
       case "e1-g1":
         return { from: "h1", to: "f1" };
@@ -960,7 +963,8 @@ export default Ember.Component.extend(InboundActions, {
 
       function finishOnMove() {
         var chess = _this.get('game');
-        var castle = _this.get('didTheyCastle')(from+"-"+to);
+        console.log('piece: ', piece);
+        var castle = _this.get('didTheyCastle')(piece.role, from+"-"+to);
         if(castle) {
           _this.get('board').move(castle.from, castle.to);
           _this.get('board').set({
